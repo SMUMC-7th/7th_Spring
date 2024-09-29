@@ -26,7 +26,7 @@ public class CustomResponse<T> {
     @JsonProperty("message")
     private String message;
 
-    private T result;//결과값 저장
+    private T result;//결과값 저장.
 
 
     public static <T> CustomResponse<T> onSuccess(BaseSuccessCode code, T value) {

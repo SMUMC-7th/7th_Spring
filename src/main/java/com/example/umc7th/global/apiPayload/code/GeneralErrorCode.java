@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 // 모든 필드값을 인자로 가지는 생성자 추가 (enum에 필요, 생성자를 직접 정의해도 무방)
 @AllArgsConstructor
-// Getter method 생성 (interface 오버라이딩을 위해 사용했습니다.)
+// Getter method 생성 (interface 오버라이딩을 위해 사용했습니다.).
 @Getter
 public enum GeneralErrorCode implements BaseErrorCode{
 
