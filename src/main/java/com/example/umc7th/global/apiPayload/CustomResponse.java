@@ -36,13 +36,13 @@ public class CustomResponse<T> {
     //onSuccess() method에 결과 값 추가
     //성공시 응답
     public static <T> CustomResponse<T> onSuccess(T result) {
-        return new CustomResponse<>(true, result,HttpStatus.OK, String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase());
+        return new CustomResponse<>(true, HttpStatus.OK, "200", "Success", result);
     }
 
     //실패시 응답
-    public static <T> CustomResponse<T> onFailure(T result,String code, String message,HttpStatus status){
-        return new CustomResponse<>(false, result,code, message, status);
-    }
+//    public static <T> CustomResponse<T> onFailure(T result,String code, String message,HttpStatus status){
+//        return new CustomResponse<>(false,code,message,result);
+//    }
 
 
 }
