@@ -26,12 +26,8 @@ public class CustomResponse<T> {
     private String message;
 
     @JsonInclude(JsonInclude.Include.NON_NULL) //필드 값이 null 이면 JSON 응답에서 제외됨.
+    @JsonProperty("result")
     private final T result;
-
-    // Jackson이 자동으로 Boolean 필드를 잘못 직렬화하는 문제때문에 result에만 따로 get메소드를 만들어줌.
-    public T getResult() {
-        return result;
-    }
 
     //기본적으로 200 OK를 사용하는 성공 응답 생성 메서드
     public static <T> CustomResponse<T> onSuccess(T result) {
