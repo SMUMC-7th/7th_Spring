@@ -24,9 +24,6 @@ public class CustomResponse<T> {
     @JsonProperty("message")
     private String message;
 
-    @JsonProperty("method")
-    private static String method; //객체 없이 접근할 예정이므로 static
-
     //결과 값 담을 변수 추가
     //결과 값은 항상 정해진 클래스 X => 제네릭 사용
     @JsonInclude(JsonInclude.Include.NON_NULL) // result 값은 null이 아닐 때만 응답에 포함시킨다.
@@ -36,13 +33,13 @@ public class CustomResponse<T> {
     //onSuccess() method에 결과 값 추가
     //성공시 응답
     public static <T> CustomResponse<T> onSuccess(T result) {
-        return new CustomResponse<>(true, HttpStatus.OK, "200", "Success", result);
+        return new CustomResponse<>(true, HttpStatus.OK, String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase(), result);
     }
 
     //실패시 응답
-//    public static <T> CustomResponse<T> onFailure(T result,String code, String message,HttpStatus status){
-//        return new CustomResponse<>(false,code,message,result);
-//    }
+    public static <T> CustomResponse<T> onFailure(T result,String code, String message,HttpStatus status){
+        return new CustomResponse<>(false, code,message,status, result);
+    }
 
 
 }
