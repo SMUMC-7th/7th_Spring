@@ -1,13 +1,12 @@
-package com.example.umc7th.global.apipayload.exception;
+package com.example.umc7th.global.apipayload.code;
 
-import com.example.umc7th.global.apipayload.code.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public enum GeneralErrorException implements BaseErrorCode {
+public enum GeneralErrorCode implements BaseErrorCode {
 
 
     // 일반적인 ERROR 응답
@@ -31,6 +30,5 @@ public enum GeneralErrorException implements BaseErrorCode {
     private final HttpStatus status;
     private final String code;
     private final String message;
-
 
 }
