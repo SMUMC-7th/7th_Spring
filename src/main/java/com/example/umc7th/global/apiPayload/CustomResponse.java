@@ -27,13 +27,18 @@ public class CustomResponse<T> { // 제너릭으로 표현
     @JsonProperty("result")
     private T result;
 
-    public static <T> CustomResponse<T> onSuccess(BaseSuccessCode code, T result) {
+    public static <T> CustomResponse<T> onSuccess(T result) {
+        return new CustomResponse<>(true, HttpStatus.OK, String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase(), result);
+    }
+
+    public static <T> CustomResponse<T> of(BaseSuccessCode code, T result) {
         return new CustomResponse<>(true, code.getStatus(), code.getCode(), code.getMessage(), result);
     }
 
-    public static <T> CustomResponse<T> onFailure(BaseErrorCode code) {
-        return new CustomResponse<>(false, code.getStatus(), code.getCode(), code.getMessage(), null);
+    public static <T> CustomResponse<T> onFailure(HttpStatus status, String code, String message, boolean isSuccess, T result) {
+        return new CustomResponse<>(isSuccess, status, code, message , result);
     }
+
 
 }
 
