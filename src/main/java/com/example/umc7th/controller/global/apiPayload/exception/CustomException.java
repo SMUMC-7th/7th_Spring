@@ -4,10 +4,10 @@ import com.example.umc7th.controller.global.apiPayload.code.BaseErrorCode;
 import lombok.Getter;
 
 @Getter
-public class GeneralException extends RuntimeException {
+public class CustomException extends RuntimeException {
     private final BaseErrorCode code;
 
-    public GeneralException(BaseErrorCode code) {
+    public CustomException(BaseErrorCode code) {
         this.code = code;
     }
 
