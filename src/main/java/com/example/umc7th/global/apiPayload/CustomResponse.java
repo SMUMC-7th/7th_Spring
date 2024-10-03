@@ -14,26 +14,26 @@ import org.springframework.http.HttpStatus;
 @JsonPropertyOrder({"isSuccess", "status", "code", "message", "result"})
 public class CustomResponse<T> {
 
-    @JsonProperty("isSuccess") // isSuccess라는 변수라는 것을 명시하는 Annotation
-    private boolean isSuccess;
-
     @JsonProperty("status")
-    private HttpStatus status;
-
+    private final HttpStatus status;
     @JsonProperty("code")
-    private String code;
-
+    private final String code;
     @JsonProperty("message")
-    private String message;
-
+    private final String message;
+    @JsonProperty("isSuccess")
+    private final boolean isSuccess;
     @JsonProperty("result")
-    private T result;
+    private final T result;
 
-    public static <T> CustomResponse<T> onSuccess(BaseSuccessCode code, T result) {
-        return new CustomResponse<>(true, code.getStatus(), code.getCode(), code.getMessage(), result);
+    public static <T> CustomResponse<T> onSuccess(T result) {
+        return new CustomResponse<>(HttpStatus.OK, String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase(), true, result);
     }
 
-    public static <T> CustomResponse<T> onFailure(BaseErrorCode code, T result) {
-        return new CustomResponse<>(false, code.getStatus(), code.getCode(), code.getMessage(), result);
+    public static <T> CustomResponse<T> of(BaseSuccessCode code, T result) {
+        return new CustomResponse<>(code.getStatus(), code.getCode(), code.getMessage(), true, result);
+    }
+
+    public static <T> CustomResponse<T> onFailure(HttpStatus status, String code, String message, boolean isSuccess, T result) {
+        return new CustomResponse<>(status, code, message, isSuccess, result);
     }
 }
