@@ -16,13 +16,14 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/replies")
 public class ReplyController {
 
     private final ReplyCommandService replyCommandService;
     private final ReplyQueryService replyQueryService;
 
     // 댓글 생성
-    @PostMapping("/replies")
+    @PostMapping("")
     public ResponseEntity<CustomResponse<ReplyResDto.CreateReplyResponseDto>> createReply(
             @RequestBody ReplyReqDto.CreateReplyRequestDto requestDto) {
 
@@ -33,7 +34,7 @@ public class ReplyController {
     }
 
     // 게시글 별 댓글 조회
-    @GetMapping("/replies/article/{articleId}")
+    @GetMapping("/article/{articleId}")
     public CustomResponse<List<ReplyResDto.CreateReplyResponseDto>> getRepliesByArticleId(
             @PathVariable Long articleId) {
 
