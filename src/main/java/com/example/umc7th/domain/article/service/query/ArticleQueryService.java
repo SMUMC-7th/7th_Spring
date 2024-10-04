@@ -1,9 +1,6 @@
 package com.example.umc7th.domain.article.service.query;
 
 import com.example.umc7th.domain.article.dto.response.ArticleResDto;
-import com.example.umc7th.domain.article.entity.Article;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
