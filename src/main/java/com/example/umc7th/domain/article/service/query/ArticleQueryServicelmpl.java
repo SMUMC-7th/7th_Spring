@@ -25,9 +25,7 @@ public class ArticleQueryServicelmpl implements ArticleQueryService {
     @Override
     public List<ArticleResDto.CreateArticleResponseDto> getArticleList() {
         List<Article> articles = articleRepository.findAll();
-        return articles.stream()
-                .map(ArticleConverter::from)
-                .collect(Collectors.toList());
+        return ArticleConverter.fromList(articles);
     }
 
     @Override

@@ -7,6 +7,9 @@ import com.example.umc7th.domain.reply.entity.Reply;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReplyConverter {
 
@@ -27,5 +30,12 @@ public class ReplyConverter {
                 .createdAt(reply.getCreatedAt())
                 .updatedAt(reply.getUpdatedAt())
                 .build();
+    }
+
+    // Entity 리스트 -> DTO 리스트 변환
+    public static List<ReplyResDto.CreateReplyResponseDto> fromList(List<Reply> replies) {
+        return replies.stream()
+                .map(ReplyConverter::from)
+                .collect(Collectors.toList());
     }
 }

@@ -6,6 +6,9 @@ import com.example.umc7th.domain.article.entity.Article;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArticleConverter {
 
@@ -28,5 +31,12 @@ public class ArticleConverter {
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .build();
+    }
+
+    // Entity 리스트 -> DTO 리스트 변환 메서드
+    public static List<ArticleResDto.CreateArticleResponseDto> fromList(List<Article> articles) {
+        return articles.stream()
+                .map(ArticleConverter::from)
+                .collect(Collectors.toList());
     }
 }

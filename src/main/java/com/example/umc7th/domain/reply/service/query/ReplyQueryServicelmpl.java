@@ -34,9 +34,7 @@ public class ReplyQueryServicelmpl implements ReplyQueryService{
         //조회 한 게시글에 달린 reply 리스트 조회
         List<Reply> replies = replyRepository.findByArticle(article);
 
-        //조회 한 reply 리스트들 stream을 이용하여 Entity -> DTO로 변환 후 반환
-        return replies.stream()
-                .map(ReplyConverter::from)
-                .collect(Collectors.toList());
+        //Converter를 통해 리스트 전체를 DTO로 변환 후 반환
+        return ReplyConverter.fromList(replies);
     }
 }

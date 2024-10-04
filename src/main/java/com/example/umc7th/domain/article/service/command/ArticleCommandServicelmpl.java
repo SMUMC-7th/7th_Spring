@@ -18,7 +18,6 @@ public class ArticleCommandServicelmpl implements ArticleCommandService{
 
     @Override
     public ArticleResDto.CreateArticleResponseDto createArticle(ArticleReqDto.CreateArticleRequestDto requestDto) {
-
         Article newArticle = articleRepository.save(ArticleConverter.toEntity(requestDto));
         return ArticleConverter.from(newArticle);
     }
