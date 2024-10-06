@@ -29,11 +29,15 @@ public class CustomResponse<T> {
     @JsonProperty("result")
     private T result;
 
-    public static <T> CustomResponse<T> onSuccess(BaseSuccessCode code, T result) {
-        return new CustomResponse<>(true, code.getStatus(), code.getCode(), code.getMessage(), result);
+    public static <T> CustomResponse<T> onSuccess(T result) {
+        return new CustomResponse<>(true, HttpStatus.OK, String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase(), result);
     }
 
-    public static <T> CustomResponse<T> onFailure(BaseErrorCode code) {
-        return new CustomResponse<>(false, code.getStatus(), code.getCode(), code.getMessage(), null);
+    public static <T> CustomResponse<T> onFailure(HttpStatus status, String code, String message) {
+        return new CustomResponse<>(false, status, code, message, null);
     }
+
+//    public static <T> CustomResponse<T> of(BaseSuccessCode code, T result) {
+//        return new CustomResponse<>(true, code.getStatus(), code.getCode(), code.getMessage(), result);
+//    }
 }
