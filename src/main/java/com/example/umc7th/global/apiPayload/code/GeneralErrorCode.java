@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 // Getter 메서드 생성 (interface 오버라이딩을 위함)
 @Getter
-public enum GeneralErrorCode {
+public enum GeneralErrorCode implements BaseErrorCode {
 
     // 일반적인 ERROR 응답
     BAD_REQUEST_400(HttpStatus.BAD_REQUEST,
