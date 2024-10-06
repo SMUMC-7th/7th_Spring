@@ -1,5 +1,6 @@
 package com.example.umc7th.article.entity;
 
+import com.example.umc7th.global.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Article {
+public class Article extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +32,11 @@ public class Article {
     @Column(name = "like_num")
     private int likeNum;
 
-    @CreatedDate
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+//    @CreatedDate
+//    @Column(name = "created_at")
+//    private LocalDateTime createdAt;
+//
+//    @LastModifiedDate
+//    @Column(name = "updated_at")
+//    private LocalDateTime updatedAt;
 }
