@@ -3,7 +3,6 @@ package com.example.umc7th.article.controller;
 import com.example.umc7th.article.dto.ArticleRequestDTO;
 import com.example.umc7th.article.dto.ArticleResponseDTO;
 import com.example.umc7th.article.entity.Article;
-import com.example.umc7th.article.repository.ArticleRepository;
 import com.example.umc7th.article.service.command.ArticleCommandService;
 import com.example.umc7th.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
