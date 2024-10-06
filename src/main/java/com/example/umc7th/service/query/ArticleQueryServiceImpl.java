@@ -1,5 +1,6 @@
 package com.example.umc7th.service.query;
 
+import com.example.umc7th.converter.ArticleConverter;
 import com.example.umc7th.dto.response.ArticleResponseDto;
 import com.example.umc7th.entity.Article;
 import com.example.umc7th.global.apipayload.code.GeneralErrorCode;
@@ -23,14 +24,12 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public List<ArticleResponseDto> getArticles() {
-        return articleRepository.findAll().stream()
-                .map(ArticleResponseDto::from)
-                .toList();
+        return ArticleConverter.fromList(articleRepository.findAll());
     }
 
     @Override
     public ArticleResponseDto getArticle(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new GeneralException(GeneralErrorCode.ARTICLE_NOT_FOUND));
-        return ArticleResponseDto.from(article);
+        return ArticleConverter.from(article);
     }
 }

@@ -7,17 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-public class ArticleRequestDto {
-    public String title;
-    public String content;
 
-    public Article toEntity(){
-        return Article.builder()
-                .title(title)
-                .content(content)
-                .build();
+public class ArticleRequestDto {
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CreateArticleRequestDto {
+        private String title;
+        private String content;
     }
+
 }

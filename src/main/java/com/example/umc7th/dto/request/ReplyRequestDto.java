@@ -11,12 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class ReplyRequestDto {
-    public String content;
 
-    public Reply toEntity(Article article){
-        return Reply.builder()
-                .content(content)
-                .article(article)
-                .build();
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CreateReplyRequestDto{
+        public String content;
     }
 }

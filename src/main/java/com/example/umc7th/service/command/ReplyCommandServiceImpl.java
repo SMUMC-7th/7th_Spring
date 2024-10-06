@@ -1,6 +1,7 @@
 package com.example.umc7th.service.command;
 
 
+import com.example.umc7th.converter.ReplyConverter;
 import com.example.umc7th.dto.request.ReplyRequestDto;
 import com.example.umc7th.entity.Article;
 import com.example.umc7th.entity.Reply;
@@ -21,9 +22,9 @@ public class ReplyCommandServiceImpl implements ReplyCommandService{
     private final ArticleRepository articleRepository;
 
     @Override
-    public Long createReply(ReplyRequestDto replyRequestDto, Long articleId) {
+    public Long createReply(ReplyRequestDto.CreateReplyRequestDto replyRequestDto, Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new GeneralException(GeneralErrorCode.ARTICLE_NOT_FOUND));
-        Reply reply = replyRequestDto.toEntity(article);
+        Reply reply = ReplyConverter.toEntity(replyRequestDto ,article);
         replyRepository.save(reply);
         return reply.getId();
     }

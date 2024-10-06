@@ -19,13 +19,4 @@ public class ReplyResponseDto {
     public String content;
     public LocalDateTime createdAt;
     public LocalDateTime updatedAt;
-
-    public static ReplyResponseDto from(Reply reply){
-        return ReplyResponseDto.builder()
-                .articleId(reply.getArticle().getId())
-                .content(reply.getContent())
-                .createdAt(reply.getCreated_at())
-                .updatedAt(reply.getUpdated_at())
-                .build();
-    }
 }

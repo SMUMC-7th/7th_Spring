@@ -1,6 +1,7 @@
 package com.example.umc7th.service.query;
 
 
+import com.example.umc7th.converter.ReplyConverter;
 import com.example.umc7th.dto.response.ReplyResponseDto;
 import com.example.umc7th.entity.Reply;
 import com.example.umc7th.global.apipayload.code.GeneralErrorCode;
@@ -21,14 +22,12 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
 
     @Override
     public List<ReplyResponseDto> getReplies() {
-        return replyRepository.findAll().stream()
-                .map(ReplyResponseDto::from)
-                .toList();
+        return ReplyConverter.fromList(replyRepository.findAll());
     }
 
     @Override
     public ReplyResponseDto getReply(Long id) {
         Reply reply = replyRepository.findById(id).orElseThrow(() -> new GeneralException(GeneralErrorCode.REPLY_NOT_FOUND));
-        return ReplyResponseDto.from(reply);
+        return ReplyConverter.from(reply);
     }
 }

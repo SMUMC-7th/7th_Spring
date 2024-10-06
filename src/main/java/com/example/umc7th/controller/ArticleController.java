@@ -28,7 +28,7 @@ public class ArticleController {
     @Operation(method = "POST",
             summary = "게시글 생성 API",
             description = "ArticleRequestDto형태로 게시글을 생성합니다. 만들어진 게시글id를 반환합니다.")
-    public CustomResponse<Map<String, Long>> createArticle(@RequestBody ArticleRequestDto dto) {
+    public CustomResponse<Map<String, Long>> createArticle(@RequestBody ArticleRequestDto.CreateArticleRequestDto dto) {
 
         Long id = articleCommandService.createArticle(dto);
 

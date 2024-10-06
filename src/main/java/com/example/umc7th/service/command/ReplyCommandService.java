@@ -5,6 +5,6 @@ import com.example.umc7th.dto.request.ReplyRequestDto;
 
 
 public interface ReplyCommandService {
-    public Long createReply(ReplyRequestDto replyRequestDto, Long articleId);
+    public Long createReply(ReplyRequestDto.CreateReplyRequestDto replyRequestDto, Long articleId);
 
 }

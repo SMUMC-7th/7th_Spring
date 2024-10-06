@@ -23,6 +23,7 @@ public class Article extends BaseEntity{
 
     private int likeNum;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reply> replies;
+//   단방향 매핑이 더 적합해 보여서 주석 처리
+//    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Reply> replies;
 }

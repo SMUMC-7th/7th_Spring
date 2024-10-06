@@ -29,7 +29,7 @@ public class ReplyController {
     @Operation(method = "POST",
             summary = "댓글 등록 API",
             description = "ReplyRequestDto 형태로 body를 받아 해당 articleId에 맞는 게시글에 댓글을 등록합니다. 만들어진 댓글 id를 반환합니다.")
-    public CustomResponse<Map<String, Long>> createReply(@RequestBody ReplyRequestDto replyRequestDto,
+    public CustomResponse<Map<String, Long>> createReply(@RequestBody ReplyRequestDto.CreateReplyRequestDto replyRequestDto,
                                                          @PathVariable Long articleId){
         Long replyId = replyCommandService.createReply(replyRequestDto, articleId);
 
