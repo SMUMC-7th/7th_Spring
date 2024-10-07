@@ -1,5 +1,6 @@
 package com.example.umc7th.global.apiPayload.code;
 
+import com.example.umc7th.global.apiPayload.CustomResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -29,5 +30,10 @@ public enum GeneralErrorCode implements BaseErrorCode{
     private final HttpStatus status;
     private final String code;
     private final String message;
+
+    @Override
+    public <T>CustomResponse<T> getResponse(){
+        return CustomResponse.onFailure(this.status,this.code,this.message,false,null);
+    }
 }
 
