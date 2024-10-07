@@ -27,7 +27,7 @@ public class CustomResponse<T> {
     private String message;
 
     @JsonProperty("result")
-    private Object result;
+    private T result;
 
     // 성공한 경우
     public static <T> CustomResponse<T> onSuccess(T result) {
@@ -40,8 +40,8 @@ public class CustomResponse<T> {
     }
 
     // 실패한 경우
-    public static <T> CustomResponse<T> onFailure(BaseErrorCode code) {
-        return new CustomResponse<>(false, code.getStatus(), code.getCode(), code.getMessage(), null);
+    public static <T> CustomResponse<T> onFailure(HttpStatus status, String code, String message, boolean isSuccess, T result) {
+        return new CustomResponse<>(isSuccess, status, code, message, result);
     }
 
 }
