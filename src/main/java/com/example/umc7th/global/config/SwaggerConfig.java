@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 //swagger
 @Configuration
 public class SwaggerConfig {
-
+//http://localhost:8080/swagger-ui/index.html
     @Bean
     public OpenAPI swagger() {
         Info info = new Info().title("Umc 7th").description("Umc 7기 실습용 Swagger").version("0.0.1");
