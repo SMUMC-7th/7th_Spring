@@ -13,7 +13,7 @@ import java.util.List;
 
 // RestController 명시
 @RestController
-// 생성자 의존성 주입을 위한 Annotation (private final로 정의된 필드에 의존성 주입)
+// 생성자 의존성 주입을 위한 Annotation (private final로 정의된 필드에 의존성 주입).
 @RequiredArgsConstructor
 public class ArticleController {
 
