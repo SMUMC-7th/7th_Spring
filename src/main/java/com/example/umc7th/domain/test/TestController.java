@@ -2,7 +2,6 @@ package com.example.umc7th.domain.test;
 
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
-import com.example.umc7th.global.apiPayload.code.GeneralErrorcode;
 import com.example.umc7th.global.apiPayload.exception.GeneralException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
