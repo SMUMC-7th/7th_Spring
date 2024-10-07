@@ -1,8 +1,10 @@
 package com.example.umc7th.global.apiPayload;
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.example.umc7th.global.apiPayload.code.BaseSuccessCode;
 import lombok.AllArgsConstructor;
 import lombok.AccessLevel;
 import org.springframework.http.HttpStatus;
@@ -35,11 +37,11 @@ public class CustomResponse<T> {
     public static <T> CustomResponse<T> onSuccess(T result) {
         return new CustomResponse<>(true, HttpStatus.OK, String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase(), result);
     }
-
-    //실패시 응답
-    public static <T> CustomResponse<T> onFailure(T result,String code, String message,HttpStatus status){
-        return new CustomResponse<>(false, code,message,status, result);
+    public static <T> CustomResponse<T> of(BaseSuccessCode code, T result) {
+        return new CustomResponse<>(true,code.getStatus(), code.getCode(), code.getMessage(),result);
     }
-
+    public static <T> CustomResponse<T> onFailure(boolean isSuccess,HttpStatus status, String code, String message, T result) {
+        return new CustomResponse<>(isSuccess,status, code, message, result);
+    }
 
 }
