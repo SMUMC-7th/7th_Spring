@@ -1,6 +1,7 @@
 package com.example.umc7th.domain.reply.entity;
 
 import com.example.umc7th.domain.article.entity.Article;
+import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,4 +40,11 @@ public class Reply extends BaseEntity {
     // 해당 article을 article_id라는 이름으로 Column 추가 (실제 객체가 아닌 Long id를 저장하기에 이름을 article_id로 지정)
     @JoinColumn(name = "article_id")
     private Article article;
+
+    public static Reply toEntity(ReplyRequestDTO.CreateReplyDTO dto){
+        return Reply.builder()
+                .content(dto.getContent())
+                .article(dto.getArticle())
+                .build();
+    }
 }
