@@ -2,9 +2,11 @@ package com.example.umc7th.global.config.apiPayload.code;
 
 import org.springframework.http.HttpStatus;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum GeneralSuccessCode implements BaseSuccessCode {
 	SUCCESS_200(HttpStatus.OK,
 		"COMMON200",
@@ -20,10 +22,4 @@ public enum GeneralSuccessCode implements BaseSuccessCode {
 	private final HttpStatus status;
 	private final String code;
 	private final String message;
-
-	GeneralSuccessCode(HttpStatus status, String code, String message) {
-		this.status = status;
-		this.code = code;
-		this.message = message;
-	}
 }
