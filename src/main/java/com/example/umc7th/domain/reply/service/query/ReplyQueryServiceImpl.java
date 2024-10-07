@@ -17,14 +17,14 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
 
     private final ReplyRepository replyRepository;
 
-    @Override
-    public List<Reply> getReplies() {
-        return replyRepository.findAll();
-    }
 
     @Override
-    public Reply getReply(Long id) {
-        Optional<Reply> reply = replyRepository.findById(id);
-        return reply.orElseThrow(() -> new GeneralException(CustomErrorCode.REPLY_NOT_FOUND));
+    public List<Reply> getReplies(Long id) {
+        List<Reply> replies = replyRepository.findAllByArticleId(id);
+        if(replies.isEmpty()){
+            throw new GeneralException(CustomErrorCode.REPLY_NOT_FOUND);
+        }
+        return replies;
     }
+
 }

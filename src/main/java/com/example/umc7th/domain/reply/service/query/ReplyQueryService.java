@@ -5,6 +5,5 @@ import java.util.List;
 
 public interface ReplyQueryService {
 
-    public List<Reply> getReplies();
-    public Reply getReply(Long id);
+    public List<Reply> getReplies(Long id);
 }
