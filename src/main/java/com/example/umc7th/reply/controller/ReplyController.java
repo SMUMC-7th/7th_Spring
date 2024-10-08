@@ -2,9 +2,9 @@ package com.example.umc7th.reply.controller;
 
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import com.example.umc7th.reply.entity.Reply;
-import com.example.umc7th.reply.service.command.ReplyCommandService; // Import the command service
-import com.example.umc7th.reply.service.query.ReplyQueryService; // Import the query service
-import com.example.umc7th.reply.dto.ReplyRequestDTO; // Ensure the DTO is imported
+import com.example.umc7th.reply.service.command.ReplyCommandService;
+import com.example.umc7th.reply.service.query.ReplyQueryService;
+import com.example.umc7th.reply.dto.ReplyRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
