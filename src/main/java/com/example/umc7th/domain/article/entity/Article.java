@@ -28,7 +28,7 @@ public class Article {
     private String content;
 
     @Column(name = "like_num")
-    private Integer like_num;
+    private Integer likeNum;
 
     @CreatedDate
     @Column(name = "created_at")

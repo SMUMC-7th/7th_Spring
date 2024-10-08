@@ -1,6 +1,6 @@
 package com.example.umc7th.domain.reply.entity;
 
-
+import com.example.umc7th.domain.article.entity.Article;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
