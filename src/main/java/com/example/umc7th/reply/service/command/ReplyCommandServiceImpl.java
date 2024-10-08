@@ -22,6 +22,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService{
 
     @Override
     public void saveReply(ReplyReqDTO replyReq) {
+        //articleId에 해당하는 article이 존재하는 경우에만 사용 가능
         Optional<Article> articleOptional = articleRepository.findById(replyReq.getArticleId());
 
         if (articleOptional.isPresent()) {
