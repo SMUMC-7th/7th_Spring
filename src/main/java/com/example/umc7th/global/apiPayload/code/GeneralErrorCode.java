@@ -1,4 +1,4 @@
-package com.example.umc7th.controller.global.apiPayload.code;
+package com.example.umc7th.global.apiPayload.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

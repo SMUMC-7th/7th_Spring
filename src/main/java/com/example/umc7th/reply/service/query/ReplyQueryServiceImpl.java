@@ -1,8 +1,8 @@
 package com.example.umc7th.reply.service.query;
 
 import com.example.umc7th.article.repository.ArticleRepository;
-import com.example.umc7th.controller.global.apiPayload.code.GeneralErrorCode;
-import com.example.umc7th.controller.global.apiPayload.exception.CustomException;
+import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
+import com.example.umc7th.global.apiPayload.exception.CustomException;
 import com.example.umc7th.reply.entity.Reply;
 import com.example.umc7th.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;

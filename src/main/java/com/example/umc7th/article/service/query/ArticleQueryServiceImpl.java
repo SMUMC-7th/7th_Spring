@@ -2,8 +2,8 @@ package com.example.umc7th.article.service.query;
 
 import com.example.umc7th.article.entity.Article;
 import com.example.umc7th.article.repository.ArticleRepository;
-import com.example.umc7th.controller.global.apiPayload.code.GeneralErrorCode;
-import com.example.umc7th.controller.global.apiPayload.exception.CustomException;
+import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
+import com.example.umc7th.global.apiPayload.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

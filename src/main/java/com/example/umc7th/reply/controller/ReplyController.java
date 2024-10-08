@@ -1,7 +1,7 @@
 package com.example.umc7th.reply.controller;
 
-import com.example.umc7th.controller.global.apiPayload.CustomResponse;
-import com.example.umc7th.controller.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc7th.global.apiPayload.CustomResponse;
+import com.example.umc7th.global.apiPayload.code.GeneralSuccessCode;
 import com.example.umc7th.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.reply.dto.ReplyResponseDTO;
 import com.example.umc7th.reply.entity.Reply;

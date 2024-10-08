@@ -1,9 +1,9 @@
-package com.example.umc7th.controller.global.apiPayload.exception.handler;
+package com.example.umc7th.global.apiPayload.exception.handler;
 
-import com.example.umc7th.controller.global.apiPayload.CustomResponse;
-import com.example.umc7th.controller.global.apiPayload.code.BaseErrorCode;
-import com.example.umc7th.controller.global.apiPayload.code.GeneralErrorCode;
-import com.example.umc7th.controller.global.apiPayload.exception.CustomException;
+import com.example.umc7th.global.apiPayload.CustomResponse;
+import com.example.umc7th.global.apiPayload.code.BaseErrorCode;
+import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
+import com.example.umc7th.global.apiPayload.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

@@ -1,7 +1,7 @@
-package com.example.umc7th.controller.global.apiPayload;
+package com.example.umc7th.global.apiPayload;
 
-import com.example.umc7th.controller.global.apiPayload.code.BaseErrorCode;
-import com.example.umc7th.controller.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc7th.global.apiPayload.code.BaseErrorCode;
+import com.example.umc7th.global.apiPayload.code.BaseSuccessCode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AccessLevel;
