@@ -1,5 +1,7 @@
-package com.example.umc7th.article.entity;
+package com.example.umc7th.reply.entity;
 
+import com.example.umc7th.article.entity.Article;
+import com.example.umc7th.article.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

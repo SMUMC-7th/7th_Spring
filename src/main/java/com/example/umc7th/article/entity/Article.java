@@ -1,5 +1,6 @@
 package com.example.umc7th.article.entity;
 
+import com.example.umc7th.reply.entity.Reply;
 import jakarta.persistence.*;
 import lombok.*;
 
