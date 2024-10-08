@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @Data
 public abstract class BaseTimeEntity {
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
     @LastModifiedDate
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
