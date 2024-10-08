@@ -1,6 +1,7 @@
 package com.example.umc7th.controller.global.apiPayload;
 
 import com.example.umc7th.controller.global.apiPayload.code.BaseErrorCode;
+import com.example.umc7th.controller.global.apiPayload.code.BaseSuccessCode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AccessLevel;
@@ -29,12 +30,12 @@ public class CustomResponse<T> {
      * @return CustomResponse
      * @Param no param
      */
-    public static CustomResponse<?> onSuccess() {
+    public static CustomResponse<?> onSuccess(BaseSuccessCode baseSuccessCode) {
         return CustomResponse.builder()
                 .isSuccess(true)
-                .httpStatus(HttpStatus.OK)
-                .code(String.valueOf(HttpStatus.OK.value()))
-                .message(HttpStatus.OK.getReasonPhrase())
+                .httpStatus(baseSuccessCode.getStatus())
+                .code(String.valueOf(baseSuccessCode.getCode()))
+                .message(baseSuccessCode.getMessage())
                 .build();
     }
 
@@ -46,12 +47,12 @@ public class CustomResponse<T> {
      * @return CustomResponse<T>
      */
 
-    public static <T> CustomResponse<T> of(T data) {
+    public static <T> CustomResponse<T> onSuccess(BaseSuccessCode baseSuccessCode, T data) {
         return CustomResponse.<T>builder()
                 .isSuccess(true)
-                .httpStatus(HttpStatus.OK)
-                .code(String.valueOf(HttpStatus.OK.value()))
-                .message(HttpStatus.OK.getReasonPhrase())
+                .httpStatus(baseSuccessCode.getStatus())
+                .code(String.valueOf(baseSuccessCode.getCode()))
+                .message(baseSuccessCode.getMessage())
                 .data(data)
                 .build();
 
