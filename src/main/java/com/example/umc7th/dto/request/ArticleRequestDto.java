@@ -17,4 +17,21 @@ public class ArticleRequestDto {
         private String content;
     }
 
+    // 전체 수정
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UpdateArticleRequestDto {
+        private String title;
+        private String content;
+    }
+
+    // 부분 수정
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PartialUpdateArticleRequestDto {
+        private String title;
+        private String content;
+    }
 }

@@ -7,15 +7,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
+
 public class ReplyRequestDto {
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CreateReplyRequestDto{
+        public String content;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UpdateReplyRequestDto{
         public String content;
     }
 }
