@@ -20,12 +20,12 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public ArticleResponseDto.ArticlePreviewListDto getArticles() {
-        return ArticleConverter.fromList(articleRepository.findAll());
+        return ArticleConverter.fromList(articleRepository.findByActiveTrue());
     }
 
     @Override
     public ArticleResponseDto.ArticlePreviewDto getArticle(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
+        Article article = articleRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
         return ArticleConverter.from(article);
     }
 }
