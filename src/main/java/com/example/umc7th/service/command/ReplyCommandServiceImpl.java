@@ -5,8 +5,8 @@ import com.example.umc7th.converter.ReplyConverter;
 import com.example.umc7th.dto.request.ReplyRequestDto;
 import com.example.umc7th.entity.Article;
 import com.example.umc7th.entity.Reply;
-import com.example.umc7th.global.apipayload.code.GeneralErrorCode;
-import com.example.umc7th.global.apipayload.exception.GeneralException;
+import com.example.umc7th.exception.code.ArticleErrorCode;
+import com.example.umc7th.exception.exception.ArticleException;
 import com.example.umc7th.repository.ArticleRepository;
 import com.example.umc7th.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService{
 
     @Override
     public Long createReply(ReplyRequestDto.CreateReplyRequestDto replyRequestDto, Long articleId) {
-        Article article = articleRepository.findById(articleId).orElseThrow(() -> new GeneralException(GeneralErrorCode.ARTICLE_NOT_FOUND));
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
         Reply reply = ReplyConverter.toEntity(replyRequestDto ,article);
         replyRepository.save(reply);
         return reply.getId();

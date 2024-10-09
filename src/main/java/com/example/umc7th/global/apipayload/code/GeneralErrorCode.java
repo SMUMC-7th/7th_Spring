@@ -25,21 +25,7 @@ public enum GeneralErrorCode implements BaseErrorCode {
     INTERNAL_SERVER_ERROR_500(
             HttpStatus.INTERNAL_SERVER_ERROR,
             "COMMON500",
-            "서버 내부 오류가 발생했습니다"),
-
-
-    // Article관련 ERROR 응답
-    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND,
-            "A404", "게시글이 존재하지 않습니다."),
-    INVALID_ARTICLE_DATA(HttpStatus.BAD_REQUEST,
-            "A400", "게시글 형식이 맞지않습니다."),
-
-    REPLY_NOT_FOUND(HttpStatus.NOT_FOUND,
-            "R404", "댓글이 존재하지 않습니다.");
-
-
-
-
+            "서버 내부 오류가 발생했습니다");
 
 
     private final HttpStatus status;

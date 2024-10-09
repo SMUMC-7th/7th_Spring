@@ -4,8 +4,6 @@ package com.example.umc7th.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "article")
 @Builder

@@ -3,8 +3,8 @@ package com.example.umc7th.service.query;
 import com.example.umc7th.converter.ArticleConverter;
 import com.example.umc7th.dto.response.ArticleResponseDto;
 import com.example.umc7th.entity.Article;
-import com.example.umc7th.global.apipayload.code.GeneralErrorCode;
-import com.example.umc7th.global.apipayload.exception.GeneralException;
+import com.example.umc7th.exception.code.ArticleErrorCode;
+import com.example.umc7th.exception.exception.ArticleException;
 import com.example.umc7th.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public ArticleResponseDto.ArticlePreviewDto getArticle(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow(() -> new GeneralException(GeneralErrorCode.ARTICLE_NOT_FOUND));
+        Article article = articleRepository.findById(id).orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
         return ArticleConverter.from(article);
     }
 }

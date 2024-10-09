@@ -4,8 +4,8 @@ package com.example.umc7th.service.query;
 import com.example.umc7th.converter.ReplyConverter;
 import com.example.umc7th.dto.response.ReplyResponseDto;
 import com.example.umc7th.entity.Reply;
-import com.example.umc7th.global.apipayload.code.GeneralErrorCode;
-import com.example.umc7th.global.apipayload.exception.GeneralException;
+import com.example.umc7th.exception.code.ReplyErrorCode;
+import com.example.umc7th.exception.exception.ReplyException;
 import com.example.umc7th.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
 
     @Override
     public ReplyResponseDto.ReplyPreviewDto getReply(Long id) {
-        Reply reply = replyRepository.findById(id).orElseThrow(() -> new GeneralException(GeneralErrorCode.REPLY_NOT_FOUND));
+        Reply reply = replyRepository.findById(id).orElseThrow(() -> new ReplyException(ReplyErrorCode.REPLY_NOT_FOUND));
         return ReplyConverter.from(reply);
     }
 }
