@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -21,12 +19,12 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     private final ReplyRepository replyRepository;
 
     @Override
-    public List<ReplyResponseDto> getReplies() {
+    public ReplyResponseDto.ReplyPreviewListDto getReplies() {
         return ReplyConverter.fromList(replyRepository.findAll());
     }
 
     @Override
-    public ReplyResponseDto getReply(Long id) {
+    public ReplyResponseDto.ReplyPreviewDto getReply(Long id) {
         Reply reply = replyRepository.findById(id).orElseThrow(() -> new GeneralException(GeneralErrorCode.REPLY_NOT_FOUND));
         return ReplyConverter.from(reply);
     }

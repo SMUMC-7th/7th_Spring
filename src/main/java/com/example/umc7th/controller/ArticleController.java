@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 // RestController 명시
@@ -42,8 +41,8 @@ public class ArticleController {
     @Operation(method = "GET",
             summary = "단일 게시글 조회 API",
             description = "articleId에 해당하는 게시글을 ArticleResponseDto형태로 반환합니다.")
-    public CustomResponse<ArticleResponseDto> getArticle(@PathVariable("articleId") Long articleId) {
-        ArticleResponseDto articleResponseDto = articleQueryService.getArticle(articleId);
+    public CustomResponse<ArticleResponseDto.ArticlePreviewDto> getArticle(@PathVariable("articleId") Long articleId) {
+        ArticleResponseDto.ArticlePreviewDto articleResponseDto = articleQueryService.getArticle(articleId);
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, articleResponseDto);
     }
 
@@ -51,8 +50,8 @@ public class ArticleController {
     @Operation(method = "GET",
             summary = "전체 게시글 조회 API",
             description = "전체 게시글을 ArticleResponseDto 리스트 형태로 반환합니다.")
-    public CustomResponse<List<ArticleResponseDto>> getArticles() {
-        List<ArticleResponseDto> articleResponseDtos = articleQueryService.getArticles();
+    public CustomResponse<ArticleResponseDto.ArticlePreviewListDto> getArticles() {
+        ArticleResponseDto.ArticlePreviewListDto articleResponseDtos = articleQueryService.getArticles();
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, articleResponseDtos);
     }
 }

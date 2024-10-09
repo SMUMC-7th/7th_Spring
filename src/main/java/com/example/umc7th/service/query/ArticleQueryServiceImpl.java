@@ -11,10 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.List;
-
-
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -23,12 +19,12 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     private final ArticleRepository articleRepository;
 
     @Override
-    public List<ArticleResponseDto> getArticles() {
+    public ArticleResponseDto.ArticlePreviewListDto getArticles() {
         return ArticleConverter.fromList(articleRepository.findAll());
     }
 
     @Override
-    public ArticleResponseDto getArticle(Long id) {
+    public ArticleResponseDto.ArticlePreviewDto getArticle(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new GeneralException(GeneralErrorCode.ARTICLE_NOT_FOUND));
         return ArticleConverter.from(article);
     }

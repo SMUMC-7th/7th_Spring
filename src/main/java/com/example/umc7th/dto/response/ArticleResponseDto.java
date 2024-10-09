@@ -1,24 +1,34 @@
 package com.example.umc7th.dto.response;
 
-import com.example.umc7th.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Builder
+
 public class ArticleResponseDto {
 
-    public Long id;
-    public String title;
-    public String content;
-    public int likeNum;
-    public LocalDateTime createdAt;
-    public LocalDateTime updatedAt;
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Builder
+    public static class ArticlePreviewDto {
+        public Long id;
+        public String title;
+        public String content;
+        public int likeNum;
+        public LocalDateTime createdAt;
+        public LocalDateTime updatedAt;
+    }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Builder
+    public static class ArticlePreviewListDto {
+        private List<ArticlePreviewDto> articles;
+    }
 }

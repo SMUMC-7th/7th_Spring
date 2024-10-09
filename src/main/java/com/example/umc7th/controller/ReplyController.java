@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -43,8 +42,8 @@ public class ReplyController {
     @Operation(method = "GET",
             summary = "댓글 전체 조회 API",
             description = "게시글과 상관없이 전체 댓글들을 ReplyResponseDto 리스트형태로 반환합니다.")
-    public CustomResponse<List<ReplyResponseDto>> getReplies(){
-        List<ReplyResponseDto> replyResponseDtos = replyQueryService.getReplies();
+    public CustomResponse<ReplyResponseDto.ReplyPreviewListDto> getReplies(){
+        ReplyResponseDto.ReplyPreviewListDto replyResponseDtos = replyQueryService.getReplies();
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, replyResponseDtos);
     }
 
@@ -52,8 +51,8 @@ public class ReplyController {
     @Operation(method = "GET",
             summary = "단일 댓글 조회 API",
             description = "replyId에 해당하는 댓글을 단일 조회합니다.")
-    public CustomResponse<ReplyResponseDto> getReplies(@PathVariable("replyId") Long replyId){
-        ReplyResponseDto replyResponseDto = replyQueryService.getReply(replyId);
+    public CustomResponse<ReplyResponseDto.ReplyPreviewDto> getReplies(@PathVariable("replyId") Long replyId){
+        ReplyResponseDto.ReplyPreviewDto replyResponseDto = replyQueryService.getReply(replyId);
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, replyResponseDto);
     }
 }

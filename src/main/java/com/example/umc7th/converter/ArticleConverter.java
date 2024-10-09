@@ -15,8 +15,8 @@ public class ArticleConverter {
                 .build();
     }
 
-    public static ArticleResponseDto from(Article article){
-        return ArticleResponseDto.builder()
+    public static ArticleResponseDto.ArticlePreviewDto from(Article article){
+        return ArticleResponseDto.ArticlePreviewDto.builder()
                 .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
@@ -26,9 +26,9 @@ public class ArticleConverter {
                 .build();
     }
 
-    public static List<ArticleResponseDto> fromList(List<Article> articles) {
-        return articles.stream()
-                .map(ArticleConverter::from)
-                .toList();
+    public static ArticleResponseDto.ArticlePreviewListDto fromList(List<Article> articles) {
+        return ArticleResponseDto.ArticlePreviewListDto.builder()
+                .articles(articles.stream().map(ArticleConverter::from).toList())
+                .build();
     }
 }

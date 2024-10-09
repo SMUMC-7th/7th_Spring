@@ -1,7 +1,6 @@
 package com.example.umc7th.converter;
 
 import com.example.umc7th.dto.request.ReplyRequestDto;
-import com.example.umc7th.dto.response.ArticleResponseDto;
 import com.example.umc7th.dto.response.ReplyResponseDto;
 import com.example.umc7th.entity.Article;
 import com.example.umc7th.entity.Reply;
@@ -16,8 +15,9 @@ public class ReplyConverter {
                 .build();
     }
 
-    public static ReplyResponseDto from(Reply reply){
-        return ReplyResponseDto.builder()
+    public static ReplyResponseDto.ReplyPreviewDto from(Reply reply){
+        return ReplyResponseDto.ReplyPreviewDto.builder()
+                .id(reply.getId())
                 .articleId(reply.getArticle().getId())
                 .content(reply.getContent())
                 .createdAt(reply.getCreated_at())
@@ -25,9 +25,9 @@ public class ReplyConverter {
                 .build();
     }
 
-    public static List<ReplyResponseDto> fromList(List<Reply> replies) {
-        return replies.stream()
-                .map(ReplyConverter::from)
-                .toList();
+    public static ReplyResponseDto.ReplyPreviewListDto fromList(List<Reply> replies) {
+        return ReplyResponseDto.ReplyPreviewListDto.builder()
+                .replies(replies.stream().map(ReplyConverter::from).toList())
+                .build();
     }
 }
