@@ -1,7 +1,7 @@
-package com.example.umc7th.reply.entity;
+package com.example.umc7th.domain.reply.entity;
 
 import com.example.umc7th.Time;
-import com.example.umc7th.article.entity.Article;
+import com.example.umc7th.domain.article.entity.Article;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

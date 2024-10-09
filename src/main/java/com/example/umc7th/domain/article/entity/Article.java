@@ -1,13 +1,12 @@
-package com.example.umc7th.article.entity;
+package com.example.umc7th.domain.article.entity;
 
 import com.example.umc7th.Time;
+import com.example.umc7th.domain.reply.entity.Reply;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "article")
@@ -29,6 +28,9 @@ public class Article extends Time {
     private String content;
 
     @Column(name = "like_num")
-    private Integer likeNum;
+    private int likeNum;
+
+    @OneToMany(mappedBy = "article")
+    private List<Reply> replies;
 
 }
