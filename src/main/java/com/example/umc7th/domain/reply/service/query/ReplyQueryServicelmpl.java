@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,7 +25,7 @@ public class ReplyQueryServicelmpl implements ReplyQueryService{
     private final ReplyRepository replyRepository;
 
     @Override
-    public List<ReplyResDto.CreateReplyResponseDto> getRepliesByArticle(Long articleId) {
+    public ReplyResDto.ReplyPreviewListDto getRepliesByArticle(Long articleId) {
         //controller에서 받은 articleId로 게시글 확인 -> 없으면 예외처리
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
@@ -35,6 +34,6 @@ public class ReplyQueryServicelmpl implements ReplyQueryService{
         List<Reply> replies = replyRepository.findByArticle(article);
 
         //Converter를 통해 리스트 전체를 DTO로 변환 후 반환
-        return ReplyConverter.fromList(replies);
+        return ReplyConverter.toReplyPreviewListDto(replies);
     }
 }

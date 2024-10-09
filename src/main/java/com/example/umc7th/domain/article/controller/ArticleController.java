@@ -38,15 +38,15 @@ public class ArticleController {
 
     @Operation(summary = "전체 게시글 리스트 조회", description = "전체 게시글을 조회합니다.")
     @GetMapping("")
-    public CustomResponse<List<ArticleResDto.CreateArticleResponseDto>> getArticleList() {
-        List<ArticleResDto.CreateArticleResponseDto> articles = articleQueryService.getArticleList();
+    public CustomResponse<ArticleResDto.ArticlePreviewListDto> getArticleList() {
+        ArticleResDto.ArticlePreviewListDto articles = articleQueryService.getArticleList();
         return CustomResponse.onSuccess(articles);
     }
 
     @Operation(summary = "게시글 단일 조회", description = "게시글의 ID로 게시글을 단일 조회합니다.")
     @GetMapping("/{articleId}")
-    public CustomResponse<ArticleResDto.CreateArticleResponseDto> getArticle(@PathVariable Long articleId) {
-        ArticleResDto.CreateArticleResponseDto responseDto = articleQueryService.getArticle(articleId);
+    public CustomResponse<ArticleResDto.ArticlePreviewDto> getArticle(@PathVariable Long articleId) {
+        ArticleResDto.ArticlePreviewDto responseDto = articleQueryService.getArticle(articleId);
         return CustomResponse.onSuccess(responseDto);
     }
 }

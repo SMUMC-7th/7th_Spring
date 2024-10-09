@@ -40,10 +40,10 @@ public class ReplyController {
     // 게시글 별 댓글 조회
     @Operation(summary = "댓글 생성", description = "URL로 넘긴 articleId로 조회한 게시글의 댓글을 전체 조회합니다.")
     @GetMapping("/article/{articleId}")
-    public CustomResponse<List<ReplyResDto.CreateReplyResponseDto>> getRepliesByArticleId(
+    public CustomResponse<ReplyResDto.ReplyPreviewListDto> getRepliesByArticleId(
             @PathVariable Long articleId) {
 
-        List<ReplyResDto.CreateReplyResponseDto> replies = replyQueryService.getRepliesByArticle(articleId);
+        ReplyResDto.ReplyPreviewListDto replies = replyQueryService.getRepliesByArticle(articleId);
         return CustomResponse.onSuccess(replies);
     }
 }

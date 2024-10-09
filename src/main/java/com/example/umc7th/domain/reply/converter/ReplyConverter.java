@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ReplyConverter {
 
     // DTO -> Entity
-    public static Reply toEntity(ReplyReqDto.CreateReplyRequestDto requestDto, Article article) {
+    public static Reply toReply(ReplyReqDto.CreateReplyRequestDto requestDto, Article article) {
         return Reply.builder()
                 .article(article)
                 .content(requestDto.content())
@@ -22,8 +22,15 @@ public class ReplyConverter {
     }
 
     // Entity -> DTO
-    public static ReplyResDto.CreateReplyResponseDto from(Reply reply) {
+    public static ReplyResDto.CreateReplyResponseDto toCreateReplyResponseDto(Reply reply) {
         return ReplyResDto.CreateReplyResponseDto.builder()
+                .id(reply.getId())
+                .createdAt(reply.getCreatedAt())
+                .build();
+    }
+
+    public static ReplyResDto.ReplyPreviewDto toReplyPreviewDTO(Reply reply) {
+        return ReplyResDto.ReplyPreviewDto.builder()
                 .id(reply.getId())
                 .articleId(reply.getArticle().getId())
                 .content(reply.getContent())
@@ -33,9 +40,9 @@ public class ReplyConverter {
     }
 
     // Entity 리스트 -> DTO 리스트 변환
-    public static List<ReplyResDto.CreateReplyResponseDto> fromList(List<Reply> replies) {
-        return replies.stream()
-                .map(ReplyConverter::from)
-                .collect(Collectors.toList());
+    public static ReplyResDto.ReplyPreviewListDto toReplyPreviewListDto(List<Reply> replies) {
+        return ReplyResDto.ReplyPreviewListDto.builder()
+                .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .build();
     }
 }

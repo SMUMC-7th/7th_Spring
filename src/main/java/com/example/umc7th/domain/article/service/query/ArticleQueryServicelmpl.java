@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -23,15 +22,15 @@ public class ArticleQueryServicelmpl implements ArticleQueryService {
     private final ArticleRepository articleRepository;
 
     @Override
-    public List<ArticleResDto.CreateArticleResponseDto> getArticleList() {
+    public ArticleResDto.ArticlePreviewListDto getArticleList() {
         List<Article> articles = articleRepository.findAll();
-        return ArticleConverter.fromList(articles);
+        return ArticleConverter.toArticlePreviewListDto(articles);
     }
 
     @Override
-    public ArticleResDto.CreateArticleResponseDto getArticle(Long articleId) {
+    public ArticleResDto.ArticlePreviewDto getArticle(Long articleId) {
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(()-> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
-        return ArticleConverter.from(article);
+        return ArticleConverter.toArticlePreviewDto(article);
     }
 }

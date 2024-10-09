@@ -30,9 +30,9 @@ public class ReplyCommandServicelmpl implements ReplyCommandService{
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
 
         //DTO을 Entity로 변환해서 reply 테이블에 저장
-        Reply savedReply = replyRepository.save(ReplyConverter.toEntity(requestDto, article));
+        Reply savedReply = replyRepository.save(ReplyConverter.toReply(requestDto, article));
 
         //저장 된 Entity를 reply로 변환 후 controller 단에 반환
-        return ReplyConverter.from(savedReply);
+        return ReplyConverter.toCreateReplyResponseDto(savedReply);
     }
 }

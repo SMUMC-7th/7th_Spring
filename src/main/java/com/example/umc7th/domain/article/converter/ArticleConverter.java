@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class ArticleConverter {
 
     // DTO -> Entity로 변환 메서드
-    public static Article toEntity(ArticleReqDto.CreateArticleRequestDto requestDto) {
+    public static Article toArticle(ArticleReqDto.CreateArticleRequestDto requestDto) {
         return Article.builder()
                 .title(requestDto.title())
                 .content(requestDto.content())
@@ -22,8 +22,15 @@ public class ArticleConverter {
     }
 
     // Entity -> DTO 변환 메서드
-    public static ArticleResDto.CreateArticleResponseDto from(Article article) {
+    public static ArticleResDto.CreateArticleResponseDto toCreateArticleResponseDto(Article article) {
         return ArticleResDto.CreateArticleResponseDto.builder()
+                .id(article.getId())
+                .createdAt(article.getCreatedAt())
+                .build();
+    }
+
+    public static ArticleResDto.ArticlePreviewDto toArticlePreviewDto(Article article) {
+        return ArticleResDto.ArticlePreviewDto.builder()
                 .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
@@ -34,9 +41,9 @@ public class ArticleConverter {
     }
 
     // Entity 리스트 -> DTO 리스트 변환 메서드
-    public static List<ArticleResDto.CreateArticleResponseDto> fromList(List<Article> articles) {
-        return articles.stream()
-                .map(ArticleConverter::from)
-                .collect(Collectors.toList());
+    public static ArticleResDto.ArticlePreviewListDto toArticlePreviewListDto(List<Article> articles) {
+        return ArticleResDto.ArticlePreviewListDto.builder()
+                .articlePreviewDtoList(articles.stream().map(ArticleConverter::toArticlePreviewDto).toList())
+                .build();
     }
 }
