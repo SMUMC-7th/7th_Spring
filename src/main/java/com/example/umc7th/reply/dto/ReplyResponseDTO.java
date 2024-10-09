@@ -12,7 +12,7 @@ public class ReplyResponseDTO {
     public ReplyResponseDTO(List<Reply> replies) {
         this.replies
                 = replies.stream()
-                .map(DetailReplyResponseDTO::new)
+                .map(DetailReplyResponseDTO::of)
                 .toList();
     }
 }

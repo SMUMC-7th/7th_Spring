@@ -13,11 +13,7 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
 
     @Override
     public Article createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
-        Article article = Article.builder()
-                .title(dto.getTitle())
-                .content(dto.getContent())
-                .likeNum(0)
-                .build();
+        Article article = ArticleRequestDTO.from(dto);
         articleRepository.save(article);
         return article;
     }
