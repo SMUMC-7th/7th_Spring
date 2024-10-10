@@ -14,7 +14,22 @@ public class ArticleResponseDTO {
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ){
+    }
+
+    @Builder
+    public record UpdateArticleResponseDto(
+            String title,
+            String content
+    ){
 
     }
+
+    @Builder
+    public record UpdateArticleLikenumResponseDto(
+            int likeNum
+    ){
+
+    }
+
 
 }

@@ -8,6 +8,7 @@ public class ReplyResponseDTO {
     @Builder
     public record CreateReplyResponseDto(
             Long id,
+            Long articleId,
             String content,
             LocalDateTime createdAt,
             LocalDateTime updatedAt

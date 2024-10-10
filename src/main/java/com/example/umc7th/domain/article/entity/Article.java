@@ -13,8 +13,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
 @EntityListeners(value = AuditingEntityListener.class)
+@Getter
 public class Article extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +28,8 @@ public class Article extends BaseEntity {
 
     @Column(name = "like_num")
     private int likeNum;
+
+    @OneToMany(mappedBy = "article")
+    private List<Reply> replies;
 
 }

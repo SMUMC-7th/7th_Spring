@@ -28,6 +28,10 @@ public class CustomResponse<T> {
     @JsonProperty("result")
     private T result;
 
+    public static <T> CustomResponse<T> onSuccess(HttpStatus status,T result) {
+        return new CustomResponse(status, String.valueOf(status.value()), status.getReasonPhrase(), true, result);
+    }
+
     public static <T> CustomResponse<T> onSuccess(T result) {
         return new CustomResponse(HttpStatus.OK, String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase(), true, result);
     }

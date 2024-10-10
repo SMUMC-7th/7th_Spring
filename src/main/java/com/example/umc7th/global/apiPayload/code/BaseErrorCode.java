@@ -8,5 +8,5 @@ public interface BaseErrorCode {
     HttpStatus getStatus();
     String getCode();
     String getMessage();
-    <T>CustomResponse<T> getResponse();
+    //<T>CustomResponse<T> getResponse();
 }

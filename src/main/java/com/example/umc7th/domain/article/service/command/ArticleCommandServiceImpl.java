@@ -1,6 +1,8 @@
 package com.example.umc7th.domain.article.service.command;
 
+import com.example.umc7th.domain.article.converter.ArticleConverter;
 import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
+import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +17,8 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
     private final ArticleRepository articleRepository;
 
     @Override
-    public Article createArticle(ArticleRequestDTO.CreateArticleRequestDTO requestDTO){
-        return articleRepository.save(
-                Article.builder()
-                        .title(requestDTO.title())
-                        .content(requestDTO.content())
-                        .build()
-        );
+    public ArticleResponseDTO.CreateArticleResponseDto createArticle(ArticleRequestDTO.CreateArticleRequestDTO requestDTO){
+        Article newArticle = articleRepository.save(ArticleConverter.toEntity(requestDTO));
+        return ArticleConverter.from(newArticle);
     }
 }
