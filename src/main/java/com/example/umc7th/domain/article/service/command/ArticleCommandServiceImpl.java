@@ -58,4 +58,12 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
         //reply들을 모두 softdelete 시킨 후 article도 softdelete 진행
         article.softDelete();
     }
+
+    @Override
+    public ArticleResDto.ArticleLikeResponseDto increaseLikeNum(Long articleId) {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
+        article.incrementLikeNum();
+        return ArticleConverter.toArticleLikeNumDto(article);
+    }
 }

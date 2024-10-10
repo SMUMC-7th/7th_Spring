@@ -30,4 +30,11 @@ public class ArticleResDto {
             List<ArticlePreviewDto> articlePreviewDtoList
     ){
     }
+
+    @Builder
+    public record ArticleLikeResponseDto(
+            Long id,
+            int likeNum
+    ) {
+    }
 }

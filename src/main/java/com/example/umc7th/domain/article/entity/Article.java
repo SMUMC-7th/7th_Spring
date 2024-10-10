@@ -47,4 +47,8 @@ public class Article extends BaseEntity {
     public void softDelete() {
         this.isDeleted = true;
     }
+
+    public void incrementLikeNum() {
+        this.likeNum += 1;  // likeNum을 1씩 증가
+    }
 }

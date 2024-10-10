@@ -10,4 +10,5 @@ public interface ArticleCommandService {
     void updateArticleTitle(Long articleId, ArticleReqDto.UpdateArticleTitleRequestDto requestDto);
     void updateArticleContent(Long articleId, ArticleReqDto.UpdateArticleContentRequestDto requestDto);
     void deleteArticle(Long articleId);
+    ArticleResDto.ArticleLikeResponseDto increaseLikeNum(Long articleId);
 }

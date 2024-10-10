@@ -75,4 +75,10 @@ public class ArticleController {
         articleCommandService.deleteArticle(articleId);
         return CustomResponse.onSuccess("게시글 삭제가 완료되었습니다.");
     }
+
+    @PatchMapping("/{articleId}/like")
+    public CustomResponse<ArticleResDto.ArticleLikeResponseDto> increaseLikeNum(@PathVariable Long articleId) {
+        ArticleResDto.ArticleLikeResponseDto responseDto = articleCommandService.increaseLikeNum(articleId);
+        return CustomResponse.onSuccess(responseDto);
+    }
 }

@@ -46,4 +46,12 @@ public class ArticleConverter {
                 .articlePreviewDtoList(articles.stream().map(ArticleConverter::toArticlePreviewDto).toList())
                 .build();
     }
+
+    // Article -> ArticleLikeNumDto 변환 메서드
+    public static ArticleResDto.ArticleLikeResponseDto toArticleLikeNumDto(Article article) {
+        return ArticleResDto.ArticleLikeResponseDto.builder()
+                .id(article.getId())
+                .likeNum(article.getLikeNum())
+                .build();
+    }
 }
