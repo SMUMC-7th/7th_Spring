@@ -1,4 +1,4 @@
-package com.example.umc7th.controller.global.config;
+package com.example.umc7th.global.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
