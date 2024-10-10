@@ -7,4 +7,20 @@ public class ArticleReqDto {
             String content
     ) {
     }
+
+    public record UpdateArticleRequestDto(
+            String title,
+            String content
+    ) {
+    }
+
+    public record UpdateArticleTitleRequestDto(
+            String title
+    ) {
+    }
+
+    public record UpdateArticleContentRequestDto(
+            String content
+    ) {
+    }
 }

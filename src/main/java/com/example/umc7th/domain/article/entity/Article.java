@@ -3,15 +3,16 @@ package com.example.umc7th.domain.article.entity;
 import com.example.umc7th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.hibernate.annotations.SoftDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Getter
 @Table(name = "article")
+@Where(clause = "is_deleted = false") // 삭제되지 않은 데이터만 조회
 public class Article extends BaseEntity {
 
     @Id
@@ -27,6 +28,23 @@ public class Article extends BaseEntity {
     @Column(name = "like_num")
     private int likeNum;
 
-    // Reply과의 양방향 매핑은 필요하다 생각 될 때 걸어주겠습니다.
+    @Column(name = "is_deleted")
+    private boolean isDeleted = false;
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void softDelete() {
+        this.isDeleted = true;
+    }
 }

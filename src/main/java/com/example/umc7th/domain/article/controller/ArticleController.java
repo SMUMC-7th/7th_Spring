@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -48,5 +47,32 @@ public class ArticleController {
     public CustomResponse<ArticleResDto.ArticlePreviewDto> getArticle(@PathVariable Long articleId) {
         ArticleResDto.ArticlePreviewDto responseDto = articleQueryService.getArticle(articleId);
         return CustomResponse.onSuccess(responseDto);
+    }
+
+    @PutMapping("/{articleId}")
+    public CustomResponse<String> updateArticle(@PathVariable Long articleId,
+                                                @RequestBody ArticleReqDto.UpdateArticleRequestDto requestDto) {
+        articleCommandService.updateArticle(articleId, requestDto);
+        return CustomResponse.onSuccess("게시글 수정이 완료되었습니다.");
+    }
+
+    @PatchMapping("/{articleId}/title")
+    public CustomResponse<String> updateArticleTitle(@PathVariable Long articleId,
+                                                     @RequestBody ArticleReqDto.UpdateArticleTitleRequestDto requestDto) {
+        articleCommandService.updateArticleTitle(articleId, requestDto);
+        return CustomResponse.onSuccess("게시글의 제목 수정이 완료되었습니다.");
+    }
+
+    @PatchMapping("/{articleId}/content")
+    public CustomResponse<String> updateArticleContent(@PathVariable Long articleId,
+                                                       @RequestBody ArticleReqDto.UpdateArticleContentRequestDto requestDto) {
+        articleCommandService.updateArticleContent(articleId, requestDto);
+        return CustomResponse.onSuccess("게시글의 내용 수정이 완료되었습니다.");
+    }
+
+    @PatchMapping("/{articleId}")
+    public CustomResponse<String> deleteArticle(@PathVariable Long articleId) {
+        articleCommandService.deleteArticle(articleId);
+        return CustomResponse.onSuccess("게시글 삭제가 완료되었습니다.");
     }
 }
