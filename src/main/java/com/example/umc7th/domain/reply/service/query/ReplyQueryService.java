@@ -6,6 +6,6 @@ import com.example.umc7th.domain.reply.entity.Reply;
 import java.util.List;
 
 public interface ReplyQueryService {
-    List<ReplyResponseDTO.CreateReplyResponseDto> getRepliesByArticle(Long articleId);
+    List<ReplyResponseDTO.ResponsePreviewDto> getRepliesByArticle(Long articleId);
 }
 

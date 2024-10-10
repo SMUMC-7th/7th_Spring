@@ -8,6 +8,8 @@ import com.example.umc7th.domain.reply.converter.ReplyConverter;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
+import com.example.umc7th.domain.reply.exception.ReplyErrorCode;
+import com.example.umc7th.domain.reply.exception.ReplyException;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +24,26 @@ public class ReplyCommandServiceImpl implements ReplyCommandService{
     private final ArticleRepository articleRepository;
 
     @Override
-    public ReplyResponseDTO.CreateReplyResponseDto createReply(ReplyRequestDTO.CreateReplyDTO requestDTO){
+    public ReplyResponseDTO.ResponsePreviewDto createReply(ReplyRequestDTO.CreateReplyDTO requestDTO){
         Article article = articleRepository.findById(requestDTO.articleId())
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
 
         Reply savedReply = replyRepository.save(ReplyConverter.toEntity(requestDTO,article));
         return ReplyConverter.from(savedReply);
+    }
+
+    @Override
+    public ReplyResponseDTO.ResponsePreviewDto updateReply(Long replyId,ReplyRequestDTO.UpdateReplyDTO requestDTO){
+        Reply reply = replyRepository.findById(replyId).orElseThrow(
+                () -> new ReplyException(ReplyErrorCode.NOT_FOUND));
+        reply.update(requestDTO);
+        return ReplyConverter.from(reply);
+    }
+
+    @Override
+    public void deleteReply(Long replyId){
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new ReplyException(ReplyErrorCode.NOT_FOUND));
+        reply.softDelete();
     }
 }

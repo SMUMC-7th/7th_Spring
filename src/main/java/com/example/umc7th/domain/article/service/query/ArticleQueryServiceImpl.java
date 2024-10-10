@@ -22,15 +22,15 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     //전체 게시글 조회
     @Override
-    public List<ArticleResponseDTO.CreateArticleResponseDto> getArticleList(){
-        List<Article> articles = articleRepository.findAll();
+    public List<ArticleResponseDTO.ArticlePreviewDTO> getArticleList(){
+        List<Article> articles = articleRepository.findByActiveTrue();
         return ArticleConverter.fromList(articles);
     }
 
     //개별 게시글 조회
     @Override
-    public ArticleResponseDTO.CreateArticleResponseDto getArticle(Long articleId){
-        Article article = articleRepository.findById(articleId)
+    public ArticleResponseDTO.ArticlePreviewDTO getArticle(Long articleId){
+        Article article = articleRepository.findByIdAndActiveTrue(articleId)
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
         return ArticleConverter.from(article);
     }

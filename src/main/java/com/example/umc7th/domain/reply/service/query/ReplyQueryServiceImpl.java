@@ -23,11 +23,11 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     private final ReplyRepository replyRepository;
 
     @Override
-    public List<ReplyResponseDTO.CreateReplyResponseDto> getRepliesByArticle(Long articleId){
+    public List<ReplyResponseDTO.ResponsePreviewDto> getRepliesByArticle(Long articleId){
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
 
-        List<Reply> replies = replyRepository.findByArticle(article);
+        List<Reply> replies = replyRepository.findByArticleAndActiveTrue(article);
         return ReplyConverter.fromList(replies);
 
     }

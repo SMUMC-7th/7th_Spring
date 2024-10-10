@@ -17,23 +17,25 @@ public class ArticleConverter {
                 .title(requestDTO.title())
                 .content(requestDTO.content())
                 .likeNum(0)
+                .active(true)
                 .build();
     }
 
     //Entity -> DTO
-    public static ArticleResponseDTO.CreateArticleResponseDto from(Article article){
-        return ArticleResponseDTO.CreateArticleResponseDto.builder()
+    public static ArticleResponseDTO.ArticlePreviewDTO from(Article article){
+        return ArticleResponseDTO.ArticlePreviewDTO.builder()
                 .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
                 .likeNum(article.getLikeNum())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
+                .active(article.isActive())
                 .build();
     }
 
     //Entity리스트 -> DTO리스트
-    public static List<ArticleResponseDTO.CreateArticleResponseDto> fromList(List<Article> articles){
+    public static List<ArticleResponseDTO.ArticlePreviewDTO> fromList(List<Article> articles){
         return articles.stream()
                 .map(ArticleConverter::from)
                 .collect(Collectors.toList());

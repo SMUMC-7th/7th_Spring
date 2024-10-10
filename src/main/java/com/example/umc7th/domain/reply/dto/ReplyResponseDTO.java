@@ -6,12 +6,13 @@ import java.time.LocalDateTime;
 
 public class ReplyResponseDTO {
     @Builder
-    public record CreateReplyResponseDto(
+    public record ResponsePreviewDto(
             Long id,
             Long articleId,
             String content,
             LocalDateTime createdAt,
-            LocalDateTime updatedAt
+            LocalDateTime updatedAt,
+            boolean active
     ){
     }
 }

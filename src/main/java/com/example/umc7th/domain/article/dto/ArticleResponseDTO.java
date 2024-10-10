@@ -6,30 +6,15 @@ import java.time.LocalDateTime;
 
 public class ArticleResponseDTO {
     @Builder
-    public record CreateArticleResponseDto(
+    public record ArticlePreviewDTO(
             Long id,
             String title,
             String content,
             int likeNum,
             LocalDateTime createdAt,
-            LocalDateTime updatedAt
+            LocalDateTime updatedAt,
+            boolean active
     ){
     }
-
-    @Builder
-    public record UpdateArticleResponseDto(
-            String title,
-            String content
-    ){
-
-    }
-
-    @Builder
-    public record UpdateArticleLikenumResponseDto(
-            int likeNum
-    ){
-
-    }
-
 
 }

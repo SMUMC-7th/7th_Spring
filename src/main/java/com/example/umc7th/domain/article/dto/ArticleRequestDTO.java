@@ -7,13 +7,6 @@ public class ArticleRequestDTO {
         String content){
     }
 
-    public record UpdateArticleRequestDTO(
-            String title,
-            String content){
-
+    public record UpdateArticleRequestDTO(String title, String content){
     }
-
-    public record UpdateArticleLikenumRequestDTO(
-            int likeNum
-    ){}
 }
