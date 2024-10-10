@@ -15,10 +15,15 @@ public abstract class BaseTimeEntity {
     private LocalDateTime createdAt = LocalDateTime.now();
     @LastModifiedDate
     private LocalDateTime updatedAt = LocalDateTime.now();
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+    @Column(name = "isDeleted", columnDefinition = "BOOLEAN")
+    private boolean isDeleted;
 
-    public void remove() {
-        this.deletedAt = LocalDateTime.now();
+    protected BaseTimeEntity() {
+        this.isDeleted = false;
     }
+
+    public void softDelete() {
+        this.isDeleted = true;
+    }
+
 }

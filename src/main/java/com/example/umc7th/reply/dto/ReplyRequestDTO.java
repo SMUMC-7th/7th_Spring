@@ -1,16 +1,13 @@
 package com.example.umc7th.reply.dto;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class ReplyRequestDTO {
-    @Data
-    @Getter
-    public static class CreateReplyDTO {
-        private final Long articleId;
-        private final String title;
-        private final String content;
+    //record(getter 기본제공, 불변객체 제공)
+    public record CreateReplyDTO(String content) {
+    }
 
+    public record UpdateReplyDTO(String content) {
     }
 }
