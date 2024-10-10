@@ -7,4 +7,7 @@ public class ReplyRequestDTO {
             Long articleId,
             String content){
     }
+    public record UpdateReplyDTO(
+            String content
+    ){}
 }
