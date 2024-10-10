@@ -5,9 +5,6 @@ import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -41,10 +38,5 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "article_id")
     private Article article;
 
-    public static Reply toEntity(ReplyRequestDTO.CreateReplyDTO dto){
-        return Reply.builder()
-                .content(dto.getContent())
-                .article(dto.getArticle())
-                .build();
-    }
+
 }

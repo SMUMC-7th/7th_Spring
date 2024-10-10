@@ -20,18 +20,24 @@ public class ReplyController {
     private final ReplyQueryService replyQueryService;
     private final ReplyCommandService replyCommandService;
 
-    @PostMapping("/articles/replies")
-    @Operation(method = "POST", summary = "댓글 작성 API")
-    public CustomResponse<ReplyResponseDTO> createReply(@RequestBody ReplyRequestDTO.CreateReplyDTO dto){
-        Reply reply =  replyCommandService.createReply(dto);
-        return CustomResponse.onSuccess(ReplyResponseDTO.ToDTO(reply));
+    @PostMapping
+    @Operation(summary = "댓글 생성 API", description = "댓글 생성하는 API")
+    public CustomResponse<ReplyResponseDTO.CreateReplyResponseDTO> createReply(@RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
+        Reply reply = replyCommandService.createReply(dto);
+        return CustomResponse.onSuccess(ReplyResponseDTO.CreateReplyResponseDTO.from(reply));
     }
 
+    @GetMapping
+    @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회하는 API")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies() {
+        List<Reply> replies = replyQueryService.getReplies();
+        return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewListDTO.from(replies));
+    }
 
-    @GetMapping("/articles/{ArticleID}/replies")
-    @Operation(method = "POST", summary = "게시글별 검색 API")
-    public CustomResponse<List<ReplyResponseDTO>> getRepliesByArticle(Long articleId){
-        List<Reply> replies =  replyQueryService.getReplies(articleId);
-        return CustomResponse.onSuccess(replies.stream().map(ReplyResponseDTO::ToDTO).toList());
+    @GetMapping("{replyId}")
+    @Operation(summary = "댓글 조회 API", description = "댓글 하나 조회하는 API")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> getReply(@PathVariable("replyId") Long replyId) {
+        Reply reply = replyQueryService.getReply(replyId);
+        return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewDTO.from(reply));
     }
 }

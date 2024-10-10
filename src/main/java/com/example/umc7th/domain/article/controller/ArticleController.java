@@ -27,11 +27,10 @@ public class ArticleController {
     @PostMapping("/articles")
     // 요청 시 데이터를 담을 DTO를 설정해주고 RequestBody라는 것을 명시
     @Operation(method = "POST", summary = "게시글 작성 API")
-    public CustomResponse<ArticleResponseDTO> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
-        // service에서 게시글 생성한 게시글 가져오기
+    public CustomResponse<ArticleResponseDTO.CreateArticleResponseDTO> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
+
         Article article = articleCommandService.createArticle(dto);
-        // CustomResponse에 article을 담아 성공했다고 응답하기
-        return CustomResponse.onSuccess(ArticleResponseDTO.toArticleResponseDTO(article));
+        return CustomResponse.onSuccess(ArticleResponseDTO.CreateArticleResponseDTO.from(article));
     }
 
     // 생성이므로 GET method 사용
@@ -39,17 +38,17 @@ public class ArticleController {
     @GetMapping("/articles/{articleId}")
     // @PathVariable을 이용하여 {}로 설정한 변수의 값을 가져온 이후 Long articleId에 담기. 참고로 GET method는 RequestBody 사용이 불가능합니다.
     @Operation(method = "POST", summary = "단일 게시글 검색 API")
-    public CustomResponse<ArticleResponseDTO> getArticle(@PathVariable("articleId") Long articleId) {
-        // 구현
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> getArticle(@PathVariable("articleId") Long articleId) {
+
         Article article = articleQueryService.getArticle(articleId);
-        return CustomResponse.onSuccess(ArticleResponseDTO.toArticleResponseDTO(article));
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(article));
     }
 
     @GetMapping("/articles")
     @Operation(method = "POST", summary = "모든 게시글 검색 API")
-    public CustomResponse<List<ArticleResponseDTO>> getArticles() {
-        // 구현
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
+
         List<Article> articles = articleQueryService.getArticles();
-        return CustomResponse.onSuccess(articles.stream().map(ArticleResponseDTO::toArticleResponseDTO).toList());
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
 }

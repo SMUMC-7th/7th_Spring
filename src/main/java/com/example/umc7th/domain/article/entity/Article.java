@@ -6,6 +6,8 @@ import com.example.umc7th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "article")
 @Getter
@@ -15,20 +17,20 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class Article extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "title")
     private String title;
-    @Column
+
+    @Column(name = "content")
     private String content;
 
+    @Column(name = "like_num")
+    private int likeNum;
 
-    public static Article toArticle(ArticleRequestDTO.CreateArticleDTO dto){
-        return Article.builder()
-                .title(dto.getTitle())
-                .content(dto.getContent())
-                .build();
-    }
+    @OneToMany(mappedBy = "article")
+    private List<Reply> replies;
 }

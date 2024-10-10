@@ -5,6 +5,7 @@ spring:
     url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,3 +13,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect   # MySQL 8.x에 맞는 Dialect 추가
         format_sql: true
+
+
+#localhost8080/하면 swagger실행
+springdoc:
+  swagger-ui:
+    path: /
