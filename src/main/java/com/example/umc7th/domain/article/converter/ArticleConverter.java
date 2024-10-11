@@ -4,9 +4,7 @@ import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ArticleConverter {
 
@@ -42,10 +40,14 @@ public class ArticleConverter {
                 .build();
     }
 
-    public static List<ArticleResponseDTO.ArticleViewDTO> toArticleViewListDTO(List<Article> articles) {
+    public static ArticleResponseDTO.ArticleViewListDTO toArticleViewListDTO(List<Article> articles) {
 
-        return articles.stream()
+        List<ArticleResponseDTO.ArticleViewDTO> articleViewDTOs = articles.stream()
                 .map(ArticleConverter::toArticleViewDTO)
-                .collect(Collectors.toList());
+                .toList();
+
+        return ArticleResponseDTO.ArticleViewListDTO.builder()
+                .articleViewDTOs(articleViewDTOs)
+                .build();
     }
 }

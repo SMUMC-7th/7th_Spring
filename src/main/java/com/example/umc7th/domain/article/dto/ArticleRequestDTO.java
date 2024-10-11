@@ -10,4 +10,12 @@ public class ArticleRequestDTO {
         private String title;
         private String content;
     }
+
+    @Getter
+    // Article 수정에 필요한 데이터
+    public static class UpdateArticleDTO {
+        private String title;
+        private String content;
+    }
+
 }

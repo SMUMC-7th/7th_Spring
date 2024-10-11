@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ArticleResponseDTO {
 
@@ -29,4 +30,12 @@ public class ArticleResponseDTO {
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }
+    
+    @Getter
+    @Builder
+    // 여러 Article 검색의 응답
+    public static class ArticleViewListDTO {
+        private List<ArticleViewDTO> articleViewDTOs;
+    }
+
 }

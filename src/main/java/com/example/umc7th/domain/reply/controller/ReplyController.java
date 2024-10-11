@@ -31,6 +31,27 @@ public class ReplyController {
         return CustomResponse.onSuccess(ReplyConverter.toCreateReplyResultDTO(reply));
     }
 
+    @PutMapping("/articles/{articleId}/replies/{replyId}")
+    @Operation(summary = "댓글 수정")
+    public CustomResponse<String> updateReply(
+            @PathVariable Long articleId,
+            @PathVariable Long replyId,
+            @RequestBody ReplyRequestDTO.UpdateReplyDTO updateReplyDTO) {
+
+        replyCommandService.updateReply(articleId, replyId, updateReplyDTO);
+
+        return CustomResponse.onSuccess("댓글을 수정에 성공하였습니다.");
+    }
+
+    @DeleteMapping("/articles/replies/{replyId}")
+    @Operation(summary = "댓글 soft 삭제")
+    public CustomResponse<String> deleteReply(@PathVariable Long replyId) {
+
+        replyCommandService.softDeleteReply(replyId);
+
+        return CustomResponse.onSuccess("댓글을 soft 삭제에 성공하였습니다.");
+    }
+
     @GetMapping("/articles/replies/{replyId}")
     @Operation(summary = "댓글 하나 조회")
     public CustomResponse<ReplyResponseDTO.ReplyViewDTO> getReply(@PathVariable Long replyId) {
@@ -42,7 +63,7 @@ public class ReplyController {
 
     @GetMapping("/articles/{articleId}/replies")
     @Operation(summary = "특정 게시글의 댓글 전체 조회")
-    public CustomResponse<List<ReplyResponseDTO.ReplyViewDTO>> getReplies(@PathVariable Long articleId) {
+    public CustomResponse<ReplyResponseDTO.ReplyViewListDTO> getReplies(@PathVariable Long articleId) {
 
         List<Reply> replies = replyQueryService.getReplies(articleId);
 

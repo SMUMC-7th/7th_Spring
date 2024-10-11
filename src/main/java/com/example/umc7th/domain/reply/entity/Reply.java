@@ -35,7 +35,19 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "article_id")
     private Article article;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     public void setArticle(Article article) {
         this.article = article;
     }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public void update(String content) {
+        this.content = content;
+    }
+
 }
