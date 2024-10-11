@@ -34,6 +34,7 @@ public class ArticleConverter {
                 .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
+                .likeNum(article.getLikeNum())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .build();

@@ -67,4 +67,11 @@ public class ArticleController {
         return CustomResponse.onSuccess(ArticleConverter.toDeletedArticleDTO(articleId));
     }
 
+    @PatchMapping("{articleId}")
+    @Operation(summary = "게시글 좋아요 API")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> patchArticle(@PathVariable("articleId") Long articleId) {
+        Article article = articleCommandService.patchArticle(articleId);
+        return CustomResponse.onSuccess(ArticleConverter.toArticlePreviewDTO(article));
+    }
+
 }

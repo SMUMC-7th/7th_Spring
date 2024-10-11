@@ -33,6 +33,7 @@ public class ArticleResponseDTO {
         private Long id;
         private String title;
         private String content;
+        private int likeNum;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }

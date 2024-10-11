@@ -41,4 +41,12 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
         return article.getId();
     }
 
+    @Override
+    public Article patchArticle(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(() ->
+                new CustomException(ArticleErrorCode.ARTICLE_NOT_FOUND_404)
+        );
+        article.updateLikeNum();
+        return article;
+    }
 }

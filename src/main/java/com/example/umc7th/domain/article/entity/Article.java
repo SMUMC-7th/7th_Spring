@@ -36,4 +36,7 @@ public class Article extends BaseEntity {
         this.content = content;
     }
 
+    public void updateLikeNum() {
+        this.likeNum++;
+    }
 }
