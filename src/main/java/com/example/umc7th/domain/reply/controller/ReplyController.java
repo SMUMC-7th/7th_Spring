@@ -37,10 +37,24 @@ public class ReplyController {
         return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewListDTO(replies));
     }
 
-    @GetMapping("{replyId}")
+    @GetMapping("/{replyId}")
     @Operation(summary = "댓글 조회 API", description = "댓글 하나 조회하는 API")
     public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> getReply(@PathVariable("replyId") Long replyId) {
         Reply reply = replyQueryService.getReply(replyId);
         return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewDTO(reply));
+    }
+
+    @PutMapping("/{replyId}")
+    @Operation(summary = "댓글 수정 API", description = "댓글 수정하는 API")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> updateReply(@PathVariable("replyId") Long replyId,
+                                                                        @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+        Reply reply = replyCommandService.updateReply(replyId, dto);
+        return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewDTO(reply));
+    }
+
+    @DeleteMapping("/{replyId}")
+    @Operation(summary = "댓글 삭제 API", description = "댓글 삭제하는 API")
+    public CustomResponse<Long> deleteReply(@PathVariable("replyId") Long id) {
+        return CustomResponse.onSuccess(replyCommandService.deleteReply(id));
     }
 }

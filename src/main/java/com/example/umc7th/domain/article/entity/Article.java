@@ -29,4 +29,13 @@ public class Article extends BaseEntity {
 
     @OneToMany(mappedBy = "article")
     private List<Reply> replies;
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void increaseLike() {
+        this.likeNum++;
+    }
 }
