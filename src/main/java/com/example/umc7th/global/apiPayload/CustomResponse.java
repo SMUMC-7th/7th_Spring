@@ -1,7 +1,5 @@
 package com.example.umc7th.global.apiPayload;
 
-import com.example.umc7th.global.apiPayload.code.BaseErrorCode;
-import com.example.umc7th.global.apiPayload.code.BaseSuccessCode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AccessLevel;
@@ -37,7 +35,4 @@ public class CustomResponse<T> {
         return new CustomResponse<>(false, status, code, message, null);
     }
 
-//    public static <T> CustomResponse<T> of(BaseSuccessCode code, T result) {
-//        return new CustomResponse<>(true, code.getStatus(), code.getCode(), code.getMessage(), result);
-//    }
 }

@@ -29,26 +29,11 @@ public enum GeneralErrorCode implements BaseErrorCode {
             HttpStatus.INTERNAL_SERVER_ERROR,
             "COMMON500",
             "서버 내부 오류가 발생했습니다"),
-
-    // article 관련 Error
-    ARTICLE_NOT_FOUND_404(HttpStatus.NOT_FOUND,
-            "ARTICLE404",
-            "요청한 게시글을 찾을 수 없습니다"),
-    
-    // reply 관련 Error
-    REPLY_NOT_FOUND_404(HttpStatus.NOT_FOUND,
-            "REPLY404",
-            "요청한 댓글을 찾을 수 없습니다"),
     ;
 
     // 필요한 필드값 선언
     private final HttpStatus status;
     private final String code;
     private final String message;
-
-
-    @Override
-    public <T> CustomResponse<T> getResponse() {
-        return CustomResponse.onFailure(status, code, message);
-    }
+    
 }

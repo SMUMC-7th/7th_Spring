@@ -11,7 +11,6 @@ public interface BaseErrorCode {
     String getCode();
     String getMessage();
 
-    <T> CustomResponse<T> getResponse();
 }
 
 

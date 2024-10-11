@@ -3,7 +3,7 @@ package com.example.umc7th.global.apiPayload.exception.handler;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import com.example.umc7th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
-import com.example.umc7th.global.apiPayload.exception.GeneralException;
+import com.example.umc7th.global.apiPayload.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ public class ExceptionAdvice {
 
     // 처리 로직
     // 파라미터로 Exception 을 가져올 수 있음
-    @ExceptionHandler(GeneralException.class)
+    @ExceptionHandler(CustomException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CustomResponse<String>> customException(GeneralException e) {
+    public ResponseEntity<CustomResponse<String>> customException(CustomException e) {
         BaseErrorCode code = e.getCode();
 
         log.error(Arrays.toString(e.getStackTrace()));
