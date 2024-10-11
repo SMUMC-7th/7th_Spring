@@ -25,4 +25,20 @@ public class Article extends BaseEntity {
     @Column(name = "like_num")
     private int likeNum;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void increaseLikeNum() {
+        likeNum++;
+    }
+
 }

@@ -3,6 +3,8 @@ package com.example.umc7th.domain.reply.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 public class ReplyResponseDTO {
 
     @Getter
@@ -22,4 +24,12 @@ public class ReplyResponseDTO {
         private String content;
         private Long articleId;
     }
+
+    @Getter
+    @Builder
+    // 여러 Reply 검색의 응답
+    public static class ReplyViewListDTO {
+        private List<ReplyViewDTO> replyViewDTOs;
+    }
+
 }

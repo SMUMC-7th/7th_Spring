@@ -9,4 +9,11 @@ public class ReplyRequestDTO {
     public static class CreateReplyDTO {
         private String content;
     }
+
+    @Getter
+    // Reply 수정에 필요한 데이터
+    public static class UpdateReplyDTO {
+        private String content;
+    }
+
 }
