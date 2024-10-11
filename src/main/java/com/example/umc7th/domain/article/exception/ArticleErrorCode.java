@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+
+/**
+ * 게시글 관련 오류 코드 및 메세지를 정의하는 enum class
+ */
 @AllArgsConstructor
 @Getter
 public enum ArticleErrorCode implements BaseErrorCode {

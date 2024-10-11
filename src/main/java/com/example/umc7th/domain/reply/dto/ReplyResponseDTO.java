@@ -36,4 +36,11 @@ public class ReplyResponseDTO {
         private List<ReplyPreviewDTO> replies;
 
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class DeleteReplyResponseDTO {
+        private Long id;
+        private String message;
+    }
 }

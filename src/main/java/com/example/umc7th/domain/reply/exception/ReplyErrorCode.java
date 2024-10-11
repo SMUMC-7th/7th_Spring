@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+
+// reply 관련 에러 코드 enum
 @Getter
 @AllArgsConstructor
 public enum ReplyErrorCode implements BaseErrorCode {

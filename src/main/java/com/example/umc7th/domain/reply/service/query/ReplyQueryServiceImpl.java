@@ -20,11 +20,13 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
 
     @Override
     public Reply getReply(Long id) {
+        // 주어진 ID로 댓글을 조회하고 없으면 예외 발생
         return replyRepository.findById(id).orElseThrow(() ->
                 new ReplyException(ReplyErrorCode.NOT_FOUND));
     }
 
     @Override
+    // 모든 댓글을 조회하여 반환
     public List<Reply> getReplies() {
         return replyRepository.findAll();
     }
