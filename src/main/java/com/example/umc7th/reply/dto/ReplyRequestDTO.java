@@ -18,4 +18,14 @@ public class ReplyRequestDTO {
         }
 
     }
+
+    @Getter
+    public static class UpdateReplyDTO {
+        private String content;
+    }
+
+    @Getter
+    public static class DeleteReplyDTO {
+        private String id;
+    }
 }

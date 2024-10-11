@@ -60,4 +60,33 @@ public class ReplyResponseDTO {
         }
     }
 
+    @Builder
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class UpdateReplyResponseDTO {
+        private Long id;
+        private LocalDateTime updatedAt;
+
+        public static UpdateReplyResponseDTO from(Reply reply) {
+            return UpdateReplyResponseDTO.builder()
+                    .id(reply.getId())
+                    .updatedAt(reply.getUpdatedAt())
+                    .build();
+        }
+    }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class DeleteReplyResponseDTO {
+        private Long id;
+
+        public static DeleteReplyResponseDTO from(Reply reply) {
+            return DeleteReplyResponseDTO.builder()
+                    .id(reply.getId())
+                    .build();
+        }
+    }
 }

@@ -8,12 +8,10 @@ import com.example.umc7th.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 // RestController 명시
 @RestController
@@ -50,5 +48,27 @@ public class ArticleController {
     public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
         List<Article> articles = articleQueryService.getArticles();
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
+    }
+
+    @PatchMapping("/articles/{articleId}")
+    @Operation(summary = "article 수정 API", description = "article을 수정하는 api")
+    public CustomResponse<ArticleResponseDTO.UpdateArticleResponseDTO> updateArticle(@PathVariable("articleId") Long articleId, @RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
+        Article updatedArticle = articleCommandService.updateArticle(articleId, dto);
+        return CustomResponse.onSuccess(ArticleResponseDTO.UpdateArticleResponseDTO.from(updatedArticle));
+    }
+
+    @DeleteMapping("/articles/{articleId}")
+    @Operation(summary = "article 삭제 API", description = "article을 삭제하는 api")
+    public CustomResponse<ArticleResponseDTO.DeleteArticleResponseDTO> deleteArticle(@PathVariable("articleId") Long articleId) {
+        Article deleteArticle = articleQueryService.getArticle(articleId);
+        articleCommandService.deleteArticle(deleteArticle.getId());
+        return CustomResponse.onSuccess(ArticleResponseDTO.DeleteArticleResponseDTO.from(deleteArticle));
+    }
+
+    @PatchMapping("/articles/{articleId}/addLikeNum")
+    @Operation(summary = "좋아요 중가 API", description = "article의 좋아요 증가시키는 api")
+    public CustomResponse<ArticleResponseDTO.LikeNumResponseDTO> addArticleLikeNum(@PathVariable("articleId") Long articleId) {
+        Article updatedArticle = articleCommandService.updateLikeNum(articleId);
+        return CustomResponse.onSuccess(ArticleResponseDTO.LikeNumResponseDTO.from(updatedArticle));
     }
 }
