@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ArticleConverter {
 
-    public static Article toEntity(ArticleRequestDTO.CreateArticleDTO dto) {
+    public static Article toArticle(ArticleRequestDTO.CreateArticleDTO dto) {
         return Article.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
@@ -16,20 +16,27 @@ public class ArticleConverter {
                 .build();
     }
 
-    public static ArticleResponseDTO toArticleResponseDto(Article article) {
-        return ArticleResponseDTO.builder()
+    public static ArticleResponseDTO.CreateArticleResponseDTO toCreateArticleResponseDTO(Article article) {
+        return ArticleResponseDTO.CreateArticleResponseDTO.builder()
+                .id(article.getId())
+                .createdAt(article.getCreatedAt())
+                .build();
+    }
+
+    public static ArticleResponseDTO.ArticlePreviewDTO toArticlePreviewDTO(Article article) {
+        return ArticleResponseDTO.ArticlePreviewDTO.builder()
                 .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
-                .likeNum(article.getLikeNum())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .build();
     }
 
-    public static List<ArticleResponseDTO> toArticleResponseDtoList(List<Article> articleList) {
-        return articleList.stream()
-                .map(ArticleConverter::toArticleResponseDto)
-                .toList();
+    public static ArticleResponseDTO.ArticlePreviewListDTO toArticlePreviewListDTO(List<Article> articles) {
+        return ArticleResponseDTO.ArticlePreviewListDTO.builder()
+                .articles(articles.stream().map(ArticleConverter::toArticlePreviewDTO).toList())
+                .build();
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.umc7th.domain.reply.controller;
 
+import com.example.umc7th.domain.reply.converter.ReplyConverter;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
@@ -15,32 +16,31 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/replies")
 @Tag(name = "댓글 API")
 public class ReplyController {
 
     private final ReplyCommandService replyCommandService;
     private final ReplyQueryService replyQueryService;
 
-    @PostMapping("/articles/{articleId}/replies")
+    @PostMapping
     @Operation(summary = "댓글 생성 API")
-    public CustomResponse<Reply> createArticle(@PathVariable("articleId") Long articleId,
-                                               @RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
-        Reply reply = replyCommandService.createReply(dto, articleId);
-        return CustomResponse.onSuccess(reply);
+    public CustomResponse<ReplyResponseDTO.CreateReplyResponseDTO> createReply(@RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
+        Reply reply = replyCommandService.createReply(dto);
+        return CustomResponse.onSuccess(ReplyConverter.toCreateReplyResponseDTO(reply));
     }
 
-    @GetMapping("/replies/{replyId}")
+    @GetMapping
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies() {
+        List<Reply> replies = replyQueryService.getReplies();
+        return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewListDTO(replies));
+    }
+
+    @GetMapping("{replyId}")
     @Operation(summary = "단일 댓글 조회 API")
-    public CustomResponse<ReplyResponseDTO> getReply(@PathVariable("replyId") Long replyId) {
-        ReplyResponseDTO reply = replyQueryService.getReply(replyId);
-        return CustomResponse.onSuccess(reply);
-    }
-
-    @GetMapping("/replies")
-    @Operation(summary = "전체 댓글 조회 API")
-    public CustomResponse<List<ReplyResponseDTO>> getArticles() {
-        List<ReplyResponseDTO> replies = replyQueryService.getReplies();
-        return CustomResponse.onSuccess(replies);
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> getReply(@PathVariable("replyId") Long replyId) {
+        Reply reply = replyQueryService.getReply(replyId);
+        return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewDTO(reply));
     }
 
 }

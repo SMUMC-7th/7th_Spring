@@ -18,7 +18,6 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
 
     @Override
     public Article createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
-        Article article = ArticleConverter.toEntity(dto);
-        return articleRepository.save(article);
+        return articleRepository.save(ArticleConverter.toArticle(dto));
     }
 }

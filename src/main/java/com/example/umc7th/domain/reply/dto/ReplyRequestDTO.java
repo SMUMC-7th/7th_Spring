@@ -7,6 +7,7 @@ public class ReplyRequestDTO {
     @Getter
     public static class CreateReplyDTO {
         private String content;
+        private Long articleId;
     }
 
 }
