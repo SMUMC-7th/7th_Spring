@@ -18,7 +18,9 @@ public class ReplyRequestDTO {
                     .article(article)
                     .build();
         }
-
-
+    }
+    @Getter
+    public static class UpdateReplyDTO {
+        private String content;
     }
 }
