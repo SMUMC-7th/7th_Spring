@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.umc7th.global.config.apiPayload.CustomResponse;
+import com.example.umc7th.global.config.apiPayload.code.GeneralErrorCode;
 import com.example.umc7th.global.config.apiPayload.exception.CustomException;
 
 import io.swagger.v3.oas.annotations.Operation;

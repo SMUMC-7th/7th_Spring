@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 // JPA가 해당 클래스가 Entity라는 것을 인식하도록 해주는 Annotation
 @Entity
@@ -34,8 +35,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 // Getter 생성
 @Getter
+@Setter
 public class Reply extends BaseEntity {
-
 	// 해당 필드(Long id)를 PK(Primary key)로 지정
 	@Id
 	// PK의 생성 전략 설정

@@ -49,4 +49,23 @@ public class ReplyController {
 		List<Reply> replies = replyQueryService.getReplies();
 		return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewListDTO(replies));
 	}
+
+	// 댓글 수정
+	@PutMapping("/{replyId}")
+	@Operation(summary = "댓글 수정 API", description = "댓글을 수정하는 API")
+	public CustomResponse<ReplyResponseDTO.CreateReplyResponseDTO> updateReply(
+		@PathVariable("replyId") Long replyId,
+		@RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+		Reply updatedReply = replyCommandService.updateReply(replyId, dto);
+		return CustomResponse.onSuccess(ReplyConverter.toCreateReplyResponseDTO(updatedReply));
+	}
+
+	// 댓글 삭제
+	@DeleteMapping("/{replyId}")
+	@Operation(summary = "댓글 삭제 API", description = "댓글을 삭제하는 API")
+	public CustomResponse<String> deleteReply(@PathVariable("replyId") Long replyId) {
+		replyCommandService.deleteReply(replyId);
+		return CustomResponse.onSuccess("댓글이 성공적으로 삭제되었습니다.");
+	}
 }
+
