@@ -36,4 +36,12 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
                 new ArticleException(ArticleErrorCode.NOT_FOUND));
         articleRepository.delete(article);
     }
+
+    @Override
+    public Article updateLikeNum(Long articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new ArticleException(ArticleErrorCode.NOT_FOUND));
+        article.updateLikeNum();
+        return articleRepository.save(article);
+    }
 }

@@ -65,4 +65,10 @@ public class ArticleController {
         return CustomResponse.onSuccess(ArticleResponseDTO.DeleteArticleResponseDTO.from(deleteArticle));
     }
 
+    @PatchMapping("/articles/{articleId}/addLikeNum")
+    @Operation(summary = "좋아요 중가 API", description = "article의 좋아요 증가시키는 api")
+    public CustomResponse<ArticleResponseDTO.LikeNumResponseDTO> addArticleLikeNum(@PathVariable("articleId") Long articleId) {
+        Article updatedArticle = articleCommandService.updateLikeNum(articleId);
+        return CustomResponse.onSuccess(ArticleResponseDTO.LikeNumResponseDTO.from(updatedArticle));
+    }
 }

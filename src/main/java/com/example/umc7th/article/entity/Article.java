@@ -46,4 +46,8 @@ public class Article extends BaseTimeEntity {
         this.title = title;
         this.content = content;
     }
+
+    public void updateLikeNum() {
+        this.likeNum += 1;
+    }
 }

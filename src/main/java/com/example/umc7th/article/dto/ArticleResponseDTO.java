@@ -94,4 +94,20 @@ public class ArticleResponseDTO {
         }
     }
 
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    public static class LikeNumResponseDTO {
+        private Long id;
+        private int likeNum;
+
+        public static LikeNumResponseDTO from(Article article) {
+            return LikeNumResponseDTO.builder()
+                    .id(article.getId())
+                    .likeNum(article.getLikeNum())
+                    .build();
+        }
+    }
+
 }
