@@ -40,4 +40,10 @@ public class Article extends BaseTimeEntity {
     //orphanRemoval = true -> Article에서 Reply목록이 제거되면 남아있는 Reply도 자동 삭제됨
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replyList;
+
+    //update
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
