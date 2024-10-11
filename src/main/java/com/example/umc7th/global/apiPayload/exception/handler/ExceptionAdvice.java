@@ -35,7 +35,7 @@ public class ExceptionAdvice {
         BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR_500;
 
         log.error(Arrays.toString(e.getStackTrace()));
-
+        log.error("An error occurred: {}", e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(CustomResponse.onFailure(code.getStatus(), code.getCode(), code.getMessage(), false, null));

@@ -36,4 +36,15 @@ public class ReplyResponseDTO {
     public static class ReplyPreviewListDTO {
         private List<ReplyPreviewDTO> replies;
     }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class UpdateReplyResponseDTO {
+        private Long id;
+        private String content;
+        private Long articleId;
+        private LocalDateTime updatedAt;
+    }
 }

@@ -2,6 +2,8 @@ package com.example.umc7th.domain.reply.entity;
 
 import com.example.umc7th.Time;
 import com.example.umc7th.domain.article.entity.Article;
+import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
+import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,5 +28,7 @@ public class Reply extends Time {
     @JoinColumn(name = "article_id")
     private Article article;
 
-
+    public void update(ReplyRequestDTO.UpdateReplyDTO dto) {
+        this.content = dto.getContent();
+    }
 }
