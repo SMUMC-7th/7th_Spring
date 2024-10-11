@@ -7,6 +7,7 @@ import com.example.umc7th.global.apiPayload.CustomResponse;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.domain.reply.service.command.ReplyCommandService;
+import com.example.umc7th.global.apiPayload.code.GeneralSuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +46,24 @@ public class ReplyController {
 
         Reply reply = replyQueryService.getReply(replyId);
         return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewDTO(reply));
+    }
+
+    @PutMapping("/replies/{replyId}")
+    @Operation(summary = "댓글 내용 업데이트 API", description = "댓글 내용 업데이트하는 API")
+    public CustomResponse<ReplyResponseDTO.UpdateReplyResponseDTO> updateReply
+            (@PathVariable("replyId") Long replyId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+
+        ReplyResponseDTO.UpdateReplyResponseDTO updatedDto = replyCommandService.updateReply(replyId, dto);
+
+        return CustomResponse.of(GeneralSuccessCode.SUCCESS_200, updatedDto);
+    }
+
+    @DeleteMapping("/replies/{replyId}")
+    @Operation(summary = "댓글 삭제 API", description = "댓글 삭제하는 API")
+    public CustomResponse<?> deleteReply(@PathVariable("replyId") Long replyId) {
+
+        replyCommandService.deleteReply(replyId);
+
+        return CustomResponse.of(GeneralSuccessCode.SUCCESS_200, "id = " + replyId + "삭제 완료");
     }
 }
