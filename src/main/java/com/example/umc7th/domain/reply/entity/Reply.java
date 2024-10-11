@@ -38,5 +38,7 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "article_id")
     private Article article;
 
-
+    public void update(String content) {
+        this.content = content;
+    }
 }

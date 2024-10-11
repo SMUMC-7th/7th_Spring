@@ -33,4 +33,17 @@ public class Article extends BaseEntity {
 
     @OneToMany(mappedBy = "article")
     private List<Reply> replies;
+
+    public void updateArticle(ArticleRequestDTO.UpdateArticleDTO dto) {
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public void setContent(String content) {
+        this.content = content;
+    }
+
 }

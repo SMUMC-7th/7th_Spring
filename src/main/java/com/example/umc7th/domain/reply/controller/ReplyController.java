@@ -16,6 +16,7 @@ import java.util.List;
 @Tag(name = "댓글 API")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/replies")
 public class ReplyController {
     private final ReplyQueryService replyQueryService;
     private final ReplyCommandService replyCommandService;
@@ -34,10 +35,23 @@ public class ReplyController {
         return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewListDTO.from(replies));
     }
 
-    @GetMapping("{replyId}")
+    @GetMapping("/{replyId}")
     @Operation(summary = "댓글 조회 API", description = "댓글 하나 조회하는 API")
     public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> getReply(@PathVariable("replyId") Long replyId) {
         Reply reply = replyQueryService.getReply(replyId);
         return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewDTO.from(reply));
     }
+
+    @PutMapping("/{replyId")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> updateReply(@PathVariable("replyId") Long replyId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+        Reply reply = replyCommandService.updateReply(replyId, dto);
+        return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewDTO.from(reply));
+    }
+
+    @DeleteMapping("/{replyId}")
+    public CustomResponse<Long> deleteReply(@PathVariable("replyId") Long replyId) {
+        Long id =replyCommandService.deleteReply(replyId);
+        return CustomResponse.onSuccess(id);
+    }
+
 }
