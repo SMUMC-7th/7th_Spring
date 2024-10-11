@@ -4,11 +4,6 @@ import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reply")
@@ -28,4 +23,11 @@ public class Reply extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_id")
     private Article article;
+
+    // dirty checking
+    // 엔티티 내부에 상태 변경 메서드를 두면 JPA가 변경을 자동으로 감지할 수 있음
+    public void update(String content) {
+        this.content = content;
+    }
+
 }

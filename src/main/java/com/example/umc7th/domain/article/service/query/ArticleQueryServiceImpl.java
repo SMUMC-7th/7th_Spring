@@ -20,11 +20,13 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public List<Article> getArticles() {
+        // 모든 게시글 조회 이후 반환
         return articleRepository.findAll();
     }
 
     @Override
     public Optional<Article> getArticle(Long id) {
+        // ID로 게시글 한개 조회하고 없을 경우 예외 발생
         return Optional.ofNullable(articleRepository.findById(id).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND)));
     }

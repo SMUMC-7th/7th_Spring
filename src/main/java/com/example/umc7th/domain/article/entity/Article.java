@@ -4,11 +4,7 @@ import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -31,6 +27,17 @@ public class Article extends BaseEntity {
     @Column(name = "like_num")
     private int likeNum;
 
-    @OneToMany(mappedBy = "article")
+    // Hard delete 구현 위해 cascade = CascadeType.Remove 설정
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Reply> replies;
+
+    /**
+     * 게시글 제목, 내용 업데이트
+     * @param title
+     * @param content
+     */
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
