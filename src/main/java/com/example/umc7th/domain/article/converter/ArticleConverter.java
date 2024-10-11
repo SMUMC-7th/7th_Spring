@@ -23,11 +23,18 @@ public class ArticleConverter {
                 .build();
     }
 
+    public static ArticleResponseDTO.DeletedArticleDTO toDeletedArticleDTO(Long id) {
+        return ArticleResponseDTO.DeletedArticleDTO.builder()
+                .id(id)
+                .build();
+    }
+
     public static ArticleResponseDTO.ArticlePreviewDTO toArticlePreviewDTO(Article article) {
         return ArticleResponseDTO.ArticlePreviewDTO.builder()
                 .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
+                .likeNum(article.getLikeNum())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .build();

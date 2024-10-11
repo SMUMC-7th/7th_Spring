@@ -53,4 +53,25 @@ public class ArticleController {
         return CustomResponse.onSuccess(ArticleConverter.toArticlePreviewDTO(article));
     }
 
+    @PutMapping
+    @Operation(summary = "게시글 수정 API")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> updateArticle(@RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
+        Article article = articleCommandService.updateArticle(dto);
+        return CustomResponse.onSuccess(ArticleConverter.toArticlePreviewDTO(article));
+    }
+
+    @DeleteMapping("{articleId}")
+    @Operation(summary = "게시글 삭제 API")
+    public CustomResponse<ArticleResponseDTO.DeletedArticleDTO> deleteArticle(@PathVariable("articleId") Long articleId) {
+        articleCommandService.deleteArticle(articleId);
+        return CustomResponse.onSuccess(ArticleConverter.toDeletedArticleDTO(articleId));
+    }
+
+    @PatchMapping("{articleId}")
+    @Operation(summary = "게시글 좋아요 API")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> patchArticle(@PathVariable("articleId") Long articleId) {
+        Article article = articleCommandService.patchArticle(articleId);
+        return CustomResponse.onSuccess(ArticleConverter.toArticlePreviewDTO(article));
+    }
+
 }

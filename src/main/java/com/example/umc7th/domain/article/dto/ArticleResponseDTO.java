@@ -20,10 +20,20 @@ public class ArticleResponseDTO {
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class DeletedArticleDTO {
+        private Long id;
+    }
+
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ArticlePreviewDTO {
         private Long id;
         private String title;
         private String content;
+        private int likeNum;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }
