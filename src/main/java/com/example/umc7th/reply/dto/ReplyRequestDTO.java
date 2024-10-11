@@ -7,10 +7,8 @@ import lombok.Setter;
 
 public class ReplyRequestDTO {
 	@Getter
-	@Setter
-	@NoArgsConstructor
 	public static class CreateReplyDTO {
 		private String content;
-
+		private Long articleId;
 	}
 }

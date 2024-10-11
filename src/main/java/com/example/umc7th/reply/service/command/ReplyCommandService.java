@@ -4,6 +4,6 @@ import com.example.umc7th.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.reply.entity.Reply;
 
 public interface ReplyCommandService {
-	Reply createReply(Long articleId, ReplyRequestDTO.CreateReplyDTO dto);
+	Reply createReply(ReplyRequestDTO.CreateReplyDTO dto);
 
 }

@@ -30,11 +30,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "article")
-@EntityListeners(AuditingEntityListener.class) // createdAt과 updatedAt을 자동으로 매핑하기 위해
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 @Getter
 public class Article extends BaseEntity {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +44,10 @@ public class Article extends BaseEntity {
 	@Column(name = "content")
 	private String content;
 
-	@OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Reply> replies = new ArrayList<>();
+	@Column(name = "like_num")
+	private int likeNum;
+
+	@OneToMany(mappedBy = "article")
+	private List<Reply> replies;
 
 }
