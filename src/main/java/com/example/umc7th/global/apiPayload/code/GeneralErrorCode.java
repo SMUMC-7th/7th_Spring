@@ -32,9 +32,9 @@ public enum GeneralErrorCode implements BaseErrorCode{
     private final String message;
 
     // 오류 응답 반환하는 메소드
-    @Override
+    /*@Override
     public <T> CustomResponse<T> getResponse() {
         // 실패 응답 반환하는 정적 메소드
         return CustomResponse.onFailure(this.status, this.code, this.message, false, null);
-    }
+    }*/
 }
