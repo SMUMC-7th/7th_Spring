@@ -6,6 +6,6 @@ import com.example.umc7th.article.entity.Article;
 import java.util.List;
 
 public interface ArticleQueryService {
-    ArticleResponseDTO getArticle(Long id);
-    List<ArticleResponseDTO> getArticles();
+    Article getArticle(Long id);
+    List<Article> getArticles();
 }

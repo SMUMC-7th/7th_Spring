@@ -8,6 +8,7 @@ import com.example.umc7th.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +27,11 @@ public class ArticleController {
 
     // 생성이므로 POST method 사용
     @PostMapping("/articles")
-    @Operation(summary = "article 생성하는 API", description = "article을 저장하는 용도이며 저장한 내용 반환")
+    @Operation(summary = "게시글 생성 api", description = "article 생성하는 API")
     // 요청 시 데이터를 담을 DTO를 설정해주고 RequestBody라는 것을 명시
-    public CustomResponse<Article> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
-        // service에서 게시글 생성한 게시글 가져오기
+    public CustomResponse<ArticleResponseDTO.CreateArticleResponseDTO> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
         Article article = articleCommandService.createArticle(dto);
-        // CustomResponse에 article을 담아 성공했다고 응답하기
-        return CustomResponse.onSuccess(article);
+        return CustomResponse.onSuccess(ArticleResponseDTO.CreateArticleResponseDTO.from(article));
     }
 
     // 생성이므로 GET method 사용
@@ -40,17 +39,16 @@ public class ArticleController {
     @GetMapping("/articles/{articleId}")
     @Operation(summary = "특정 article을 조회하는 API", description = "articleId를 이용하여 article을 조회하는 용도이며 조회한 내용 반환")
     // @PathVariable을 이용하여 {}로 설정한 변수의 값을 가져온 이후 Long articleId에 담기. 참고로 GET method는 RequestBody 사용이 불가능합니다.
-    public CustomResponse<ArticleResponseDTO> getArticle(@PathVariable("articleId") Long articleId) {
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> getArticle(@PathVariable("articleId") Long articleId) {
         // 구현
-        ArticleResponseDTO articleResponseDTO = articleQueryService.getArticle(articleId);
-        return CustomResponse.onSuccess(articleResponseDTO);
+        Article article = articleQueryService.getArticle(articleId);
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(article));
     }
 
     @GetMapping("/articles")
     @Operation(summary = "모든 article을 조회하는 API", description = "작성된 모든 article을 조회하는 용도이며 조회한 내용들을 리스트로 반환")
-    public CustomResponse<List<ArticleResponseDTO>> getArticles() {
-        // 구현
-        List<ArticleResponseDTO> articleResponseDTO = articleQueryService.getArticles();
-        return CustomResponse.onSuccess(articleResponseDTO);
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
+        List<Article> articles = articleQueryService.getArticles();
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
 }

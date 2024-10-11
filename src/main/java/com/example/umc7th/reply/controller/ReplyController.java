@@ -1,8 +1,9 @@
 package com.example.umc7th.reply.controller;
 
 import com.example.umc7th.global.apiPayload.CustomResponse;
-import com.example.umc7th.reply.dto.ReplyReqDTO;
-import com.example.umc7th.reply.dto.ReplyResDTO;
+import com.example.umc7th.reply.dto.ReplyRequestDTO;
+import com.example.umc7th.reply.dto.ReplyResponseDTO;
+import com.example.umc7th.reply.entity.Reply;
 import com.example.umc7th.reply.service.command.ReplyCommandService;
 import com.example.umc7th.reply.service.query.ReplyQueryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,17 +21,24 @@ public class ReplyController {
     private final ReplyQueryService replyQueryService;
 
     @PostMapping("/reply")
-    @Operation(summary = "reply 생성하는 API", description = "reply를 저장하는 용도이며 저장한 내용 반환")
-    public CustomResponse<ReplyReqDTO> createReply(@RequestBody ReplyReqDTO replyReqDTO) {
-        replyCommandService.saveReply(replyReqDTO);
-        return CustomResponse.onSuccess(replyReqDTO);
+    @Operation(summary = "댓글 생성 API", description = "댓글을 생성하는 api")
+    public CustomResponse<ReplyResponseDTO.CreateReplyResponseDTO> createReply(@RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
+        Reply reply = replyCommandService.createReply(dto);
+        return CustomResponse.onSuccess(ReplyResponseDTO.CreateReplyResponseDTO.from(reply));
     }
 
-    @GetMapping("/reply/{articleId}")
-    @Operation(summary = "특정 글의 reply들을 조회하는 API", description = "articleId를 가지고 해당 article의 모든 Replies를 조회하는 용도이며 저장된 모든 replies list 반환")
-    public CustomResponse<List<ReplyResDTO>> getRepliesByArticleId(@PathVariable Long articleId) {
-        List<ReplyResDTO> replyResDTO = replyQueryService.getRepliesByArticleId(articleId);
-
-        return CustomResponse.onSuccess(replyResDTO);
+    @GetMapping("/replies")
+    @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회하는 API")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies() {
+        List<Reply> replies = replyQueryService.getReplies();
+        return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewListDTO.from(replies));
     }
+
+    @GetMapping("/reply/{replyId}")
+    @Operation(summary = "댓글 조회 API", description = "댓글 하나 조회하는 API")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> getReply(@PathVariable("replyId") Long replyId) {
+        Reply reply = replyQueryService.getReply(replyId);
+        return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewDTO.from(reply));
+    }
+
 }

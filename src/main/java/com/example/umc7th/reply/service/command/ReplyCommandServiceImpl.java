@@ -1,8 +1,10 @@
 package com.example.umc7th.reply.service.command;
 
 import com.example.umc7th.article.entity.Article;
+import com.example.umc7th.article.exception.ArticleErrorCode;
+import com.example.umc7th.article.exception.ArticleException;
 import com.example.umc7th.article.repository.ArticleRepository;
-import com.example.umc7th.reply.dto.ReplyReqDTO;
+import com.example.umc7th.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.reply.entity.Reply;
 import com.example.umc7th.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,22 +23,11 @@ public class ReplyCommandServiceImpl implements ReplyCommandService{
 
 
     @Override
-    public void saveReply(ReplyReqDTO replyReq) {
-        //articleId에 해당하는 article이 존재하는 경우에만 사용 가능
-        Optional<Article> articleOptional = articleRepository.findById(replyReq.getArticleId());
+    public Reply createReply(ReplyRequestDTO.CreateReplyDTO dto) {
+        Article article = articleRepository.findById(dto.getArticleId()).orElseThrow(() ->
+                new ArticleException(ArticleErrorCode.NOT_FOUND));
 
-        if (articleOptional.isPresent()) {
-            Article article = articleOptional.get();
+        return replyRepository.save(dto.toEntity(article));
 
-            Reply reply = Reply.builder()
-                    .content(replyReq.getContent())
-                    .article(article)
-                    .build();
-
-            replyRepository.save(reply);
-
-        } else {
-            throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
-        }
     }
 }
