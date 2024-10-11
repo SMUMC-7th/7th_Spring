@@ -27,6 +27,6 @@ public class ArticleRequestDTO {
 
     @Getter
     public static class DeleteArticleDTO {
-        public String id;
+        private String id;
     }
 }
