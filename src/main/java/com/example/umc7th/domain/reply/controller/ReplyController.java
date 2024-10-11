@@ -25,25 +25,36 @@ public class ReplyController {
     private final ReplyCommandService replyCommandService;
     private final ReplyQueryService replyQueryService;
 
-    // 댓글 생성
-    @Operation(summary = "댓글 생성", description = "request로 넘긴 articleId로 조회한 게시글에 댓글을 생성합니다.")
+    @Operation(summary = "댓글 생성", description = "articleId에 해당하는 게시글에 댓글을 생성합니다.")
     @PostMapping("")
     public ResponseEntity<CustomResponse<ReplyResDto.CreateReplyResponseDto>> createReply(
             @RequestBody ReplyReqDto.CreateReplyRequestDto requestDto) {
-
         ReplyResDto.CreateReplyResponseDto responseDto = replyCommandService.createReply(requestDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(CustomResponse.onSuccess(HttpStatus.CREATED, responseDto));
     }
 
-    // 게시글 별 댓글 조회
-    @Operation(summary = "댓글 생성", description = "URL로 넘긴 articleId로 조회한 게시글의 댓글을 전체 조회합니다.")
+    @Operation(summary = "게시글 별 댓글 조회", description = "articleId에 해당하는 게시글에 달린 모든 댓글을 조회합니다.")
     @GetMapping("/article/{articleId}")
-    public CustomResponse<ReplyResDto.ReplyPreviewListDto> getRepliesByArticleId(
-            @PathVariable Long articleId) {
-
+    public CustomResponse<ReplyResDto.ReplyPreviewListDto> getRepliesByArticleId(@PathVariable Long articleId) {
         ReplyResDto.ReplyPreviewListDto replies = replyQueryService.getRepliesByArticle(articleId);
         return CustomResponse.onSuccess(replies);
+    }
+
+    @Operation(summary = "댓글 수정", description = "articleId에 해당하는 게시글의 특정 댓글(replyId)을 수정합니다.")
+    @PatchMapping("/{replyId}/articles/{articleId}")
+    public CustomResponse<String> updateReply(@PathVariable Long replyId,
+                                              @PathVariable Long articleId,
+                                              @RequestBody ReplyReqDto.UpdateReplyRequestDto requestDto) {
+        replyCommandService.updateReply(articleId, replyId, requestDto);
+        return CustomResponse.onSuccess("댓글 수정이 완료되었습니다.");
+    }
+
+    @Operation(summary = "댓글 삭제", description = "articleId에 해당하는 게시글의 특정 댓글(replyId)을 삭제합니다. (소프트 삭제)")
+    @DeleteMapping("/{replyId}/articles/{articleId}")
+    public CustomResponse<String> deleteReply(@PathVariable Long replyId, @PathVariable Long articleId) {
+        replyCommandService.deleteReply(articleId, replyId);
+        return CustomResponse.onSuccess("댓글 삭제가 완료되었습니다.");
     }
 }

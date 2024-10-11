@@ -3,7 +3,6 @@ package com.example.umc7th.domain.article.entity;
 import com.example.umc7th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.SoftDelete;
 import org.hibernate.annotations.Where;
 
 @Entity

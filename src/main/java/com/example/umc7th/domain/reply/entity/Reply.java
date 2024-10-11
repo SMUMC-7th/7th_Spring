@@ -32,4 +32,8 @@ public class Reply extends BaseEntity {
     public void softDelete() {
         this.isDeleted = true;
     }
+
+    public void update(String content) {
+        this.content = content;
+    }
 }
