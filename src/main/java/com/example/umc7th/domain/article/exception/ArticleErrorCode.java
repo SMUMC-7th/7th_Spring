@@ -9,7 +9,12 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ArticleErrorCode implements BaseErrorCode {
 
-    ARTICLE_NOT_FOUND_404(HttpStatus.NOT_FOUND, "ARTICLE404", "요청한 게시글을 찾을 수 없습니다"),
+    ARTICLE_NOT_FOUND_404(HttpStatus.NOT_FOUND, 
+            "ARTICLE404",
+            "요청한 게시글을 찾을 수 없습니다"),
+    ARTICLE_DELETED_410(HttpStatus.GONE,
+            "ARTICLE410",
+            "삭제된 게시글입니다"),
     ;
 
     private final HttpStatus status;
