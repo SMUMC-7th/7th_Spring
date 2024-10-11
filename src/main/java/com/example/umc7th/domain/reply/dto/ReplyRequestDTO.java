@@ -10,4 +10,10 @@ public class ReplyRequestDTO {
         private Long articleId;
     }
 
+    @Getter
+    public static class UpdateReplyDTO {
+        private Long replyId;
+        private String content;
+    }
+
 }

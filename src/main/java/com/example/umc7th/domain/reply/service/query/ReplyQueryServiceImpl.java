@@ -19,12 +19,22 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
 
     @Override
     public Reply getReply(Long id) {
-        return replyRepository.findById(id).orElseThrow(() ->
-                new ReplyException(ReplyErrorCode.REPLY_NOT_FOUND_404));
+        Reply reply = replyRepository.findById(id).orElseThrow(() ->
+                new ReplyException(ReplyErrorCode.REPLY_NOT_FOUND_404)
+        );
+        // 댓글이 삭제된 상태라면 에러 던짐
+        if (!reply.isActivated()) {
+            throw new ReplyException(ReplyErrorCode.REPLY_DELETED_410);
+        }
+        return reply;
     }
 
     @Override
     public List<Reply> getReplies() {
-        return replyRepository.findAll();
+        List<Reply> Replies = replyRepository.findAll();
+        // 삭제된 댓글 제거 후 반환
+        return Replies.stream()
+                .filter(Reply::isActivated)
+                .toList();
     }
 }

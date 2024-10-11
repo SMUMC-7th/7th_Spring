@@ -13,6 +13,9 @@ public enum ReplyErrorCode implements BaseErrorCode {
     REPLY_NOT_FOUND_404(HttpStatus.NOT_FOUND,
             "REPLY404",
             "요청한 댓글을 찾을 수 없습니다"),
+    REPLY_DELETED_410(HttpStatus.GONE,
+            "REPLY410",
+                    "삭제된 댓글입니다"),
     ;
 
     private final HttpStatus status;
