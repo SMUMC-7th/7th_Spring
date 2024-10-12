@@ -1,8 +1,6 @@
 package com.example.umc7th.dto.request;
 
 
-import com.example.umc7th.entity.Article;
-import com.example.umc7th.entity.Reply;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

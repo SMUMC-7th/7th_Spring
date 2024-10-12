@@ -2,7 +2,6 @@ package com.example.umc7th.controller;
 
 import com.example.umc7th.dto.request.ArticleRequestDto;
 import com.example.umc7th.dto.response.ArticleResponseDto;
-import com.example.umc7th.entity.Article;
 import com.example.umc7th.global.apipayload.CustomResponse;
 import com.example.umc7th.global.apipayload.success.GeneralSuccessCode;
 import com.example.umc7th.service.command.ArticleCommandService;
