@@ -11,4 +11,6 @@ public interface ArticleCommandService {
     public ArticleResponseDto.ArticlePreviewDto partialUpdateArticle(Long articleId, ArticleRequestDto.PartialUpdateArticleRequestDto dto);
 
     public void deleteArticle(Long articleId);
+
+    public ArticleResponseDto.ArticlePreviewDto increaseLikeNum(Long articleId);
 }

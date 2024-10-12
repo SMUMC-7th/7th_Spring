@@ -47,5 +47,13 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
         article.softDelete();
     }
 
+    @Override
+    public ArticleResponseDto.ArticlePreviewDto increaseLikeNum(Long articleId) {
+        Article article = articleRepository.findByIdAndActiveTrue(articleId).orElseThrow(
+                () -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
+        article.increaseLikeNum();
+        return ArticleConverter.from(article);
+    }
+
 
 }

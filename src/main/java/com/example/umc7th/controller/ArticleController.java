@@ -2,6 +2,7 @@ package com.example.umc7th.controller;
 
 import com.example.umc7th.dto.request.ArticleRequestDto;
 import com.example.umc7th.dto.response.ArticleResponseDto;
+import com.example.umc7th.entity.Article;
 import com.example.umc7th.global.apipayload.CustomResponse;
 import com.example.umc7th.global.apipayload.success.GeneralSuccessCode;
 import com.example.umc7th.service.command.ArticleCommandService;
@@ -57,8 +58,8 @@ public class ArticleController {
     }
 
     @PutMapping("/{articleId}")
-    @Operation(method = "PATCH",
-            summary = "게시글 부분 수정 API",
+    @Operation(method = "PUT",
+            summary = "게시글 수정 API",
             description = "articleId에 해당하는 게시글의 제목, 내용 필드를 전체 수정합니다.")
     public CustomResponse<ArticleResponseDto.ArticlePreviewDto> updateArticle(
             @PathVariable Long articleId,
@@ -69,7 +70,7 @@ public class ArticleController {
 
     @PatchMapping("/{articleId}")
     @Operation(method = "PATCH",
-            summary = "게시글 수정 API",
+            summary = "게시글 부분 수정 API",
             description = "articleId에 해당하는 게시글의 제목, 내용 필드를 부분 수정합니다.")
     public CustomResponse<ArticleResponseDto.ArticlePreviewDto> partialUpdateArticle(
             @PathVariable Long articleId,
@@ -77,6 +78,17 @@ public class ArticleController {
         ArticleResponseDto.ArticlePreviewDto result = articleCommandService.partialUpdateArticle(articleId, dto);
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, result);
     }
+
+
+    @PatchMapping("/{articleId}/like")
+    @Operation(method = "PATCH",
+            summary = "게시글 좋아요 API",
+            description = "articleId에 해당하는 게시글의 좋아요 수를 1 증가시킵니다.")
+    public CustomResponse<ArticleResponseDto.ArticlePreviewDto> increaseLikeNum(@PathVariable Long articleId){
+        ArticleResponseDto.ArticlePreviewDto result = articleCommandService.increaseLikeNum(articleId);
+        return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, result);
+    }
+
 
     @DeleteMapping("/{articleId}")
     @Operation(method = "DELETE",
