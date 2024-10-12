@@ -22,7 +22,7 @@ public class Article extends BaseEntity{
     @Column(name = "content")
     private String content;
 
-    @Column(name = "likeNum")
+    @Column(name = "like_num")
     private int likeNum;
 
     @Column(name = "active")
@@ -33,18 +33,18 @@ public class Article extends BaseEntity{
 //    private List<Reply> replies;
 
     // 전체 수정
-    public void update(ArticleRequestDto.UpdateArticleRequestDto dto){
-        title = dto.getTitle();
-        content = dto.getContent();
+    public void update(String title, String content){
+       this. title = title;
+        this.content = content;
     }
 
     // 부분 수정
-    public void updatePartial(ArticleRequestDto.PartialUpdateArticleRequestDto dto) {
-        if (dto.getTitle() != null) {
-            title = dto.getTitle();
+    public void updatePartial(String title, String content) {
+        if (title != null) {
+            this.title = title;
         }
-        if (dto.getContent() != null) {
-            content = dto.getContent();
+        if (content != null) {
+            this.content = content;
         }
     }
 

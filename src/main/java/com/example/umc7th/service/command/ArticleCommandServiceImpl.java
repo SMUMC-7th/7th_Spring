@@ -28,7 +28,7 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
     public ArticleResponseDto.ArticlePreviewDto updateArticle(Long articleId, ArticleRequestDto.UpdateArticleRequestDto dto) {
         Article article = articleRepository.findByIdAndActiveTrue(articleId).orElseThrow(
                 () -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
-        article.update(dto);
+        article.update(dto.getTitle(), dto.getContent());
         return ArticleConverter.from(article);
     }
 
@@ -36,7 +36,7 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
     public ArticleResponseDto.ArticlePreviewDto partialUpdateArticle(Long articleId, ArticleRequestDto.PartialUpdateArticleRequestDto dto) {
         Article article = articleRepository.findByIdAndActiveTrue(articleId).orElseThrow(
                 () -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
-        article.updatePartial(dto);
+        article.updatePartial(dto.getTitle(), dto.getContent());
         return ArticleConverter.from(article);
     }
 
