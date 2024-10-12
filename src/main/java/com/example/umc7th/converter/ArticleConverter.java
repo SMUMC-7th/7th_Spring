@@ -12,6 +12,7 @@ public class ArticleConverter {
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .likeNum(0)
+                .active(true)
                 .build();
     }
 
