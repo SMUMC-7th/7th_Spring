@@ -5,6 +5,9 @@ import com.example.umc7th.domain.article.exception.ArticleErrorCode;
 import com.example.umc7th.domain.article.exception.ArticleException;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +22,10 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public List<Article> getArticles() {
-        return articleRepository.findAll();
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Article> article = articleRepository.findAllByOrderByCreatedAtDesc(pageable);
+
+        return article.getContent();
     }
 
     @Override

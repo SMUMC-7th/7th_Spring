@@ -30,10 +30,10 @@ public class ReplyController {
         return CustomResponse.onSuccess(ReplyConverter.toCreateReplyResponseDTO(reply));
     }
 
-    @GetMapping
+    @GetMapping("/articles/{articleId}")
     @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회하는 API")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies() {
-        List<Reply> replies = replyQueryService.getReplies();
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable Long articleId) {
+        List<Reply> replies = replyQueryService.getReplies(articleId);
         return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewListDTO(replies));
     }
 
