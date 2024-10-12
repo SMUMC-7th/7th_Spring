@@ -8,4 +8,7 @@ public class ReplyRequestDTO {
         private Long articleId;
         private String content;
     }
+    public record UpdateReplyDTO(String content){
+    }
+
 }

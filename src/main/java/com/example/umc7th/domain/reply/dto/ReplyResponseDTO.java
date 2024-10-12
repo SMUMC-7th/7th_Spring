@@ -33,4 +33,5 @@ public class ReplyResponseDTO {
     public static class ReplyPreviewListDTO {
         private List<ReplyPreviewDTO> replies;
     }
+
 }

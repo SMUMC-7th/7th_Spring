@@ -41,4 +41,21 @@ public class ArticleController {
         List<Article> articles = articleQueryService.getArticles();
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
+    //게시물 수정
+    @PutMapping("/articles/{articleId}")
+    @Operation(summary = "게시글 수정 API", description="게시글 수정")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> updateArticle(
+            @PathVariable Long articleId,
+            @RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
+
+        Article updatedArticle = articleCommandService.updateArticle(articleId, dto);
+        ArticleResponseDTO.ArticlePreviewDTO responseDto = ArticleResponseDTO.ArticlePreviewDTO.from(updatedArticle);
+
+        return CustomResponse.onSuccess(responseDto);
+    }
+    @DeleteMapping("/{articleId}")
+    public CustomResponse<Void> deleteArticle(@PathVariable Long articleId) {
+        articleCommandService.deleteArticle(articleId);
+        return CustomResponse.onSuccess(null);
+    }
 }
