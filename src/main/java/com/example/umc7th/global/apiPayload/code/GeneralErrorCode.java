@@ -31,8 +31,8 @@ public enum GeneralErrorCode implements BaseErrorCode {
     private final String code;
     private final String message;
 
-    @Override
-    public <T> CustomResponse<T> getResponse() {
-        return CustomResponse.onFailure(false, this.status, this.code, this.message, null);
-    }
+//    @Override
+//    public <T> CustomResponse<T> getResponse() {
+//        return CustomResponse.onFailure(false, this.status, this.code, this.message, null);
+//    }
 }

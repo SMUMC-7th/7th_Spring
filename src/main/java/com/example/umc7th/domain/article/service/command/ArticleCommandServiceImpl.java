@@ -17,12 +17,14 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
 
     @Override
     public Article createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
-        return articleRepository.save(
-                // Builder 패턴 사용
-                Article.builder()
-                        .title(dto.getTitle())
-                        .content(dto.getContent())
-                        .build()
-        );
+//        return articleRepository.save(
+//                // Builder 패턴 사용
+//                Article.builder()
+//                        .title(dto.getTitle())
+//                        .content(dto.getContent())
+//                        .build()
+//        );
+        //DTO 사용
+        return articleRepository.save(dto.toEntity());
     }
 }

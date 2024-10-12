@@ -4,6 +4,7 @@ package com.example.umc7th.domain.reply.service.command;
 
 import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
+import com.example.umc7th.domain.reply.converter.ReplyConverter;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
@@ -24,10 +25,12 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
         Article article=articleRepository.findById(dto.getArticleId()).orElseThrow(() -> new EntityNotFoundException("게시물 없음"));
         return replyRepository.save(
                 // Builder 패턴 사용
-                Reply.builder()
-                        .content(dto.getContent())
-                        .article(article)
-                        .build()
+//                Reply.builder()
+//                        .content(dto.getContent())
+//                        .article(article)
+//                        .build()
+                //dto사용
+                ReplyConverter.toReply(dto, article)
         );
     }
 
