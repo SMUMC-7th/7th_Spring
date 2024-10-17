@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class ReplyQueryServicelmpl implements ReplyQueryService{
+public class ReplyQueryServiceImpl implements ReplyQueryService{
 
     private final ArticleRepository articleRepository;
     private final ReplyRepository replyRepository;
@@ -31,7 +31,7 @@ public class ReplyQueryServicelmpl implements ReplyQueryService{
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
 
         //조회 한 게시글에 달린 reply 리스트 조회
-        List<Reply> replies = replyRepository.findByArticle(article);
+        List<Reply> replies = replyRepository.findAllByArticle(article);
 
         //Converter를 통해 리스트 전체를 DTO로 변환 후 반환
         return ReplyConverter.toReplyPreviewListDto(replies);

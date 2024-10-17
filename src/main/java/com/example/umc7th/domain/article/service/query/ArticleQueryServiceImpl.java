@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class ArticleQueryServicelmpl implements ArticleQueryService {
+public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     private final ArticleRepository articleRepository;
 

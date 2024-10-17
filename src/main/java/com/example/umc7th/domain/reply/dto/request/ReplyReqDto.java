@@ -7,4 +7,9 @@ public class ReplyReqDto {
             String content
     ) {
     }
+
+    public record UpdateReplyRequestDto(
+            String content
+    ) {
+    }
 }
