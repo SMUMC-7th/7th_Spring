@@ -39,19 +39,15 @@ public class ReplyCommandServiceImpl implements ReplyCommandService{
     }
 
     @Override
-    public void updateReply(Long articleId, Long replyId, ReplyReqDto.UpdateReplyRequestDto requestDto) {
-        articleRepository.findById(articleId)
-                .orElseThrow(()->new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
-        Reply reply = replyRepository.findByIdAndArticleId(replyId, articleId)
+    public void updateReply(Long replyId, ReplyReqDto.UpdateReplyRequestDto requestDto) {
+        Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new ReplyException(ReplyErrorCode.REPLY_NOT_FOUND));
         reply.update(requestDto.content());
     }
 
     @Override
-    public void deleteReply(Long articleId, Long replyId) {
-        articleRepository.findById(articleId)
-                .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
-        Reply reply = replyRepository.findByIdAndArticleId(replyId, articleId)
+    public void deleteReply(Long replyId) {
+        Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new ReplyException(ReplyErrorCode.REPLY_NOT_FOUND));
         reply.softDelete();
     }

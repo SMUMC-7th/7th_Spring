@@ -43,18 +43,17 @@ public class ReplyController {
     }
 
     @Operation(summary = "댓글 수정", description = "articleId에 해당하는 게시글의 특정 댓글(replyId)을 수정합니다.")
-    @PatchMapping("/{replyId}/articles/{articleId}")
+    @PatchMapping("/{replyId}")
     public CustomResponse<String> updateReply(@PathVariable Long replyId,
-                                              @PathVariable Long articleId,
                                               @RequestBody ReplyReqDto.UpdateReplyRequestDto requestDto) {
-        replyCommandService.updateReply(articleId, replyId, requestDto);
+        replyCommandService.updateReply(replyId, requestDto);
         return CustomResponse.onSuccess("댓글 수정이 완료되었습니다.");
     }
 
     @Operation(summary = "댓글 삭제", description = "articleId에 해당하는 게시글의 특정 댓글(replyId)을 삭제합니다. (소프트 삭제)")
-    @DeleteMapping("/{replyId}/articles/{articleId}")
-    public CustomResponse<String> deleteReply(@PathVariable Long replyId, @PathVariable Long articleId) {
-        replyCommandService.deleteReply(articleId, replyId);
+    @DeleteMapping("/{replyId}")
+    public CustomResponse<String> deleteReply(@PathVariable Long replyId) {
+        replyCommandService.deleteReply(replyId);
         return CustomResponse.onSuccess("댓글 삭제가 완료되었습니다.");
     }
 }
