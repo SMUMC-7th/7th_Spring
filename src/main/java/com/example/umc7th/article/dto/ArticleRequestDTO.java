@@ -18,4 +18,15 @@ public class ArticleRequestDTO {
                     .build();
         }
     }
+
+    @Getter
+    public static class UpdateArticleDTO {
+        private String title;
+        private String content;
+    }
+
+    @Getter
+    public static class DeleteArticleDTO {
+        private String id;
+    }
 }

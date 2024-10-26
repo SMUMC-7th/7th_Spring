@@ -50,7 +50,6 @@ public class ArticleResponseDTO {
         }
     }
 
-
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -64,4 +63,51 @@ public class ArticleResponseDTO {
                     .build();
         }
     }
+
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    public static class UpdateArticleResponseDTO {
+        private Long id;
+        private LocalDateTime updatedAt;
+
+        public static UpdateArticleResponseDTO from(Article article) {
+            return UpdateArticleResponseDTO.builder()
+                    .id(article.getId())
+                    .updatedAt(article.getUpdatedAt())
+                    .build();
+        }
+
+    }
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    public static class DeleteArticleResponseDTO {
+        private Long id;
+
+        public static DeleteArticleResponseDTO from(Article article) {
+            return DeleteArticleResponseDTO.builder()
+                    .id(article.getId())
+                    .build();
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    public static class LikeNumResponseDTO {
+        private Long id;
+        private int likeNum;
+
+        public static LikeNumResponseDTO from(Article article) {
+            return LikeNumResponseDTO.builder()
+                    .id(article.getId())
+                    .likeNum(article.getLikeNum())
+                    .build();
+        }
+    }
+
 }
