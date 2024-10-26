@@ -1,17 +1,16 @@
 package com.example.umc7th.domain.article.service.query;
 
 import com.example.umc7th.domain.article.entity.Article;
+import com.example.umc7th.domain.article.enums.ArticleSearchQuery;
 import com.example.umc7th.domain.article.exception.ArticleErrorCode;
 import com.example.umc7th.domain.article.exception.ArticleException;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,11 +20,24 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     private final ArticleRepository articleRepository;
 
     @Override
-    public List<Article> getArticles() {
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Article> article = articleRepository.findAllByOrderByCreatedAtDesc(pageable);
+    public Slice<Article> getArticles(String query, Long cursor, Integer offset) {
+        Pageable pageable = PageRequest.of(0, offset);
+        if (query.equals(ArticleSearchQuery.ID.name())) {
+            if (cursor.equals(0L)) {
+                return articleRepository.findAllByOrderByIdDesc(pageable);
+            }
+            return articleRepository.findAllByIdLessThanOrderByIdDesc(cursor, pageable);
+        }
+        else if (query.equals(ArticleSearchQuery.LIKE.name())) {
+            if (cursor.equals(0L)) {
+                return articleRepository.findAllByOrderByLikeNumDescIdDesc(pageable);
+            }
+            return articleRepository.findAllByOrderByLikeWithCursor(cursor, pageable);
+        }
+        else {
+            throw new ArticleException(ArticleErrorCode.UNSUPPORTED_QUERY);
+        }
 
-        return article.getContent();
     }
 
     @Override

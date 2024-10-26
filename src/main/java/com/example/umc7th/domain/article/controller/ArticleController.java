@@ -7,11 +7,12 @@ import com.example.umc7th.domain.article.service.command.ArticleCommandService;
 import com.example.umc7th.domain.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,8 +38,14 @@ public class ArticleController {
 
     @GetMapping("/articles")
     @Operation(summary = "게시글 전체 조회 API", description = "게시글 전체 조회하는 API")
-    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
-        List<Article> articles = articleQueryService.getArticles();
+    @Parameters({
+            @Parameter(name = "cursor", description = "커서 값, 처음이면 0"),
+            @Parameter(name = "query", description = "쿼리 LIKE, ID")
+    })
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles(@RequestParam(value = "query", defaultValue = "LIKE")String query,
+                                                                                @RequestParam("cursor") Long cursor,
+                                                                                @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
+        Slice<Article> articles = articleQueryService.getArticles(query, cursor, offset);
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
 

@@ -2,6 +2,7 @@ package com.example.umc7th.domain.article.dto;
 
 import com.example.umc7th.domain.article.entity.Article;
 import lombok.*;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,6 +33,7 @@ public class ArticleResponseDTO {
         private Long id;
         private String title;
         private String content;
+        private int likeNum;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
 
@@ -40,6 +42,7 @@ public class ArticleResponseDTO {
                     .id(article.getId())
                     .title(article.getTitle())
                     .content(article.getContent())
+                    .likeNum(article.getLikeNum())
                     .createdAt(article.getCreatedAt())
                     .updatedAt(article.getUpdatedAt())
                     .build();
@@ -52,9 +55,13 @@ public class ArticleResponseDTO {
     @Builder
     public static class ArticlePreviewListDTO {
         private List<ArticlePreviewDTO> articles;
-        public static ArticlePreviewListDTO from(List<Article> articles) {
+        private boolean hasNext;
+        private Long cursor;
+        public static ArticlePreviewListDTO from(Slice<Article> articles) {
             return ArticlePreviewListDTO.builder()
-                    .articles(articles.stream().map(ArticlePreviewDTO::from).toList())
+                    .articles(articles.getContent().stream().map(ArticlePreviewDTO::from).toList())
+                    .hasNext(articles.hasNext())
+                    .cursor(articles.getContent().get(articles.getContent().size() - 1).getId())
                     .build();
         }
     }
