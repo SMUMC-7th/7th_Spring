@@ -1,5 +1,6 @@
 package com.example.umc7th.entity;
 
+import com.example.umc7th.dto.request.ReplyRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,8 @@ public class Reply extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_id")
     private Article article;
+
+    public void update(ReplyRequestDto.UpdateReplyRequestDto dto){
+        content = dto.getContent();
+    }
 }

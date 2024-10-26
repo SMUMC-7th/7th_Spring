@@ -38,7 +38,7 @@ public class ReplyController {
         return CustomResponse.onSuccess(GeneralSuccessCode.CREATED_201, result);
     }
 
-    @GetMapping("/replies")
+    @GetMapping("/articles/replies")
     @Operation(method = "GET",
             summary = "댓글 전체 조회 API",
             description = "게시글과 상관없이 전체 댓글들을 ReplyResponseDto 리스트형태로 반환합니다.")
@@ -47,12 +47,31 @@ public class ReplyController {
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, replyResponseDtos);
     }
 
-    @GetMapping("/replies/{replyId}")
+    @GetMapping("/articles/replies/{replyId}")
     @Operation(method = "GET",
             summary = "단일 댓글 조회 API",
             description = "replyId에 해당하는 댓글을 단일 조회합니다.")
     public CustomResponse<ReplyResponseDto.ReplyPreviewDto> getReplies(@PathVariable("replyId") Long replyId){
         ReplyResponseDto.ReplyPreviewDto replyResponseDto = replyQueryService.getReply(replyId);
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, replyResponseDto);
+    }
+
+    @PutMapping("/articles/replies/{replyId}")
+    @Operation(method = "PUT",
+            summary = "댓글 수정 API",
+            description = "replyId에 해당하는 댓글을 수정합니다.")
+    public CustomResponse<ReplyResponseDto.ReplyPreviewDto> updateReply(@PathVariable Long replyId,
+                                                                        @RequestBody ReplyRequestDto.UpdateReplyRequestDto dto){
+        ReplyResponseDto.ReplyPreviewDto result = replyCommandService.updateReply(replyId, dto);
+        return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, result);
+    }
+
+    @DeleteMapping("/articles/replies/{replyId}")
+    @Operation(method = "DELETE",
+            summary = "댓글 삭제 API",
+            description = "replyId에 해당하는 댓글을 삭제합니다.")
+    public CustomResponse<String> deleteReply(@PathVariable Long replyId){
+        replyCommandService.deleteReply(replyId);
+        return CustomResponse.onSuccess(GeneralSuccessCode.NO_CONTENT_204, "해당 댓글이 삭제되었습니다.");
     }
 }
