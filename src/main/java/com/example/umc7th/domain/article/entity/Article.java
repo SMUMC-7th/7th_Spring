@@ -34,7 +34,12 @@ public class Article extends Time {
     @OneToMany(mappedBy = "article")
     private List<Reply> replies;
 
-    public void updateArticle(ArticleRequestDTO.UpdateArticleDTO dto) {
-        this.content = dto.getContent();
+    public void updateArticle(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void increaseLike() {
+        this.likeNum++;
     }
 }
