@@ -71,4 +71,11 @@ public class ArticleController {
         Article updatedArticle = articleCommandService.updateLikeNum(articleId);
         return CustomResponse.onSuccess(ArticleResponseDTO.LikeNumResponseDTO.from(updatedArticle));
     }
+
+    @GetMapping("/articles/{articleId}/hasReplies")
+    @Operation(summary = "댓글 존재 여부 확인 API", description = "article에 댓글이 존재하는지 확인하는 api")
+    public CustomResponse<Boolean> hasReplies(@PathVariable("articleId") Long articleId) {
+        boolean hasReplies = articleQueryService.hasReplies(articleId);
+        return CustomResponse.onSuccess(hasReplies);
+    }
 }

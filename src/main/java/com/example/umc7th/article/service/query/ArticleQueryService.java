@@ -8,4 +8,5 @@ import java.util.List;
 public interface ArticleQueryService {
     Article getArticle(Long id);
     List<Article> getArticles();
+    boolean hasReplies(Long articleId);
 }

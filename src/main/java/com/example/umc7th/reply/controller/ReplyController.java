@@ -9,6 +9,8 @@ import com.example.umc7th.reply.service.query.ReplyQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,4 +58,16 @@ public class ReplyController {
         replyCommandService.deleteReply(deleteReply.getId());
         return CustomResponse.onSuccess(ReplyResponseDTO.DeleteReplyResponseDTO.from(deleteReply));
     }
+
+    @GetMapping("/article/{articleId}/replies")
+    @Operation(summary = "댓글 offset 페이지네이션 API", description = "댓글 offset 페이지네이션")
+    public CustomResponse<ReplyResponseDTO.ReplyPagePreviewListDTO> getRepliesByArticle(
+            @PathVariable("articleId") Long articleId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "3") int size ) {
+//        PageRequest pageRequest = PageRequest.of(page, size); // 이렇게 PageRequest에 담아서 요청을 보낼 수 있음!
+        Page<Reply> replies = replyQueryService.getRepliesByArticleId(articleId, page, size);
+        return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPagePreviewListDTO.from(replies));
+    }
+
 }

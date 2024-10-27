@@ -4,6 +4,7 @@ import com.example.umc7th.article.entity.Article;
 import com.example.umc7th.article.exception.ArticleErrorCode;
 import com.example.umc7th.article.exception.ArticleException;
 import com.example.umc7th.article.repository.ArticleRepository;
+import com.example.umc7th.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ArticleQueryServiceImpl implements ArticleQueryService{
 
     private final ArticleRepository articleRepository;
+    private final ReplyRepository replyRepository;
 
 
     @Override
@@ -28,5 +30,10 @@ public class ArticleQueryServiceImpl implements ArticleQueryService{
     @Override
     public List<Article> getArticles() {
         return articleRepository.findAll();
+    }
+
+    @Override
+    public boolean hasReplies(Long articleId) {
+        return replyRepository.existsByArticleId(articleId);
     }
 }

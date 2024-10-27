@@ -7,6 +7,9 @@ import com.example.umc7th.reply.exception.ReplyException;
 import com.example.umc7th.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,5 +35,11 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     @Override
     public List<Reply> getReplies() {
         return replyRepository.findAll();
+    }
+
+    @Override
+    public Page<Reply> getRepliesByArticleId(Long articleId, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return replyRepository.findAllByArticleIdOrderByCreatedAtDesc(articleId, pageable);
     }
 }
