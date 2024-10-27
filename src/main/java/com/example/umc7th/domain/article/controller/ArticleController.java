@@ -38,9 +38,31 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
+    @Operation(summary = "게시글 전체 조회 API", description = "게시글 전체를 조회하는 API")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
 
         List<Article> articles = articleQueryService.getArticles();
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
+    }
+
+    @PutMapping("/articles/{articleId}")
+    @Operation(summary = "게시글 업데이트 API", description = "게시글 업데이트 하는 API")
+    public CustomResponse<ArticleResponseDTO.ArticleUpdateDTO> updateArticle(
+            @PathVariable("articleId") Long articleId,
+            @RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
+
+        // 새로운 content 업데이트 필요
+        Article article = articleCommandService.updateArticle(articleId, dto);
+
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticleUpdateDTO.from(article));
+    }
+
+    @DeleteMapping("/articles/{articleId}")
+    @Operation(summary = "게시글 삭제 API", description = "게시글 삭제하는 API")
+    public CustomResponse<?> deleteArticle(@PathVariable("articleId") Long articleId) {
+
+        articleCommandService.deleteArticle(articleId);
+
+        return CustomResponse.onSuccess("articleId = " + articleId + "삭제했습니다.");
     }
 }

@@ -60,4 +60,28 @@ public class ArticleResponseDTO {
                     .articles(articles.stream().map(ArticlePreviewDTO::from).toList()).build();
         }
     }
+
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    public static class ArticleUpdateDTO {
+
+        private Long id;
+        private String title;
+        private String content;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+
+        public static ArticleUpdateDTO from(Article article) {
+            return ArticleUpdateDTO.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .createdAt(article.getCreatedAt())
+                    .updatedAt(article.getUpdatedAt())
+                    .build();
+        }
+
+    }
 }

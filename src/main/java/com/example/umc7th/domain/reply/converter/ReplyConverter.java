@@ -38,4 +38,13 @@ public class ReplyConverter {
                 .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
                 .build();
     }
+
+    public static ReplyResponseDTO.UpdateReplyResponseDTO toUpdateReplyResponseDTO(Reply reply) {
+        return ReplyResponseDTO.UpdateReplyResponseDTO.builder()
+                .id(reply.getId())
+                .content(reply.getContent())
+                .updatedAt(reply.getUpdatedAt())
+                .articleId(reply.getArticle().getId())
+                .build();
+    }
 }
