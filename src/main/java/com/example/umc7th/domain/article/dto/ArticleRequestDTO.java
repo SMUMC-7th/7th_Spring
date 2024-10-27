@@ -22,6 +22,6 @@ public class ArticleRequestDTO {
     @Getter
     public static class UpdateArticleDTO {
         private String content;
-
+        private String title;
     }
 }

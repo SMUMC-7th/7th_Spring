@@ -46,5 +46,6 @@ public class ReplyResponseDTO {
         private String content;
         private Long articleId;
         private LocalDateTime updatedAt;
+        private LocalDateTime createdAt;
     }
 }

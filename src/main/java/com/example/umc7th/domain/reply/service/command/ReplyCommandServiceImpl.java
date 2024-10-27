@@ -34,22 +34,24 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     }
 
     @Override
-    public ReplyResponseDTO.UpdateReplyResponseDTO updateReply(Long id, ReplyRequestDTO.UpdateReplyDTO dto) {
+    public Reply updateReply(Long id, ReplyRequestDTO.UpdateReplyDTO dto) {
 
         Reply reply = replyRepository.findById(id).orElseThrow(() ->
                 new ReplyException(ReplyErrorCode.NOT_FOUND)); // 영속 상태 엔티티 가져옴
 
-        reply.update(dto); // 영속 상태 엔티티 내용 변경
-        return ReplyConverter.toUpdateReplyResponseDTO(reply);
+        reply.update(dto.getContent()); // 영속 상태 엔티티 내용 변경
+        return reply;
     }
 
     @Override
-    public void deleteReply(Long id) {
+    public Long deleteReply(Long id) {
 
         replyRepository.findById(id).orElseThrow(() ->
                 new ReplyException(ReplyErrorCode.NOT_FOUND));
 
         replyRepository.deleteById(id);
+
+        return id;
     }
 
 

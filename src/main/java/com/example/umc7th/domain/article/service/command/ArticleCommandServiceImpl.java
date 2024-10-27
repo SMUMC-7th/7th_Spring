@@ -23,19 +23,28 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
     }
 
     @Override
-    public ArticleResponseDTO.ArticleUpdateDTO updateArticle(Long articleId, ArticleRequestDTO.UpdateArticleDTO dto) {
+    public Article updateArticle(Long articleId, ArticleRequestDTO.UpdateArticleDTO dto) {
 
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
 
-        article.updateArticle(dto);
+        article.updateArticle(dto.getTitle(), dto.getContent());
 
-        return ArticleResponseDTO.ArticleUpdateDTO.from(article);
+        return article;
     }
 
     @Override
-    public void deleteById(Long id) {
-        articleRepository.deleteById(id);
+    public Article increaseLike(Long id) {
+
+        Article article = articleRepository.findById(id).orElseThrow(
+                () -> new ArticleException(ArticleErrorCode.NOT_FOUND));
+        article.increaseLike();
+
+        return article;
     }
 
+    @Override
+    public void deleteArticle(Long id) {
+        articleRepository.deleteById(id);
+    }
 }

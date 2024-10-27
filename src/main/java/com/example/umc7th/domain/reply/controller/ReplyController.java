@@ -53,17 +53,17 @@ public class ReplyController {
     public CustomResponse<ReplyResponseDTO.UpdateReplyResponseDTO> updateReply
             (@PathVariable("replyId") Long replyId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
 
-        ReplyResponseDTO.UpdateReplyResponseDTO updatedDto = replyCommandService.updateReply(replyId, dto);
-
-        return CustomResponse.of(GeneralSuccessCode.SUCCESS_200, updatedDto);
+//        ReplyResponseDTO.UpdateReplyResponseDTO updatedDto = replyCommandService.updateReply(replyId, dto);
+        Reply reply = replyCommandService.updateReply(replyId, dto);
+        return CustomResponse.onSuccess(ReplyConverter.toUpdateReplyResponseDTO(reply));
     }
 
     @DeleteMapping("/replies/{replyId}")
     @Operation(summary = "댓글 삭제 API", description = "댓글 삭제하는 API")
     public CustomResponse<?> deleteReply(@PathVariable("replyId") Long replyId) {
 
-        replyCommandService.deleteReply(replyId);
-
-        return CustomResponse.of(GeneralSuccessCode.SUCCESS_200, "id = " + replyId + "삭제 완료");
+        Long id = replyCommandService.deleteReply(replyId);
+        return CustomResponse.onSuccess(replyCommandService.deleteReply(id));
     }
+
 }

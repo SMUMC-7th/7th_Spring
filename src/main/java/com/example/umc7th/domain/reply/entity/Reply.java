@@ -28,7 +28,7 @@ public class Reply extends Time {
     @JoinColumn(name = "article_id")
     private Article article;
 
-    public void update(ReplyRequestDTO.UpdateReplyDTO dto) {
-        this.content = dto.getContent();
+    public void update(String content) {
+        this.content = content;
     }
 }

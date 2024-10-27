@@ -51,12 +51,8 @@ public class ArticleController {
             @PathVariable("articleId") Long articleId,
             @RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
 
-        // article 찾고
-        Article article = articleQueryService.getArticle(articleId);
-
         // 새로운 content 업데이트 필요
-
-        ArticleResponseDTO.ArticleUpdateDTO updateDTO = articleCommandService.updateArticle(articleId, dto);
+        Article article = articleCommandService.updateArticle(articleId, dto);
 
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticleUpdateDTO.from(article));
     }
@@ -65,7 +61,7 @@ public class ArticleController {
     @Operation(summary = "게시글 삭제 API", description = "게시글 삭제하는 API")
     public CustomResponse<?> deleteArticle(@PathVariable("articleId") Long articleId) {
 
-        articleCommandService.deleteById(articleId);
+        articleCommandService.deleteArticle(articleId);
 
         return CustomResponse.onSuccess("articleId = " + articleId + "삭제했습니다.");
     }

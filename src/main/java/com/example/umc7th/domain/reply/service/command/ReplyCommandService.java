@@ -9,7 +9,7 @@ public interface ReplyCommandService {
 
     Reply createReply(ReplyRequestDTO.CreateReplyDTO dto);
 
-    ReplyResponseDTO.UpdateReplyResponseDTO updateReply(Long id, ReplyRequestDTO.UpdateReplyDTO dto);
+    Reply updateReply(Long id, ReplyRequestDTO.UpdateReplyDTO dto);
 
-    void deleteReply(Long id);
+    Long deleteReply(Long id);
 }
