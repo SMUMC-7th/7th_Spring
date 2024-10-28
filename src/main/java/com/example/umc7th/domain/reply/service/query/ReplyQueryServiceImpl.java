@@ -5,6 +5,8 @@ import com.example.umc7th.domain.reply.exception.ReplyErrorCode;
 import com.example.umc7th.domain.reply.exception.ReplyException;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,4 +29,10 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     public List<Reply> getReplies() {
         return replyRepository.findAll();
     }
+    @Override
+    public Page<Reply> getRepliesByArticleId(Long articleId, Pageable pageable) {
+        return replyRepository.findAllByArticleIdOrderByCreatedAtDesc(articleId, pageable);
+    }
+
+
 }

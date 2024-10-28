@@ -10,6 +10,9 @@ import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,15 +46,18 @@ public class ReplyController {
     }
 
     @PutMapping("/{replyId")
+    @Operation(summary = "댓글 수정 API", description = "댓글 수정하는 API")
     public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> updateReply(@PathVariable("replyId") Long replyId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
         Reply reply = replyCommandService.updateReply(replyId, dto);
         return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewDTO.from(reply));
     }
 
     @DeleteMapping("/{replyId}")
+    @Operation(summary = "댓글 삭제 API", description = "댓글 삭제하는 API")
     public CustomResponse<Long> deleteReply(@PathVariable("replyId") Long replyId) {
         Long id =replyCommandService.deleteReply(replyId);
         return CustomResponse.onSuccess(id);
     }
+
 
 }

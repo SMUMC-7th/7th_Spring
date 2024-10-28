@@ -7,6 +7,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -58,6 +59,25 @@ public class ReplyResponseDTO {
         public static ReplyResponseDTO.ReplyPreviewListDTO from(List<Reply> replies) {
             return ReplyPreviewListDTO.builder()
                     .replies(replies.stream().map(ReplyPreviewDTO::from).toList())
+                    .build();
+        }
+    }
+    @Builder
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class ReplyPreviewPageDTO {
+        private List<ReplyPreviewDTO> replies;
+        private int numOfRows;
+        private int pageNo;
+        private long totalCount;
+
+        public static ReplyResponseDTO.ReplyPreviewPageDTO from(Page<Reply> replies) {
+            return ReplyPreviewPageDTO.builder()
+                    .replies(replies.getContent().stream().map(ReplyPreviewDTO::from).toList())
+                    .numOfRows(replies.getSize())
+                    .pageNo(replies.getNumber())
+                    .totalCount(replies.getTotalElements())
                     .build();
         }
     }
