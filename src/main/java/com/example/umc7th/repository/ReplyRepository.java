@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
     boolean existsByArticle(Article article);
 
-    @Query("SELECT r FROM Reply r WHERE r.article = :article ORDER BY r.created_at DESC")
+    @Query("SELECT r FROM Reply r WHERE r.article = :article ORDER BY r.created_at ASC")
     Page<Reply> findAllBy(Pageable pageable, Article article);
 }
