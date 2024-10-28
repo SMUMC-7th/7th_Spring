@@ -9,8 +9,11 @@ import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 // RestController 명시
@@ -77,5 +80,17 @@ public class ArticleController {
     public CustomResponse<Boolean> hasReplies(@PathVariable("articleId") Long articleId) {
         boolean hasReplies = articleQueryService.hasReplies(articleId);
         return CustomResponse.onSuccess(hasReplies);
+    }
+
+    @GetMapping("/articles/page")
+    @Operation(summary = "커서 기반 페이지네이션 API", description = "article 커서 기반 페이지네이션 API")
+    public CustomResponse<ArticleResponseDTO.ArticlePagePreviewListDTO> getArticlesByCursor(
+            @RequestParam(value = "cursor", required = false)LocalDateTime cursor,
+            @RequestParam(value = "size", defaultValue = "3") int size) {
+
+        LocalDateTime cursorToUse = (cursor == null) ? LocalDateTime.now() : cursor;
+        Slice<Article> articles = articleQueryService.getArticlesByCursor(cursorToUse, size);
+
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePagePreviewListDTO.from(articles));
     }
 }
