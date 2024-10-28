@@ -48,4 +48,15 @@ public class ReplyResponseDTO {
         private LocalDateTime updatedAt;
         private LocalDateTime createdAt;
     }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class ReplyPageListDTO {
+        private List<ReplyPreviewDTO> replies;
+        private int rows;
+        private int pageNumber;
+        private Long count;
+    }
 }

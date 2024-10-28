@@ -4,6 +4,7 @@ import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -45,6 +46,15 @@ public class ReplyConverter {
                 .content(reply.getContent())
                 .updatedAt(reply.getUpdatedAt())
                 .articleId(reply.getArticle().getId())
+                .build();
+    }
+
+    public static ReplyResponseDTO.ReplyPageListDTO toReplyPageListDTO(Page<Reply> replyPage) {
+        return ReplyResponseDTO.ReplyPageListDTO.builder()
+                .replies(replyPage.getContent().stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .rows(replyPage.getSize()) // 한 페이지 볼 수 있는 양
+                .pageNumber(replyPage.getNumber()) // 현재 페이지 넘버
+                .count(replyPage.getTotalElements()) // 총 개수
                 .build();
     }
 }
