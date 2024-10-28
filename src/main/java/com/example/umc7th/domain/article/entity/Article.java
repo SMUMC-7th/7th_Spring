@@ -38,14 +38,14 @@ public class Article extends BaseEntity {
     private List<Reply> replies;
 
     //게시글 수정
-    public void update(ArticleRequestDTO.UpdateArticleRequestDTO dto){
-        title = dto.title();
-        content = dto.content();
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
     }
 
     //좋아요 수정
     public void updateLikenum(){
-            likeNum += 1;
+            this.likeNum += 1;
     }
 
     //삭제

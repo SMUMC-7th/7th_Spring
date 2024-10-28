@@ -24,10 +24,10 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
     }
 
     @Override
-    public ArticleResponseDTO.ArticlePreviewDTO updateArticle(Long articleId,ArticleRequestDTO.UpdateArticleRequestDTO requestDTO){
+    public ArticleResponseDTO.ArticlePreviewDTO updateArticle(Long articleId,ArticleRequestDTO.UpdateArticleRequestDTO dto){
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(()->new ArticleException(ArticleErrorCode.NOT_FOUND));
-        article.update(requestDTO);
+        article.update(dto.title(), dto.content());
         return ArticleConverter.from(article);
     }
 
@@ -44,5 +44,7 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
         article.softDelete();
+        //articleRepository.deleteById(id);
+        //id 반환할 수도 있음 => 취향차이
     }
 }

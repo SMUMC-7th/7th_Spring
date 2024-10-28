@@ -10,6 +10,9 @@ import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,13 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
         List<Reply> replies = replyRepository.findByArticleAndActiveTrue(article);
         return ReplyConverter.fromList(replies);
 
+    }
+
+    @Override
+    public ReplyResponseDTO.ResponsePagePreviewDto getRepliesByArticleId(Long articleId, int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo,pageSize);
+        Page<Reply> replies = replyRepository.findAllByArticleIdOrderByCreatedAtDesc(articleId,pageable);
+        return ReplyConverter.from(replies);
     }
 
 }
