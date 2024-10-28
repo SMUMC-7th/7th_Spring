@@ -2,6 +2,7 @@ package com.example.umc7th.global.apiPayload;
 
 import com.example.umc7th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc7th.global.apiPayload.code.BaseSuccessCode;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AccessLevel;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL) // null 값인 필드를 JSON 응답에 포함하지 않음
 public class CustomResponse<T> {
     @JsonProperty("isSuccess")
     private boolean isSuccess;

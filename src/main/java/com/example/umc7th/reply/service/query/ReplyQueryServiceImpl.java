@@ -26,5 +26,4 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
         }
         return replyRepository.findAllByArticleId(articleId);
     }
-
 }
