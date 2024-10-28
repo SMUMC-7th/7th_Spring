@@ -2,6 +2,7 @@ package com.example.umc7th.domain.article.dto;
 
 import com.example.umc7th.domain.article.entity.Article;
 import lombok.*;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -83,5 +84,33 @@ public class ArticleResponseDTO {
                     .build();
         }
 
+    }
+
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    public static class ArticlePagePreviewListDTO {
+
+        List<ArticlePreviewDTO> articleList;
+        private Long nextCursorId; // 다음 시작점이 되는 커서 ID
+
+        public static ArticlePagePreviewListDTO from(Slice<Article> articles) {
+
+            List<ArticlePreviewDTO> articleList = articles.getContent()
+                    .stream()
+                    .map(ArticlePreviewDTO::from)
+                    .toList();
+
+            Long nextCursorId = articles.hasNext()
+                    ? articles.getContent()
+                    .get(articles.getNumberOfElements() - 1)
+                    .getId() : null;
+
+            return ArticlePagePreviewListDTO.builder()
+                    .articleList(articleList)
+                    .nextCursorId(nextCursorId)
+                    .build();
+        }
     }
 }
