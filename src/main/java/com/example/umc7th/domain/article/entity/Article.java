@@ -26,6 +26,17 @@ public class Article extends BaseEntity {
     @Column(name = "like_num")
     private int likeNum;
 
-    @OneToMany(mappedBy = "article")
+    // CascadeType.ALL -> Article을 삭제하면 그와 연관된 모든 Reply도 자동으로 삭제
+    // orphanRemoval = true 고아 객체 삭제
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replies;
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void updateLikeNum() {
+        this.likeNum++;
+    }
 }

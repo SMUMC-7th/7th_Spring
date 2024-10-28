@@ -34,4 +34,19 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "article_id")
     private Article article;
 
+    @Column(name = "active")
+    @Builder.Default() // builder 패턴 사용 시 값을 지정하지 않으면 기본 값으로 true를 넣는다.
+    private boolean active = true;
+
+    public void update(String content) {
+        this.content = content;
+    }
+
+    public void softDelete() {
+        this.active = false;
+    }
+
+    public boolean isActivated() {
+        return active;
+    }
 }
