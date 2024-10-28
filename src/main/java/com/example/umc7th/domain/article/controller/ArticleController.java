@@ -97,7 +97,7 @@ public class ArticleController {
     }
 
 
-    @GetMapping("/paged")
+    @GetMapping("/titles")
     @Operation(summary = "게시글 제목 검색, 페이징 API", description = "게시글을 제목으로 검색하여 cursor 페이징방식으로 게시글 조회하는 API")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewSliceDTO> getArticlesContainTitle(
             @RequestParam(value = "title") String title,
