@@ -5,5 +5,8 @@ import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
 
 public interface ArticleCommandService {
-    ArticleResponseDTO.CreateArticleResponseDto createArticle(ArticleRequestDTO.CreateArticleRequestDTO requestDTO);
+    ArticleResponseDTO.ArticlePreviewDTO createArticle(ArticleRequestDTO.CreateArticleRequestDTO requestDTO);
+    ArticleResponseDTO.ArticlePreviewDTO updateArticle(Long articleId,ArticleRequestDTO.UpdateArticleRequestDTO requestDTO);
+    ArticleResponseDTO.ArticlePreviewDTO updateArticleLikenum(Long articleId);
+    void deleteArticle(Long articleId);
 }

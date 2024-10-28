@@ -18,22 +18,24 @@ public class ReplyConverter {
         return Reply.builder()
                 .article(article)
                 .content(requestDto.content())
+                .active(true)
                 .build();
     }
 
     //Entity -> DTO
-    public static ReplyResponseDTO.CreateReplyResponseDto from(Reply reply){
-        return ReplyResponseDTO.CreateReplyResponseDto.builder()
+    public static ReplyResponseDTO.ResponsePreviewDto from(Reply reply){
+        return ReplyResponseDTO.ResponsePreviewDto.builder()
                 .id(reply.getId())
                 .articleId(reply.getArticle().getId())
                 .content(reply.getContent())
                 .createdAt(reply.getCreatedAt())
                 .updatedAt(reply.getUpdatedAt())
+                .active(reply.isActive())
                 .build();
     }
 
     //Entity리스트 -> DTO리스트
-    public static List<ReplyResponseDTO.CreateReplyResponseDto> fromList(List<Reply> replies){
+    public static List<ReplyResponseDTO.ResponsePreviewDto> fromList(List<Reply> replies){
         return replies.stream()
                 .map(ReplyConverter::from)
                 .collect(Collectors.toList());

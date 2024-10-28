@@ -5,5 +5,7 @@ import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
 
 public interface ReplyCommandService {
-    ReplyResponseDTO.CreateReplyResponseDto createReply(ReplyRequestDTO.CreateReplyDTO requestDTO);
+    ReplyResponseDTO.ResponsePreviewDto createReply(ReplyRequestDTO.CreateReplyDTO requestDTO);
+    ReplyResponseDTO.ResponsePreviewDto updateReply(Long replyId, ReplyRequestDTO.UpdateReplyDTO dto);
+    void deleteReply(Long replyId);
 }

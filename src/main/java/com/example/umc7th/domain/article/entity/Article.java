@@ -1,9 +1,11 @@
 package com.example.umc7th.domain.article.entity;
 
+import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.List;
@@ -27,9 +29,27 @@ public class Article extends BaseEntity {
     private String content;
 
     @Column(name = "like_num")
-    private int likeNum;
+    private Integer likeNum;
+
+    @Column(name = "active")
+    private boolean active=true;
 
     @OneToMany(mappedBy = "article")
     private List<Reply> replies;
 
+    //게시글 수정
+    public void update(ArticleRequestDTO.UpdateArticleRequestDTO dto){
+        title = dto.title();
+        content = dto.content();
+    }
+
+    //좋아요 수정
+    public void updateLikenum(){
+            likeNum += 1;
+    }
+
+    //삭제
+    public void softDelete(){
+        this.active = false;
+    }
 }
