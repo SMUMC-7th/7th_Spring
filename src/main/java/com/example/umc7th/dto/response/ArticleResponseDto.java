@@ -31,4 +31,14 @@ public class ArticleResponseDto {
     public static class ArticlePreviewListDto {
         private List<ArticlePreviewDto> articles;
     }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Builder
+    public static class ArticlePagePreviewListDto {
+        private List<ArticlePreviewDto> articles;
+        private boolean hasNext;
+        private Long cursor;
+    }
 }

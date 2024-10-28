@@ -1,7 +1,9 @@
 package com.example.umc7th.controller;
 
+import com.example.umc7th.converter.ArticleConverter;
 import com.example.umc7th.dto.request.ArticleRequestDto;
 import com.example.umc7th.dto.response.ArticleResponseDto;
+import com.example.umc7th.entity.Article;
 import com.example.umc7th.global.apipayload.CustomResponse;
 import com.example.umc7th.global.apipayload.success.GeneralSuccessCode;
 import com.example.umc7th.service.command.ArticleCommandService;
@@ -9,6 +11,8 @@ import com.example.umc7th.service.query.ArticleQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,6 +22,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/articles")
+@Slf4j
 @Tag(name = "게시글 API", description = "게시글 관련 API")
 public class ArticleController {
 
@@ -55,6 +60,20 @@ public class ArticleController {
         ArticleResponseDto.ArticlePreviewListDto articleResponseDtos = articleQueryService.getArticles();
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, articleResponseDtos);
     }
+
+    @GetMapping("/page")
+    @Operation(method = "GET",
+            summary = "게시글 페이지 조회 API",
+            description = "")
+    public CustomResponse<ArticleResponseDto.ArticlePagePreviewListDto> getArticlesPage(
+            @RequestParam(defaultValue = "0") Long cursor, // 초기 커서는 0 (Long 타입)
+            @RequestParam(defaultValue = "10") int pageSize // 페이지 사이즈 기본값
+    ) {
+        Slice<Article> page = articleQueryService.getArticlesPage(cursor, pageSize);
+        ArticleResponseDto.ArticlePagePreviewListDto result = ArticleConverter.from(page);
+        return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, result);
+    }
+
 
     @PutMapping("/{articleId}")
     @Operation(method = "PUT",

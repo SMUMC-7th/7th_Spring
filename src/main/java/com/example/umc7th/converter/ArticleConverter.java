@@ -3,6 +3,7 @@ package com.example.umc7th.converter;
 import com.example.umc7th.dto.request.ArticleRequestDto;
 import com.example.umc7th.dto.response.ArticleResponseDto;
 import com.example.umc7th.entity.Article;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -32,4 +33,16 @@ public class ArticleConverter {
                 .articles(articles.stream().map(ArticleConverter::from).toList())
                 .build();
     }
+
+    public static ArticleResponseDto.ArticlePagePreviewListDto from(Slice<Article> articles) {
+        return ArticleResponseDto.ArticlePagePreviewListDto.builder()
+                .articles(articles.stream().map(ArticleConverter::from).toList())
+                .hasNext(articles.hasNext())
+                .cursor(articles.isEmpty()
+                        ? 0L  // 비어있을 경우 기본값을 설정
+                        : articles.getContent().get(articles.getContent().size() - 1).getId() // 마지막 요소의 ID를 커서로 설정
+                )
+                .build();
+    }
+
 }
