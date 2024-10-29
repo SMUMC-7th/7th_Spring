@@ -2,9 +2,12 @@ package com.example.umc7th.domain.article.service.query;
 
 import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
+import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,4 +37,5 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     public boolean hasReply(Long id){
         return replyRepository.existsByArticleId(id);
     }
+
 }

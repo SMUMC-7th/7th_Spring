@@ -1,6 +1,10 @@
 package com.example.umc7th.domain.article.service.query;
 
 import com.example.umc7th.domain.article.entity.Article;
+import com.example.umc7th.domain.reply.entity.Reply;
+import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -10,4 +14,8 @@ public interface ArticleQueryService {
 
     //해당 게시물 댓글 존재 확인
     boolean hasReply(Long id);
+
+
+
 }
+
