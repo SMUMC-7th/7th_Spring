@@ -24,14 +24,6 @@ public class Reply extends BaseEntity {
 
     @Column(name = "content")
     private String content;
-    //createdAt, updatedAt 공통으로 묶어서 구현 ->BaseEntity
-//    @CreatedDate
-//    @Column(name = "created_at")
-//    private LocalDateTime createdAt;
-//
-//    @LastModifiedDate
-//    @Column(name = "updated_at")
-//    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_id")
@@ -42,7 +34,6 @@ public class Reply extends BaseEntity {
         this.content = content;
     }
     //댓글 삭제
-
     @Column(name = "active")
     @Builder.Default() // builder 패턴 사용 시 값을 지정하지 않으면 기본 값으로 true를 넣는다.
     private boolean active = true;

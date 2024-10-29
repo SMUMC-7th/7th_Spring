@@ -23,9 +23,9 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 //    @Query("SELECT r FROM Reply r WHERE r.article = :article ORDER BY r.createdAt DESC")
 //    List<Reply> findRepliesByArticleOrderByCreatedAtDescJPQL(@Param("article") Article article);
 
-    //댓글 존재 확인 JPQL 사용
-    @Query("SELECT COUNT(c) > 0 FROM Comment c WHERE c.article.id = :articleId")
-    boolean existsByArticleId(@Param("articleId") Long articleId);
+//    //댓글 존재 확인 JPQL 사용
+//    @Query("SELECT COUNT(c) > 0 FROM Reply r WHERE r.article.id = :articleId")
+//    boolean existsByArticleId(@Param("articleId") Long articleId);
 
     //댓글 offset기반 페이지네이션(생성날짜 기준): offset은 page<> 많이 사용
     @Query("SELECT r FROM Reply r WHERE r.article.id = :articleId AND r.id < :lastId ORDER BY r.createdAt DESC")

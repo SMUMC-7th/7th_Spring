@@ -38,7 +38,7 @@ public class ArticleController {
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(article));
     }
     //모든 게시물 조회(페이지네이션x=>false,false넘겨주기)
-    @GetMapping("")
+    @GetMapping("/all")
     @Operation(summary = "게시글 조회 API", description="게시글 전체 조회")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
         List<Article> articles = articleQueryService.getArticles();
@@ -65,13 +65,13 @@ public class ArticleController {
     //댓글 o 게시물 확인
     @GetMapping("/{articleId}/hasReply")
     @Operation(summary = "게시글 댓글 존재 확인 API", description="게시글 댓글 존재 확인")
-    public CustomResponse<Boolean> hasReply(@PathVariable("articelId") Long articleId){
+    public CustomResponse<Boolean> hasReply(@PathVariable Long articleId){
         boolean hasReply = articleQueryService.hasReply(articleId);
         return CustomResponse.onSuccess(hasReply);
     }
 
     //id기준 커서기반 페이지네이션
-    @GetMapping
+    @GetMapping("/cursorOrderById")
     @Operation(summary = "게시글 페이지네이션", description = "커서 기반 게시글 페이지네이션")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticlesAfterCursor(
             @RequestParam(required = false) Long cursorId,

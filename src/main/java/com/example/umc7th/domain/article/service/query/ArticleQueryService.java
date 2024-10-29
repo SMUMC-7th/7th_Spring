@@ -12,8 +12,8 @@ public interface ArticleQueryService {
 
     //해당 게시물 댓글 존재 확인
     boolean hasReply(Long id);
-    //커서기반 id기준 페이지네이션
 
+    //커서기반 id기준 페이지네이션
     Slice<Article> getArticlesAfterCursorById(Long cursorId, Pageable pageable);
 }
 

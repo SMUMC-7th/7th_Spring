@@ -18,7 +18,6 @@ import java.util.List;
 public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     private final ArticleRepository articleRepository;
-    private final ReplyRepository replyRepository;
 
     @Override
     public List<Article> getArticles() {
@@ -33,7 +32,7 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     }
     @Override
     public boolean hasReply(Long id){
-        return replyRepository.existsByArticleId(id);
+        return articleRepository.existsByArticleId(id);
     }
 
     @Override
