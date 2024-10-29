@@ -57,7 +57,7 @@ public class ReplyConverter {
         return ReplyResDto.ReplyPreviewListDto.builder()
                 .replies(replyDtos)
                 .numOfRows(replyPage.getNumberOfElements())
-                .pageNo(replyPage.getNumber())
+                .pageNo(replyPage.getNumber()+1)
                 .totalPage(replyPage.getTotalPages())
                 .build();
     }

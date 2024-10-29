@@ -40,10 +40,10 @@ public class ReplyController {
     @GetMapping("")
     public CustomResponse<ReplyResDto.ReplyPreviewListDto> getRepliesByArticle(
             @Parameter(description = "게시글 ID") @RequestParam Long articleId,
-            @Parameter(description = "페이지 번호") @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+            @Parameter(description = "페이지 번호") @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @Parameter(description = "페이지당 댓글 수") @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
-        ReplyResDto.ReplyPreviewListDto replies = replyQueryService.getRepliesByArticle(articleId, pageNo, pageSize);
+        ReplyResDto.ReplyPreviewListDto replies = replyQueryService.getRepliesByArticle(articleId, pageNo-1, pageSize);
         return CustomResponse.onSuccess(replies);
     }
 
