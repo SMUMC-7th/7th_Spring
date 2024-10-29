@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleResponseDTO {
@@ -59,9 +60,9 @@ public class ArticleResponseDTO {
         private Long cursor;
         public static ArticlePreviewListDTO from(Slice<Article> articles) {
             return ArticlePreviewListDTO.builder()
-                    .articles(articles.getContent().stream().map(ArticlePreviewDTO::from).toList())
+                    .articles(articles.getContent().isEmpty() ? new ArrayList<>(): articles.getContent().stream().map(ArticlePreviewDTO::from).toList())
                     .hasNext(articles.hasNext())
-                    .cursor(articles.getContent().get(articles.getContent().size() - 1).getId())
+                    .cursor(articles.getContent().isEmpty() ? 0 : articles.getContent().get(articles.getContent().size() - 1).getId())
                     .build();
         }
     }
