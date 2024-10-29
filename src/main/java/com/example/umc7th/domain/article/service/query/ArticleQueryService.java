@@ -14,4 +14,5 @@ public interface ArticleQueryService {
 
     Slice<Article> getArticlesOrderById(Long id, int size);
     Slice<Article> getArticlesOrderByCreatedAt(LocalDateTime cursor, int size);
+    Slice<Article> getArticlesOrderByLikeNum(String cursor, int size);
 }

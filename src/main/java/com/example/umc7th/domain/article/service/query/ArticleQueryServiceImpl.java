@@ -59,4 +59,10 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
         Pageable pageable = PageRequest.of(0, size);
         return articleRepository.findAllByCreatedAtLessThanOrderByCreatedAtDesc(cursor, pageable);
     }
+
+    @Override
+    public Slice<Article> getArticlesOrderByLikeNum(String cursor, int size) {
+        Pageable pageable = PageRequest.of(0, size);
+        return articleRepository.findByLikeNumCursor(cursor, pageable);
+    }
 }

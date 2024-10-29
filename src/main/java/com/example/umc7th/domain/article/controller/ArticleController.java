@@ -95,15 +95,37 @@ public class ArticleController {
         switch (sortCond) {
             case CREATED_AT:
                 articles = articleQueryService.getArticlesOrderByCreatedAt((cursor == null) ? LocalDateTime.now() : LocalDateTime.parse(cursor), size);
-                List<Article> content = articles.getContent();
-                cursor = content.get(content.size() - 1).getCreatedAt().toString();
+                break;
+            case LIKE_NUM:
+                articles = articleQueryService.getArticlesOrderByLikeNum((cursor == null) ? "99999999999999999999" : cursor, size);
                 break;
             default:
                 articles = articleQueryService.getArticlesOrderById((cursor == null) ? Long.MAX_VALUE : Long.parseLong(cursor), size);
-                List<Article> content1 = articles.getContent();
-                cursor = content1.get(content1.size() - 1).getId().toString();
+                break;
         }
 
-        return CustomResponse.onSuccess(ArticleConverter.toArticleCursorPreviewListDTO(articles, cursor));
+        String nextCursor = getCursor(sortCond, articles);
+
+        return CustomResponse.onSuccess(ArticleConverter.toArticleCursorPreviewListDTO(articles, nextCursor));
+    }
+
+    private String getCursor(ArticleSearchCond sortCond, Slice<Article> articles) {
+        String cursor;
+        List<Article> content = articles.getContent();
+
+        switch (sortCond) {
+            case CREATED_AT:
+                cursor = content.get(content.size() - 1).getCreatedAt().toString();
+                break;
+            case LIKE_NUM:
+                Article lastArticle = content.get(content.size() - 1);
+                cursor = String.format("%010d%010d", lastArticle.getLikeNum(), lastArticle.getId());
+                break;
+            default:
+                cursor = content.get(content.size() - 1).getId().toString();
+                break;
+        }
+
+        return cursor;
     }
 }
