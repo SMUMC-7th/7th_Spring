@@ -6,6 +6,7 @@ import com.example.umc7th.domain.reply.service.command.ReplyCommandService;
 import com.example.umc7th.domain.reply.service.query.ReplyQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +36,29 @@ public class ReplyController {
                 .body(CustomResponse.onSuccess(HttpStatus.CREATED, responseDto));
     }
 
+    @Operation(summary = "페이지 기반 댓글 조회", description = "게시글 ID에 따라 해당 게시글의 댓글 목록을 페이지 기반으로 조회합니다.")
+    @GetMapping("")
+    public CustomResponse<ReplyResDto.ReplyPreviewListDto> getRepliesByArticle(
+            @Parameter(description = "게시글 ID") @RequestParam Long articleId,
+            @Parameter(description = "페이지 번호") @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+            @Parameter(description = "페이지당 댓글 수") @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
+        ReplyResDto.ReplyPreviewListDto replies = replyQueryService.getRepliesByArticle(articleId, pageNo, pageSize);
+        return CustomResponse.onSuccess(replies);
+    }
+
     @Operation(summary = "게시글 별 댓글 조회", description = "articleId에 해당하는 게시글에 달린 모든 댓글을 조회합니다.")
     @GetMapping("/article/{articleId}")
     public CustomResponse<ReplyResDto.ReplyPreviewListDto> getRepliesByArticleId(@PathVariable Long articleId) {
         ReplyResDto.ReplyPreviewListDto replies = replyQueryService.getRepliesByArticle(articleId);
         return CustomResponse.onSuccess(replies);
+    }
+
+    @Operation(summary = "댓글 존재 여부 확인", description = "특정 게시글에 댓글이 있는지 확인합니다.")
+    @GetMapping("/{articleId}/has-replies")
+    public CustomResponse<String> hasReplies(@PathVariable Long articleId) {
+        boolean hasReplies = replyQueryService.hasReplies(articleId);
+        return CustomResponse.onSuccess("댓글 존재 여부 -> " + hasReplies);
     }
 
     @Operation(summary = "댓글 수정", description = "articleId에 해당하는 게시글의 특정 댓글(replyId)을 수정합니다.")

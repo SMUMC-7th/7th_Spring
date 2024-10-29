@@ -6,6 +6,7 @@ import com.example.umc7th.domain.reply.dto.response.ReplyResDto;
 import com.example.umc7th.domain.reply.entity.Reply;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +44,21 @@ public class ReplyConverter {
     public static ReplyResDto.ReplyPreviewListDto toReplyPreviewListDto(List<Reply> replies) {
         return ReplyResDto.ReplyPreviewListDto.builder()
                 .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .build();
+    }
+
+    // Page 객체 -> ReplyPreviewListDto 변환 메서드
+    public static ReplyResDto.ReplyPreviewListDto toReplyPreviewListDto(Page<Reply> replyPage) {
+        List<ReplyResDto.ReplyPreviewDto> replyDtos = replyPage.getContent()
+                .stream()
+                .map(ReplyConverter::toReplyPreviewDTO)
+                .toList();
+
+        return ReplyResDto.ReplyPreviewListDto.builder()
+                .replies(replyDtos)
+                .numOfRows(replyPage.getNumberOfElements())
+                .pageNo(replyPage.getNumber())
+                .totalCount(replyPage.getTotalElements())
                 .build();
     }
 }

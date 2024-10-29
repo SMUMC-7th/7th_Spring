@@ -5,6 +5,7 @@ import com.example.umc7th.domain.article.dto.response.ArticleResDto;
 import com.example.umc7th.domain.article.entity.Article;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,6 +53,19 @@ public class ArticleConverter {
         return ArticleResDto.ArticleLikeResponseDto.builder()
                 .id(article.getId())
                 .likeNum(article.getLikeNum())
+                .build();
+    }
+
+    // Slice -> ArticleCursorPaginationDto 변환 메서드
+    public static ArticleResDto.ArticlePreviewListDto toArticlePreviewListDto(Slice<Article> articles, Long nextCursor) {
+        List<ArticleResDto.ArticlePreviewDto> articleDtos = articles.stream()
+                .map(ArticleConverter::toArticlePreviewDto)
+                .toList();
+
+        return ArticleResDto.ArticlePreviewListDto.builder()
+                .articlePreviewDtoList(articleDtos)
+                .hasNext(articles.hasNext())
+                .cursor(nextCursor)
                 .build();
     }
 }

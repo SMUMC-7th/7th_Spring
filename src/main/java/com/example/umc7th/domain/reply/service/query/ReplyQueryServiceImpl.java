@@ -10,6 +10,9 @@ import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,5 +38,21 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
 
         //Converter를 통해 리스트 전체를 DTO로 변환 후 반환
         return ReplyConverter.toReplyPreviewListDto(replies);
+    }
+
+    @Override
+    public ReplyResDto.ReplyPreviewListDto getRepliesByArticle(Long articleId, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
+
+        Page<Reply> replies = replyRepository.findAllByArticleOrderByCreatedAtDesc(article, pageable);
+
+        return ReplyConverter.toReplyPreviewListDto(replies);
+    }
+
+    @Override
+    public boolean hasReplies(Long articleId) {
+        return replyRepository.existsByArticleId(articleId);
     }
 }

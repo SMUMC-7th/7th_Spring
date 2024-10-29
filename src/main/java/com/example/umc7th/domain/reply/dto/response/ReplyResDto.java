@@ -26,7 +26,10 @@ public class ReplyResDto {
 
     @Builder
     public record ReplyPreviewListDto(
-            List<ReplyPreviewDto> replies
+            List<ReplyPreviewDto> replies,
+            int numOfRows,
+            int pageNo,
+            long totalCount
     ) {
     }
 }
