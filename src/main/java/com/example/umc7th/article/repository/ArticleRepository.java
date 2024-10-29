@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     boolean existsById(Long id);
 
-    Slice<Article> findByIdLessThanAndTitleContainingOrderByIdDesc(Long id, Pageable pageable, String title);
+    Slice<Article> findAllByIdLessThanAndTitleContainingOrderByIdDesc(Long id, Pageable pageable, String title);
 
-    Slice<Article> findByIdLessThanOrderByIdDesc(Long id, Pageable pageable);
+    Slice<Article> findAllByIdLessThanOrderByIdDesc(Long id, Pageable pageable);
 }
