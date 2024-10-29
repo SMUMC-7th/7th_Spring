@@ -32,7 +32,6 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
         List<Article> articles = slice.getContent();
         while (slice.hasNext()) {
             slice = checkLikeTitle(cursorId, likeTitle, slice.nextPageable());
-            System.out.println("Articles found: " + slice.getContent().size());
             articles.addAll(slice.getContent());
         }
         return articles;
@@ -41,9 +40,9 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     private Slice<Article> checkLikeTitle(Long cursorId, String likeTitle, Pageable pageable) {
         if (likeTitle != null && !likeTitle.trim().isEmpty()) {
-            return articleRepository.findByIdLessThanAndTitleContainingOrderByIdDesc(cursorId,
+            return articleRepository.findAllByIdLessThanAndTitleContainingOrderByIdDesc(cursorId,
                     pageable, likeTitle);
         }
-        return articleRepository.findByIdLessThanOrderByIdDesc(cursorId, pageable);
+        return articleRepository.findAllByIdLessThanOrderByIdDesc(cursorId, pageable);
     }
 }
