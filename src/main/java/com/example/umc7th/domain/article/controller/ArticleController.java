@@ -15,34 +15,35 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/articles")
 public class ArticleController {
 
     private final ArticleQueryService articleQueryService;
     private final ArticleCommandService articleCommandService;
 
 
-    @PostMapping("/articles")
+    @PostMapping("")
     @Operation(summary = "게시글 생성 API", description="게시글 생성")
     public CustomResponse<ArticleResponseDTO.CreateArticleResponseDTO> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
         Article article = articleCommandService.createArticle(dto);
         return CustomResponse.onSuccess(ArticleResponseDTO.CreateArticleResponseDTO.from(article));
     }
     //특정 게시물 조회
-    @GetMapping("/articles/{articleId}")
+    @GetMapping("/{articleId}")
     @Operation(summary = "게시글 조회 API", description="게시글 단일 조회")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> getArticle(@PathVariable("articleId") Long articleId) {
         Article article = articleQueryService.getArticle(articleId);
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(article));
     }
     //모든 게시물 조회
-    @GetMapping("/articles")
+    @GetMapping("")
     @Operation(summary = "게시글 조회 API", description="게시글 전체 조회")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
         List<Article> articles = articleQueryService.getArticles();
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
     //게시물 수정
-    @PutMapping("/articles/{articleId}")
+    @PutMapping("{articleId}")
     @Operation(summary = "게시글 수정 API", description="게시글 수정")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> updateArticle(
             @PathVariable Long articleId,
@@ -58,4 +59,14 @@ public class ArticleController {
         articleCommandService.deleteArticle(articleId);
         return CustomResponse.onSuccess(null);
     }
+
+    //댓글 o 게시물 확인
+    @GetMapping("/{articleId}/hasReply")
+    @Operation(summary = "게시글 댓글 존재 확인 API", description="게시글 댓글 존재 확인")
+    public CustomResponse<Boolean> hasReply(@PathVariable("articelId") Long articleId){
+        boolean hasReply = articleQueryService.hasReply(articleId);
+        return CustomResponse.onSuccess(hasReply);
+    }
+
+
 }

@@ -12,11 +12,15 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 //    List<Reply> findByArticle(Article article);
     // active상태인 댓글만 조회되도록(softDelete)
 
-    //Method 해당 article을 가지고 있는 모든 답글 검색(생성날짜 내림차순 정렬)
+    //해당 article을 가지고 있는 모든 답글 검색(생성날짜 내림차순 정렬)
     //JPA Query
     //List<Reply> findAllByArticleIsOrderByCreatedAtDesc(Article article);
 
     //JPQL ver.
     @Query("SELECT r FROM Reply r WHERE r.article = :article ORDER BY r.createdAt DESC")
     List<Reply> findRepliesByArticleOrderByCreatedAtDescJPQL(@Param("article") Article article);
+
+    //댓글 존재 확인 JPQL 사용
+    @Query("SELECT COUNT(c) > 0 FROM Comment c WHERE c.article.id = :articleId")
+    boolean existsByArticleId(@Param("articleId") Long articleId);
 }
