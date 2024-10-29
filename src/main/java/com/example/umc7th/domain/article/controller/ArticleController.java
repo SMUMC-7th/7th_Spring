@@ -4,11 +4,14 @@ import com.example.umc7th.domain.article.converter.ArticleConverter;
 import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
+import com.example.umc7th.domain.article.entity.enums.SortType;
 import com.example.umc7th.domain.article.service.command.ArticleCommandService;
 import com.example.umc7th.domain.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -88,4 +91,17 @@ public class ArticleController {
 
         return CustomResponse.onSuccess(ArticleConverter.toArticleViewListDTO(articles));
     }
+
+    @GetMapping("/articles/sort")
+    @Operation(summary = "기준에 따라 정렬된 게시글 조회")
+    public CustomResponse<ArticleResponseDTO.ArticleSliceResponse> getArticlesSorted(
+            @RequestParam SortType sortType,
+            @RequestParam Long cursorId,
+            @RequestParam(defaultValue = "0") int page) {
+
+        Slice<Article> articles = articleQueryService.getArticlesBySort(sortType, cursorId, page);
+
+        return CustomResponse.onSuccess(ArticleConverter.toArticleSliceResponseDTO(articles));
+    }
+
 }

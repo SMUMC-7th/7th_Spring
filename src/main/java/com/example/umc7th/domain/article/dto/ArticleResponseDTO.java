@@ -38,4 +38,15 @@ public class ArticleResponseDTO {
         private List<ArticleViewDTO> articleViewDTOs;
     }
 
+    @Getter
+    @Builder
+    // 페이지네이션 응답
+    public static class ArticleSliceResponse {
+        private List<ArticleViewDTO> articleViewDTOs;
+        private int currentPage; // 현재 페이지
+        private boolean hasNext; // 다음 페이지 존재 여부
+        private int pageSize; // 한 페이지 사이즈
+        private long numberOfElements; // 전체 객체 수
+    }
+
 }
