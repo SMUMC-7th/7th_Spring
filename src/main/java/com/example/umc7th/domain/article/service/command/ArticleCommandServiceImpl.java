@@ -32,11 +32,10 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
     //게시물 수정
     @Override
     public Article updateArticle(Long articleId, ArticleRequestDTO.UpdateArticleDTO dto) {
-        Article article = articleRepository.findById(articleId)
-                .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
-        article.setTitle(dto.getTitle());
-        article.setContent(dto.getContent());
-        return articleRepository.save(article);
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new ArticleException(ArticleErrorCode.NOT_FOUND));
+        article.update(dto.getTitle(), dto.getContent());
+        return article;
     }
     //게시물 삭제
     @Override
@@ -45,4 +44,7 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
         articleRepository.delete(article);
     }
+    //댓글 있으면 삭제 어려움
+    //1. hard delete 하기 -> 관련 댓글 다 삭제 시켜버리기
+    //2. soft delete 하기
 }

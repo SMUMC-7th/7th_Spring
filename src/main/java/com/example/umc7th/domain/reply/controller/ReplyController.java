@@ -50,9 +50,10 @@ public class ReplyController {
     //댓글 수정
     @PutMapping("/replies/{replyId}")
     @Operation(summary = "댓글 수정 API", description = "댓글 수정")
-    public CustomResponse<?> updateReply(@PathVariable Long replyId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
-        replyCommandService.updateReply(replyId, dto);
-        return CustomResponse.onSuccess(GeneralSuccessCode.OK);
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> updateReply(@PathVariable("replyId") Long replyId,
+                                                                        @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+        Reply reply = replyCommandService.updateReply(replyId, dto);
+        return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewDTO(reply));
     }
 
     //댓글 삭제
