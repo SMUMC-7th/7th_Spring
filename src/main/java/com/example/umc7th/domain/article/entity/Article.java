@@ -1,5 +1,6 @@
 package com.example.umc7th.domain.article.entity;
 
+import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 public class Article extends BaseEntity {
 
@@ -42,5 +44,19 @@ public class Article extends BaseEntity {
     //article과 reply 일대다 매핑 추가
     @OneToMany(mappedBy = "article")
     private List<Reply> replies;
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+    //base entity로 빼기
+    @Column(name = "active")
+    @Builder.Default() // builder 패턴 사용 시 값을 지정하지 않으면 기본 값으로 true를 넣는다.
+    private boolean active = true;
+
+    // softDelete()
+    public void softDelete(){
+        this.active = false;
+    }
 }
 

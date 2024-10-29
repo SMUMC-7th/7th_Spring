@@ -8,8 +8,10 @@ import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.domain.reply.service.command.ReplyCommandService;
 import com.example.umc7th.domain.reply.service.query.ReplyQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
+import com.example.umc7th.global.apiPayload.code.GeneralSuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,4 +46,23 @@ public class ReplyController {
         Reply reply = replyQueryService.getReply(replyId);
         return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewDTO(reply));
     }
+
+    //댓글 수정
+    @PutMapping("/replies/{replyId}")
+    @Operation(summary = "댓글 수정 API", description = "댓글 수정")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> updateReply(@PathVariable("replyId") Long replyId,
+                                                                        @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+        Reply reply = replyCommandService.updateReply(replyId, dto);
+        return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewDTO(reply));
+    }
+
+    //댓글 삭제
+    @DeleteMapping("/replies/{replyId}")
+    @Operation(summary = "댓글 삭제 API", description = "댓글 삭제")
+    public CustomResponse<Void> deleteReply(@PathVariable Long replyId){
+        replyCommandService.deleteReply(replyId);
+        return CustomResponse.onSuccess(null); //converter 사용 안 함
+    }
+
+
 }
