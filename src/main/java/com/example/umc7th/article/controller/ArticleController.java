@@ -10,7 +10,14 @@ import com.example.umc7th.global.apiPayload.code.GeneralSuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,18 +38,30 @@ public class ArticleController {
     @GetMapping("/articles/{articleId}")
     @Operation(summary = "게시글 한 개 조회하는 API ", description = "게시글 한 개를 조회하는 API 입니다.")
     public CustomResponse<?> getDetailArticle(@PathVariable("articleId") Long articleId) {
-        return CustomResponse.onSuccess(GeneralSuccessCode.OK, DetailArticleResponseDTO.from(articleQueryService.getDetailArticle(articleId)));
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK,
+                DetailArticleResponseDTO.from(articleQueryService.getDetailArticle(articleId)));
     }
 
-    //여러개 조회
+//    //여러개 조회
+//    @GetMapping("/articles")
+//    @Operation(summary = "게시글 여러개 조회 API", description = "게시글 전체를 조회하는 API 입니다. ")
+//    public CustomResponse<?> getAllArticle() {
+//        return CustomResponse.onSuccess(GeneralSuccessCode.OK,
+//                ArticleResponseDTO.from(articleQueryService.getArticles()));
+//    }
+
+    //여러개 페이지네이션 조회
     @GetMapping("/articles")
     @Operation(summary = "게시글 여러개 조회 API", description = "게시글 전체를 조회하는 API 입니다. ")
-    public CustomResponse<?> getAllArticle() {
-        return CustomResponse.onSuccess(GeneralSuccessCode.OK, ArticleResponseDTO.from(articleQueryService.getArticles()));
+    public CustomResponse<?> getAllArticle(@RequestParam(required = false) Long cursorId,
+                                           @RequestParam(required = false) String likeTitle) {
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK,
+                ArticleResponseDTO.from(articleQueryService.getArticles(cursorId, likeTitle)));
     }
 
     @PutMapping("/articles/{articleId}")
-    public CustomResponse<?> updateArticle(@PathVariable Long articleId, @RequestBody ArticleRequestDTO.UpdateReplyDTO dto) {
+    public CustomResponse<?> updateArticle(@PathVariable Long articleId,
+                                           @RequestBody ArticleRequestDTO.UpdateReplyDTO dto) {
         articleCommandService.updateArticle(articleId, dto);
         return CustomResponse.onSuccess(GeneralSuccessCode.OK);
     }
