@@ -5,6 +5,9 @@ import com.example.umc7th.domain.reply.exception.ReplyException;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import com.example.umc7th.domain.reply.entity.Reply;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,5 +39,11 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
         return Replies.stream()
                 .filter(Reply::isActivated)
                 .toList();
+    }
+
+    @Override
+    public Page<Reply> getRepliesForArticleOrderByCreatedAt(Long articleId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return replyRepository.findAllByArticleIdOrderByCreatedAtDesc(articleId, pageable);
     }
 }

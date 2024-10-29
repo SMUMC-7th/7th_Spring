@@ -10,6 +10,7 @@ import com.example.umc7th.domain.reply.service.query.ReplyQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +57,17 @@ public class ReplyController {
     public CustomResponse<Long> deleteReply(@PathVariable("replyId") Long replyId) {
         Long id = replyCommandService.deleteReply(replyId);
         return CustomResponse.onSuccess(id);
+    }
+
+    @GetMapping("/article/{articleId}")
+    @Operation(summary = "생성날짜 순 정렬, Offset 기반 댓글 조회 API")
+    public CustomResponse<ReplyResponseDTO.ReplyPagePreviewListDTO> getRepliesByArticleId(
+            @PathVariable Long articleId,
+            @RequestParam int page,
+            @RequestParam int size
+            ) {
+        Page<Reply> replies = replyQueryService.getRepliesForArticleOrderByCreatedAt(articleId, page, size);
+        return CustomResponse.onSuccess(ReplyConverter.toReplyPagePreviewListDTO(replies));
     }
 
 }

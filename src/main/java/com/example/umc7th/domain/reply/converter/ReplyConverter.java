@@ -4,6 +4,7 @@ import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -36,6 +37,15 @@ public class ReplyConverter {
     public static ReplyResponseDTO.ReplyPreviewListDTO toReplyPreviewListDTO(List<Reply> replies) {
         return ReplyResponseDTO.ReplyPreviewListDTO.builder()
                 .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .build();
+    }
+
+    public static ReplyResponseDTO.ReplyPagePreviewListDTO toReplyPagePreviewListDTO(Page<Reply> replies) {
+        return ReplyResponseDTO.ReplyPagePreviewListDTO.builder()
+                .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .numOfRows(replies.getSize())
+                .pageNo(replies.getNumber())
+                .totalCount(replies.getTotalElements())
                 .build();
     }
 }
