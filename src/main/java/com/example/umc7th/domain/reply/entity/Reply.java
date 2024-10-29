@@ -38,8 +38,8 @@ public class Reply extends BaseEntity {
     private Article article;
 
     //댓글 수정
-    public void update(ReplyRequestDTO.UpdateReplyDTO dto){
-        content = dto.content();
+    public void update(String content){
+        this.content = content;
     }
     //댓글 삭제
 

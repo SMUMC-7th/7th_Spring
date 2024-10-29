@@ -7,6 +7,7 @@ import com.example.umc7th.domain.article.repository.ArticleRepository;
 import com.example.umc7th.domain.reply.converter.ReplyConverter;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
+import com.example.umc7th.domain.reply.exception.ReplyErrorCode;
 import com.example.umc7th.domain.reply.exception.ReplyException;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import com.example.umc7th.domain.reply.service.query.ReplyQueryService;
@@ -41,12 +42,10 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     // 댓글 수정
     @Override
     public Reply updateReply(Long replyId, ReplyRequestDTO.UpdateReplyDTO dto) {
-        Reply reply = replyRepository.findById(replyId)
-                .orElseThrow(() -> new EntityNotFoundException("댓글 없음"));
-        //내용, 시간 update
-        reply.setContent(dto.content());
-        reply.setUpdatedAt(LocalDateTime.now());
-        return replyRepository.save(reply);
+        Reply reply = replyRepository.findById(replyId).orElseThrow(() ->
+                new ReplyException(ReplyErrorCode.NOT_FOUND));
+        reply.update(dto.getContent());
+        return reply;
     }
 
     // 댓글 softDelete

@@ -45,9 +45,9 @@ public class Article extends BaseEntity {
     @OneToMany(mappedBy = "article")
     private List<Reply> replies;
 
-    public void update(ArticleRequestDTO.UpdateArticleDTO dto) {
-        this.title = dto.getTitle();
-        this.content = dto.getContent();
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
     //base entity로 빼기
     @Column(name = "active")
