@@ -29,7 +29,7 @@ public class ReplyResDto {
             List<ReplyPreviewDto> replies,
             int numOfRows,
             int pageNo,
-            long totalCount
+            long totalPage
     ) {
     }
 }

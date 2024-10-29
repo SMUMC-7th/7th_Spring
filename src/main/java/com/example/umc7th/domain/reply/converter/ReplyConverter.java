@@ -58,7 +58,7 @@ public class ReplyConverter {
                 .replies(replyDtos)
                 .numOfRows(replyPage.getNumberOfElements())
                 .pageNo(replyPage.getNumber())
-                .totalCount(replyPage.getTotalElements())
+                .totalPage(replyPage.getTotalPages())
                 .build();
     }
 }
