@@ -36,9 +36,9 @@ public class ArticleController {
     }
 
     @GetMapping
-    @Operation(summary = "전체 게시글 조회 API")
-    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
-        List<Article> articles = articleQueryService.getArticles();
+    @Operation(summary = "키워드 기반 게시글 조회 API")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles(@RequestParam(required = false) String keyword) {
+        List<Article> articles = articleQueryService.getArticles(keyword);
         return CustomResponse.onSuccess(ArticleConverter.toArticlePreviewListDTO(articles));
     }
 

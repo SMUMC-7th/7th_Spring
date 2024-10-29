@@ -26,6 +26,14 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     }
 
     @Override
+    public List<Article> getArticles(String keyword) {
+        if (keyword == null) {
+            return getArticles();
+        }
+        return articleRepository.findByTitleContaining(keyword);
+    }
+
+    @Override
     public Article getArticle(Long id) {
         return articleRepository.findById(id).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND_404));
