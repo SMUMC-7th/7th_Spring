@@ -42,29 +42,31 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     // 정렬 기준에 따라 구분하여 각 로직 호출
-    public Slice<Article> getArticlesBySort(SortType sortType, Long cursorId, int page) {
+    public Slice<Article> getArticlesBySort(SortType sortType, Long cursorId) {
 
         return switch (sortType) {
             case ID_DESC ->
                 // 게시글 아이디 내림차순 정렬
-                getArticlesByIdDesc(cursorId, page);
+                getArticlesByIdDesc(cursorId);
             case LIKE_NUM_DESC ->
                 // 좋아요수 내림차순 정렬
-                getArticlesByLikeNumDesc(cursorId, page);
+                getArticlesByLikeNumDesc(cursorId);
         };
     }
 
-    public Slice<Article> getArticlesByIdDesc(Long cursorId, int page) {
+    @Override
+    public Slice<Article> getArticlesByIdDesc(Long cursorId) {
 
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
         articleRepository.findById(cursorId).orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
 
         return articleRepository.findAllByIdLessThanOrderByIdDesc(cursorId, pageable);
     }
 
-    public Slice<Article> getArticlesByLikeNumDesc(Long cursorId, int page) {
+    @Override
+    public Slice<Article> getArticlesByLikeNumDesc(Long cursorId) {
 
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
         Article article = articleRepository.findById(cursorId).orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
 
         return articleRepository.findAllByOrderByLikeNum(article.getLikeNum(), cursorId, pageable);

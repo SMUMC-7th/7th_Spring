@@ -96,10 +96,9 @@ public class ArticleController {
     @Operation(summary = "기준에 따라 정렬된 게시글 조회")
     public CustomResponse<ArticleResponseDTO.ArticleSliceResponse> getArticlesSorted(
             @RequestParam SortType sortType,
-            @RequestParam Long cursorId,
-            @RequestParam(defaultValue = "0") int page) {
+            @RequestParam Long cursorId) {
 
-        Slice<Article> articles = articleQueryService.getArticlesBySort(sortType, cursorId, page);
+        Slice<Article> articles = articleQueryService.getArticlesBySort(sortType, cursorId);
 
         return CustomResponse.onSuccess(ArticleConverter.toArticleSliceResponseDTO(articles));
     }

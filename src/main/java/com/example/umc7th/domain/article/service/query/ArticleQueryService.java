@@ -10,5 +10,7 @@ public interface ArticleQueryService {
 
     Article getArticle(Long id);
     List<Article> getArticles();
-    Slice<Article> getArticlesBySort(SortType sortType, Long cursorId, int page);
+    Slice<Article> getArticlesBySort(SortType sortType, Long cursorId);
+    Slice<Article> getArticlesByIdDesc(Long cursorId);
+    Slice<Article> getArticlesByLikeNumDesc(Long cursorId);
 }
