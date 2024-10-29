@@ -64,4 +64,19 @@ public class ArticleResponseDTO {
                 .build();
         }
     }
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class ArticleCursorResponseDTO {
+        private List<ArticlePreviewDTO> articles;
+        private Long nextCursor;                   // 다음 커서 ID
+
+        public ArticleCursorResponseDTO(List<ArticlePreviewDTO> articles, Long nextCursor) {
+            this.articles = articles;
+            this.nextCursor = nextCursor;
+        }
+
+        public List<ArticlePreviewDTO> getArticles() { return articles; }
+        public Long getNextCursor() { return nextCursor; }
+    }
+
 }

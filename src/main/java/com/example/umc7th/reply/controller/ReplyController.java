@@ -1,5 +1,6 @@
 package com.example.umc7th.reply.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,6 +67,28 @@ public class ReplyController {
 	public CustomResponse<String> deleteReply(@PathVariable("replyId") Long replyId) {
 		replyCommandService.deleteReply(replyId);
 		return CustomResponse.onSuccess("댓글이 성공적으로 삭제되었습니다.");
+	}
+
+	// 오프셋 기반 페이지네이션: 생성 날짜 기준으로 페이지네이션
+	@GetMapping("/paginated")
+	@Operation(summary = "댓글 페이지네이션 조회 API", description = "오프셋 기반으로 댓글 목록을 페이지네이션하여 조회합니다.")
+	public CustomResponse<Page<ReplyResponseDTO.ReplyPreviewDTO>> getRepliesWithPagination(
+		@RequestParam("articleId") Long articleId,
+		@RequestParam("page") int page,
+		@RequestParam("size") int size) {
+		Page<Reply> replies = replyQueryService.getRepliesWithPagination(articleId, page, size);
+		return CustomResponse.onSuccess(replies.map(ReplyResponseDTO.ReplyPreviewDTO::from));
+	}
+
+	// 커서 기반 페이지네이션: ID 기준
+	@GetMapping("/cursor-paginated")
+	@Operation(summary = "댓글 커서 기반 페이지네이션 조회 API", description = "ID를 기준으로 댓글 목록을 커서 페이지네이션하여 조회합니다.")
+	public CustomResponse<List<ReplyResponseDTO.ReplyPreviewDTO>> getRepliesWithCursorPagination(
+		@RequestParam("articleId") Long articleId,
+		@RequestParam("lastId") Long lastId,
+		@RequestParam("size") int size) {
+		List<Reply> replies = replyQueryService.getRepliesWithCursorPagination(articleId, lastId, size);
+		return CustomResponse.onSuccess(replies.stream().map(ReplyResponseDTO.ReplyPreviewDTO::from).toList());
 	}
 }
 
