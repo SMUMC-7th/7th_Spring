@@ -8,6 +8,8 @@ import com.example.umc7th.domain.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,12 +37,12 @@ public class ArticleController {
         Article article = articleQueryService.getArticle(articleId);
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(article));
     }
-    //모든 게시물 조회
+    //모든 게시물 조회(페이지네이션x=>false,false넘겨주기)
     @GetMapping("")
     @Operation(summary = "게시글 조회 API", description="게시글 전체 조회")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
         List<Article> articles = articleQueryService.getArticles();
-        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles,false,false));
     }
     //게시물 수정
     @PutMapping("{articleId}")
@@ -68,5 +70,24 @@ public class ArticleController {
         return CustomResponse.onSuccess(hasReply);
     }
 
+    //id기준 커서기반 페이지네이션
+    @GetMapping
+    @Operation(summary = "게시글 페이지네이션", description = "커서 기반 게시글 페이지네이션")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticlesAfterCursor(
+            @RequestParam(required = false) Long cursorId,
+            Pageable pageable) {
+
+        // 게시글 가져오기
+        Slice<Article> articles = articleQueryService.getArticlesAfterCursorById(cursorId, pageable);
+
+        // DTO 변환
+        ArticleResponseDTO.ArticlePreviewListDTO responseDTO = ArticleResponseDTO.ArticlePreviewListDTO.from(
+                articles.getContent(),
+                articles.hasNext(),
+                articles.hasPrevious()
+        );
+
+        return CustomResponse.onSuccess(responseDTO);
+    }
 
 }

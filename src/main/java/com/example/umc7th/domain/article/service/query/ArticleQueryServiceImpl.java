@@ -2,17 +2,15 @@ package com.example.umc7th.domain.article.service.query;
 
 import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
-import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,6 +34,11 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     @Override
     public boolean hasReply(Long id){
         return replyRepository.existsByArticleId(id);
+    }
+
+    @Override
+    public Slice<Article> getArticlesAfterCursorById(Long cursorId, Pageable pageable) {
+        return articleRepository.findAllByIdGreaterThan(cursorId, pageable);
     }
 
 }
