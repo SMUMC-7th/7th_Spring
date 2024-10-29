@@ -33,6 +33,44 @@ public class ArticleController {
         return CustomResponse.onSuccess(ArticleConverter.toCreateArticleResultDTO(article));
     }
 
+    @PutMapping("/articles/{articleId}")
+    @Operation(summary = "게시글 수정")
+    public CustomResponse<String> updateArticle(
+            @PathVariable Long articleId,
+            @RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
+
+        articleCommandService.updateArticle(articleId, dto);
+
+        return CustomResponse.onSuccess("게시글 수정에 성공하였습니다.");
+    }
+
+    @DeleteMapping("/articles/{articleId}")
+    @Operation(summary = "게시글 hard 삭제")
+    public CustomResponse<String> deleteArticle(@PathVariable Long articleId) {
+
+        articleCommandService.hardDeleteArticle(articleId);
+
+        return CustomResponse.onSuccess("게시글 영구 삭제에 성공하였습니다.");
+    }
+
+    @DeleteMapping("/articles/{articleId}/soft-delete")
+    @Operation(summary = "게시글 soft 삭제")
+    public CustomResponse<String> softDeleteArticle(@PathVariable Long articleId) {
+
+        articleCommandService.softDeleteArticle(articleId);
+
+        return CustomResponse.onSuccess("게시글 soft 삭제에 성공하였습니다.");
+    }
+
+    @PatchMapping("/articles/{articleId}/like")
+    @Operation(summary = "게시글 좋아요 수 증가")
+    public CustomResponse<String> increaseLike(@PathVariable Long articleId) {
+
+        articleCommandService.increaseLike(articleId);
+
+        return CustomResponse.onSuccess("게시글 좋아요 수 증가에 성공하였습니다.");
+    }
+
     @GetMapping("/articles/{articleId}")
     @Operation(summary = "게시글 하나 조회")
     public CustomResponse<ArticleResponseDTO.ArticleViewDTO> getArticle(@PathVariable("articleId") Long articleId) {
@@ -44,7 +82,7 @@ public class ArticleController {
 
     @GetMapping("/articles")
     @Operation(summary = "게시글 전체 조회")
-    public CustomResponse<List<ArticleResponseDTO.ArticleViewDTO>> getArticles() {
+    public CustomResponse<ArticleResponseDTO.ArticleViewListDTO> getArticles() {
 
         List<Article> articles = articleQueryService.getArticles();
 

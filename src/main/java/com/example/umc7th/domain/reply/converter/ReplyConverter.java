@@ -1,13 +1,10 @@
 package com.example.umc7th.domain.reply.converter;
 
-import com.example.umc7th.domain.article.converter.ArticleConverter;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ReplyConverter {
 
@@ -36,11 +33,15 @@ public class ReplyConverter {
                 .build();
     }
 
-    public static List<ReplyResponseDTO.ReplyViewDTO> toReplyViewListDTO(List<Reply> replies) {
+    public static ReplyResponseDTO.ReplyViewListDTO toReplyViewListDTO(List<Reply> replies) {
 
-        return replies.stream()
+        List<ReplyResponseDTO.ReplyViewDTO> replyViewDTOs = replies.stream()
                 .map(ReplyConverter::toReplyViewDTO)
-                .collect(Collectors.toList());
+                .toList();
+
+        return ReplyResponseDTO.ReplyViewListDTO.builder()
+                .replyViewDTOs(replyViewDTOs)
+                .build();
     }
 
 }
