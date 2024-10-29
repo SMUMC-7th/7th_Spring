@@ -7,4 +7,5 @@ import java.util.List;
 public interface ArticleQueryService {
     Article getArticle(Long id);
     List<Article> getArticles();
+    boolean hasComments(Long id);
 }

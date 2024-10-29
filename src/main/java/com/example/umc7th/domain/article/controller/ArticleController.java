@@ -74,4 +74,9 @@ public class ArticleController {
         return CustomResponse.onSuccess(ArticleConverter.toArticlePreviewDTO(article));
     }
 
+    @GetMapping("{articleId}/checkReplies")
+    @Operation(summary = "댓글 존재 여부 확인 API")
+    public CustomResponse<Boolean> checkReplies(@PathVariable("articleId") Long articleId) {
+        return CustomResponse.onSuccess(articleQueryService.hasComments(articleId));
+    }
 }

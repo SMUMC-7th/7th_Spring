@@ -4,6 +4,7 @@ import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.exception.ArticleErrorCode;
 import com.example.umc7th.domain.article.exception.ArticleException;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
+import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     private final ArticleRepository articleRepository;
+    private final ReplyRepository replyRepository;
 
     @Override
     public List<Article> getArticles() {
@@ -27,5 +29,10 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     public Article getArticle(Long id) {
         return articleRepository.findById(id).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND_404));
+    }
+
+    @Override
+    public boolean hasComments(Long id) {
+        return replyRepository.existsByArticleId(id);
     }
 }
