@@ -45,4 +45,14 @@ public class ArticleResponseDTO {
     public static class ArticlePreviewListDTO {
         private List<ArticlePreviewDTO> articles;
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class ArticleCursorPreviewListDTO {
+        private List<ArticlePreviewDTO> articles;
+        private boolean hasNext;
+        private String cursor;
+    }
 }

@@ -10,8 +10,10 @@ import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -78,5 +80,30 @@ public class ArticleController {
     @Operation(summary = "댓글 존재 여부 확인 API")
     public CustomResponse<Boolean> checkReplies(@PathVariable("articleId") Long articleId) {
         return CustomResponse.onSuccess(articleQueryService.hasComments(articleId));
+    }
+
+    @GetMapping("/page")
+    @Operation(summary = "Cursor 기반 게시글 조회 API")
+    public CustomResponse<ArticleResponseDTO.ArticleCursorPreviewListDTO> getArticlesPage(
+            @RequestParam(required = false) String cursor,
+            @RequestParam(required = false, defaultValue = "5") int size,
+            @RequestParam(required = false, defaultValue = "id") String sort
+    ) {
+        ArticleSearchCond sortCond = ArticleSearchCond.valueOf(sort.toUpperCase());
+        Slice<Article> articles;
+
+        switch (sortCond) {
+            case CREATED_AT:
+                articles = articleQueryService.getArticlesOrderByCreatedAt((cursor == null) ? LocalDateTime.now() : LocalDateTime.parse(cursor), size);
+                List<Article> content = articles.getContent();
+                cursor = content.get(content.size() - 1).getCreatedAt().toString();
+                break;
+            default:
+                articles = articleQueryService.getArticlesOrderById((cursor == null) ? Long.MAX_VALUE : Long.parseLong(cursor), size);
+                List<Article> content1 = articles.getContent();
+                cursor = content1.get(content1.size() - 1).getId().toString();
+        }
+
+        return CustomResponse.onSuccess(ArticleConverter.toArticleCursorPreviewListDTO(articles, cursor));
     }
 }

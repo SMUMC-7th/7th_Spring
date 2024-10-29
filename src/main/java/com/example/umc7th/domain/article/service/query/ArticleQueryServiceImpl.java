@@ -6,9 +6,13 @@ import com.example.umc7th.domain.article.exception.ArticleException;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -42,5 +46,17 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     @Override
     public boolean hasComments(Long id) {
         return replyRepository.existsByArticleId(id);
+    }
+
+    @Override
+    public Slice<Article> getArticlesOrderById(Long id, int size) {
+        Pageable pageable = PageRequest.of(0, size);
+        return articleRepository.findAllByIdLessThanOrderByIdDesc(id, pageable);
+    }
+
+    @Override
+    public Slice<Article> getArticlesOrderByCreatedAt(LocalDateTime cursor, int size) {
+        Pageable pageable = PageRequest.of(0, size);
+        return articleRepository.findAllByCreatedAtLessThanOrderByCreatedAtDesc(cursor, pageable);
     }
 }
