@@ -42,14 +42,6 @@ public class ArticleController {
                 DetailArticleResponseDTO.from(articleQueryService.getDetailArticle(articleId)));
     }
 
-//    //여러개 조회
-//    @GetMapping("/articles")
-//    @Operation(summary = "게시글 여러개 조회 API", description = "게시글 전체를 조회하는 API 입니다. ")
-//    public CustomResponse<?> getAllArticle() {
-//        return CustomResponse.onSuccess(GeneralSuccessCode.OK,
-//                ArticleResponseDTO.from(articleQueryService.getArticles()));
-//    }
-
     //여러개 페이지네이션 조회
     @GetMapping("/articles")
     @Operation(summary = "게시글 여러개 조회 API", description = "게시글 전체를 조회하는 API 입니다. ")

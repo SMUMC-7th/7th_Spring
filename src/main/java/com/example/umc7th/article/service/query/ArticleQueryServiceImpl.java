@@ -1,9 +1,9 @@
 package com.example.umc7th.article.service.query;
 
 import com.example.umc7th.article.entity.Article;
+import com.example.umc7th.article.error.ArticleCustomException;
+import com.example.umc7th.article.error.ArticleErrorCode;
 import com.example.umc7th.article.repository.ArticleRepository;
-import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
-import com.example.umc7th.global.apiPayload.exception.CustomException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     @Override
     public Article getDetailArticle(Long id) {
         return articleRepository.findById(id).orElseThrow(
-                () -> new CustomException(GeneralErrorCode.ARTICLE_NOT_FOUND_404));
+                () -> new ArticleCustomException(ArticleErrorCode.ARTICLE_NOT_FOUND_404));
     }
 
     @Override
