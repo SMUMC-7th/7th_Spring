@@ -25,8 +25,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     // 그냥 이어붙혀서 바로 비교하려 하였으나 그럼 정렬할때 불가능함
     // id를 넘겨주기 보다 엔티티를 넘겨주면 그 순간에 좋아요가 늘어도 고정된 기준점으로 검색할 수 있는가?
     @Query(value = "SELECT a.* FROM article a " +
-            "WHERE :cursor > CONCAT(LPAD(a.likeNum, 10, '0'), LPAD(a.id, 10, '0')) " +
-            "ORDER BY a.likeNum DESC, a.id DESC ", nativeQuery = true)
+            "WHERE :cursor > CONCAT(LPAD(a.like_num, 10, '0'), LPAD(a.id, 10, '0')) " +
+            "ORDER BY a.like_num DESC, a.id DESC ", nativeQuery = true)
     Slice<Article> findAllByLikeNumLessThanOrderByLikeNumDesc(@Param("cursor")Long cursor, Pageable pageable);
 
 

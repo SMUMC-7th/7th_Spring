@@ -45,7 +45,7 @@ public class ReplyController {
         return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewDTO.from(reply));
     }
 
-    @PutMapping("/{replyId")
+    @PutMapping("/{replyId}")
     @Operation(summary = "댓글 수정 API", description = "댓글 수정하는 API")
     public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> updateReply(@PathVariable("replyId") Long replyId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
         Reply reply = replyCommandService.updateReply(replyId, dto);
