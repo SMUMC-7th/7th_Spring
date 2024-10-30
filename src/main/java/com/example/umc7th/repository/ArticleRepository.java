@@ -26,7 +26,14 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             @Param("articleId") Long articleId,
             Pageable pageable
     );
-
+/*   CONCAT + LPAD 버전
+    @Query(value = "SELECT a.* FROM article a " +
+            "JOIN (SELECT a2.id, CONCAT(LPAD(a2.like_num, 10, '0'), LPAD(a2.id, 10, '0')) as cursorValue FROM article a2) as cursorTable ON a.id = cursorTable.id " +
+            "WHERE cursorValue < (SELECT CONCAT(LPAD(a3.like_num, 10, '0'), LPAD(a3.id, 10, '0')) as cursorValue FROM article a3 WHERE a3.id = :articleId) " +
+            "ORDER BY cursorTable.cursorValue DESC",
+            nativeQuery = true)
+    Slice<Article> findAllByOrderByLikeWithCursor(@Param("articleId") Long cursor, Pageable pageable);
+*/
     @Query("SELECT a FROM Article a " +
             "ORDER BY a.likeNum DESC, a.id DESC")
     Slice<Article> findFirstPage(Pageable pageable);

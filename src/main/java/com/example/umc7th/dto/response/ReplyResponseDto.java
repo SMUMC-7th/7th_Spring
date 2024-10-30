@@ -40,6 +40,6 @@ public class ReplyResponseDto {
         private List<ReplyPreviewDto> replyPreviewDtoList;
         private int numOfRows;
         private int pageNo;
-        private long totalCount;
+        private long totalPage;
     }
 }

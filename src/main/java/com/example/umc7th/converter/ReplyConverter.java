@@ -37,7 +37,7 @@ public class ReplyConverter {
                 .replyPreviewDtoList(page.getContent().stream().map(ReplyConverter::from).toList())
                 .numOfRows(page.getSize())
                 .pageNo(page.getNumber())
-                .totalCount(page.getTotalElements())
+                .totalPage(page.getTotalPages())
                 .build();
     }
 }
