@@ -22,5 +22,5 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Slice<Article> findByLikeNumAndIdCursor(@Param("likeNum") int likeNum, @Param("id") Long id, Pageable pageable);
 
     // 제목에 특정 키워드를 포함하는 게시글 조회
-    List<Article> findByTitleContaining(String keyword);
+    List<Article> findAllByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String title, String content);
 }
