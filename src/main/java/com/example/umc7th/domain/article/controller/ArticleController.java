@@ -5,6 +5,7 @@ import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.service.command.ArticleCommandService;
 import com.example.umc7th.domain.article.service.query.ArticleQueryService;
+import com.example.umc7th.domain.reply.service.command.ReplyCommandService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -64,4 +65,36 @@ public class ArticleController {
         // 조회된 모든 게시글 정보를 담은 DTO 리스트를 CustomResponse로 래핑하여 성공 응답 반환
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
+
+    /**
+     * 게시글 수정 API (PUT - 전체 수정)
+     * @param articleId (수정할 게시글의 Id)
+     * @param dto (수정할 게시글 정보)
+     * @return 수정된 게시글 정보를 담은 DTO를 CustomResponse로 반환
+     */
+    @PutMapping("/articles/{articleId}")
+    @Operation(summary = "게시글 전체 수정 API", description = "게시글 전체 수정하는 API")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> updateArticlePut(@PathVariable("articleId") Long articleId,
+                                                                                 @RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
+        // 게시글 수정
+        Article updatedArticle = articleCommandService.updateArticle(articleId, dto);
+        // 성공 응답 반환
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(Optional.of(updatedArticle)).get());
+    }
+
+    /**
+     * 게시글 삭제 API
+     *
+     * @param articleId (삭제할 게시글의 Id)
+     * @return 성공 응답을 CustomResponse 형태로 반환
+     */
+    @DeleteMapping("/articles/{articleId}")
+    @Operation(summary = "게시글 삭제 API", description = "게시글 삭제하는 API")
+    public CustomResponse<String> deleteArticle(@PathVariable("articleId") Long articleId) {
+        // 게시글 삭제
+        articleCommandService.deleteArticle(articleId);
+        // 성공 응답 반환
+        return CustomResponse.onSuccess("게시글 삭제가 성공적으로 완료되었습니다.");
+    }
+
 }

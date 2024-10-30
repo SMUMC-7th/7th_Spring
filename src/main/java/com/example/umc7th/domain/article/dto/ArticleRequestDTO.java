@@ -26,4 +26,22 @@ public class ArticleRequestDTO {
                     .build();
         }
     }
+
+    @Getter
+    public static class UpdateArticleDTO {
+        private String title;
+        private String content;
+
+        /**
+         * DTO를 Article로 변환하는 메서드
+         *
+         * @return Article 엔티티 객체
+         */
+        public Article toEntity() {
+            return Article.builder()
+                    .title(this.title)
+                    .content(this.content)
+                    .build();
+        }
+    }
 }
