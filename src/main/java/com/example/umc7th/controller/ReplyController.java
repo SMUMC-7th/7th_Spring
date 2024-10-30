@@ -1,8 +1,10 @@
 package com.example.umc7th.controller;
 
 
+import com.example.umc7th.converter.ReplyConverter;
 import com.example.umc7th.dto.request.ReplyRequestDto;
 import com.example.umc7th.dto.response.ReplyResponseDto;
+import com.example.umc7th.entity.Reply;
 import com.example.umc7th.global.apipayload.CustomResponse;
 import com.example.umc7th.global.apipayload.success.GeneralSuccessCode;
 import com.example.umc7th.service.command.ReplyCommandService;
@@ -10,6 +12,7 @@ import com.example.umc7th.service.query.ReplyQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -54,6 +57,20 @@ public class ReplyController {
     public CustomResponse<ReplyResponseDto.ReplyPreviewDto> getReplies(@PathVariable("replyId") Long replyId){
         ReplyResponseDto.ReplyPreviewDto replyResponseDto = replyQueryService.getReply(replyId);
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, replyResponseDto);
+    }
+
+    @GetMapping("/articles/{articleId}/replies")
+    @Operation(method = "GET",
+            summary = "댓글 페이지 조회",
+            description = "pageNum, pageSize를 파라미터로 받아 articleId에 해당하는 게시글의 댓글 페이지단위 조회")
+    public CustomResponse<ReplyResponseDto.ReplyPagePreviewListDto> getRepliesPage(
+            @PathVariable("articleId") Long articleId,
+            @RequestParam int pageNum,
+            @RequestParam int pageSize)
+    {
+        Page<Reply> page = replyQueryService.getRepliesByArticle(pageNum, pageSize, articleId);
+        ReplyResponseDto.ReplyPagePreviewListDto result = ReplyConverter.from(page);
+        return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, result);
     }
 
     @PutMapping("/articles/replies/{replyId}")

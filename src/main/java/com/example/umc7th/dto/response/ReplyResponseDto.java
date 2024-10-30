@@ -31,4 +31,15 @@ public class ReplyResponseDto {
     public static class ReplyPreviewListDto {
         public List<ReplyPreviewDto> replies;
     }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ReplyPagePreviewListDto {
+        private List<ReplyPreviewDto> replyPreviewDtoList;
+        private int numOfRows;
+        private int pageNo;
+        private long totalPage;
+    }
 }

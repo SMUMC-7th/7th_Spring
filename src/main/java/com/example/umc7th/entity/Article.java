@@ -1,7 +1,6 @@
 package com.example.umc7th.entity;
 
 
-import com.example.umc7th.dto.request.ArticleRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
