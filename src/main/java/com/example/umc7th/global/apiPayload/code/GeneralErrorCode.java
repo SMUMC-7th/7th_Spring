@@ -23,9 +23,6 @@ public enum GeneralErrorCode implements BaseErrorCode {
     NOT_FOUND_404(HttpStatus.NOT_FOUND,
             "COMMON404",
             "요청한 자원을 찾을 수 없습니다"),
-    ARTICLE_NOT_FOUND_404(HttpStatus.NOT_FOUND,
-            "ARTICLE404",
-            "해당하는 Article이 없습니다."),
     //500
     INTERNAL_SERVER_ERROR_500(
             HttpStatus.INTERNAL_SERVER_ERROR,
