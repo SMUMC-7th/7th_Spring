@@ -6,6 +6,7 @@ import com.example.umc7th.domain.article.service.command.ArticleCommandService;
 import com.example.umc7th.domain.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +34,14 @@ public class ArticleController {
                 .body(CustomResponse.onSuccess(HttpStatus.CREATED, responseDto));
     }
 
-    @Operation(summary = "전체 게시글 리스트 조회", description = "전체 게시글을 최신 순으로 조회합니다.")
+    @Operation(summary = "커서 기반 게시글 조회", description = "커서와 정렬 기준에 따라 게시글 목록을 조회합니다.")
     @GetMapping("")
-    public CustomResponse<ArticleResDto.ArticlePreviewListDto> getArticleList() {
-        ArticleResDto.ArticlePreviewListDto articles = articleQueryService.getArticleList();
+    public CustomResponse<ArticleResDto.ArticlePreviewListDto> getArticlesByCursor(
+            @Parameter(description = "다음 페이지 조회에 사용할 커서 값") @RequestParam(value = "cursor", required = false) Long cursor,
+            @Parameter(description = "한 페이지에 조회할 게시글 개수") @RequestParam(value = "offset", defaultValue = "10") int offset,
+            @Parameter(description = "정렬 기준 (예: id, createdAt, like)") @RequestParam(value = "sort", defaultValue = "id") String sort) {
+
+        ArticleResDto.ArticlePreviewListDto articles = articleQueryService.getArticlesByCursor(cursor, offset, sort);
         return CustomResponse.onSuccess(articles);
     }
 

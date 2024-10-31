@@ -4,6 +4,6 @@ import com.example.umc7th.domain.article.dto.response.ArticleResDto;
 
 public interface ArticleQueryService {
 
-    ArticleResDto.ArticlePreviewListDto getArticleList();
     ArticleResDto.ArticlePreviewDto getArticle(Long articleId);
+    ArticleResDto.ArticlePreviewListDto getArticlesByCursor(Long cursor, int offset, String sort);
 }
