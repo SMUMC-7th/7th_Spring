@@ -3,6 +3,7 @@ package com.example.umc7th.article.dto;
 import com.example.umc7th.article.entity.Article;
 import lombok.*;
 import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -63,6 +64,34 @@ public class ArticleResponseDTO {
                     .build();
         }
     }
+
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    public static class ArticlePagePreviewListDTO {
+        List<ArticlePreviewDTO> articleList;
+        private boolean hasNext;
+        private LocalDateTime cursor;
+
+        public static ArticlePagePreviewListDTO from(Slice<Article> articles) {
+            List<ArticlePreviewDTO> articleList = articles.getContent()
+                    .stream()
+                    .map(ArticlePreviewDTO::from)
+                    .toList();
+
+            LocalDateTime lastCursor = articles.hasContent() ?
+                    articles.getContent().get(articles.getNumberOfElements() - 1).getCreatedAt() : null;
+
+            return ArticlePagePreviewListDTO.builder()
+                    .articleList(articleList)
+                    .hasNext(articles.hasNext())
+                    .cursor(lastCursor)
+                    .build();
+        }
+
+    }
+
 
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
