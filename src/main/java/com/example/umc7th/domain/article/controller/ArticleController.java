@@ -3,6 +3,7 @@ package com.example.umc7th.domain.article.controller;
 import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
+import com.example.umc7th.domain.article.repository.ArticleRepository;
 import com.example.umc7th.domain.article.service.command.ArticleCommandService;
 import com.example.umc7th.domain.article.service.query.ArticleQueryService;
 import com.example.umc7th.domain.reply.service.command.ReplyCommandService;
@@ -10,8 +11,10 @@ import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +25,7 @@ public class ArticleController {
 
     private final ArticleQueryService articleQueryService;
     private final ArticleCommandService articleCommandService;
+    private final ArticleRepository articleRepository;
 
     /**
      * 게시글 생성 API
@@ -56,7 +60,7 @@ public class ArticleController {
     /**
      * 모든 게시글 조회 API
      * @return 모든 게시글을 조회한 후 성공 응답을 CustomResponse 형태로 반환
-     */
+
     @GetMapping("/articles")
     @Operation(summary = "게시글 전체 조회 API", description = "게시글 전체 조회하는 API")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
@@ -64,6 +68,24 @@ public class ArticleController {
         List<Article> articles = articleQueryService.getArticles();
         // 조회된 모든 게시글 정보를 담은 DTO 리스트를 CustomResponse로 래핑하여 성공 응답 반환
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
+    }*/
+
+    /**
+     * 커서 기반 게시글 조회 API
+     * @param lastCreatedAt (이전 게시글의 생성 날짜)
+     * @param pageable (페이지네이션 정보)
+     * @return 생성 날짜 기준으로 게시글을 조회한 후 성공 응답을 CustomResponse 형태로 반환
+     */
+    @GetMapping("/articles/cursor")
+    @Operation(summary = "커서 기반 게시글 조회 API", description = "생성 날짜 기준으로 게시글 조회하는 API")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticlesByCursor(
+            @RequestParam(required = false) LocalDateTime lastCreatedAt,
+            Pageable pageable) {
+
+        List<Article> articles = articleQueryService.getArticlesByCreatedAtLessThan(lastCreatedAt, pageable);
+        int totalCount = (int) articleRepository.count(); // 전체 게시글 수 조회
+
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles, totalCount, pageable.getPageSize()));
     }
 
     /**
@@ -96,5 +118,7 @@ public class ArticleController {
         // 성공 응답 반환
         return CustomResponse.onSuccess("게시글 삭제가 성공적으로 완료되었습니다.");
     }
+
+
 
 }
