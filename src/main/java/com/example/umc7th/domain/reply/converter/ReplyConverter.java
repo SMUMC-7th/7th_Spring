@@ -4,8 +4,7 @@ import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public class ReplyConverter {
 
@@ -33,9 +32,12 @@ public class ReplyConverter {
                 .build();
     }
 
-    public static ReplyResponseDTO.ReplyPreviewListDTO toReplyPreviewListDTO(List<Reply> replies) {
+    public static ReplyResponseDTO.ReplyPreviewListDTO toReplyPreviewListDTO(Page<Reply> replies) {
         return ReplyResponseDTO.ReplyPreviewListDTO.builder()
-                .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .replies(replies.getContent().stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .pageNo(replies.getNumber() + 1)
+                .size(replies.getSize())
+                .totalPage(replies.getTotalPages())
                 .build();
     }
 
@@ -45,6 +47,15 @@ public class ReplyConverter {
                 .content(reply.getContent())
                 .updatedAt(reply.getUpdatedAt())
                 .articleId(reply.getArticle().getId())
+                .build();
+    }
+
+    public static ReplyResponseDTO.ReplyPageListDTO toReplyPageListDTO(Page<Reply> replyPage) {
+        return ReplyResponseDTO.ReplyPageListDTO.builder()
+                .replies(replyPage.getContent().stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .size(replyPage.getSize()) // 한 페이지 볼 수 있는 양
+                .pageNo(replyPage.getNumber()) // 현재 페이지 넘버
+                .totalPage(replyPage.getTotalElements()) // 총 개수
                 .build();
     }
 }

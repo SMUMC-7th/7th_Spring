@@ -11,6 +11,7 @@ import com.example.umc7th.global.apiPayload.code.GeneralSuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,11 +32,13 @@ public class ReplyController {
         return CustomResponse.onSuccess(ReplyConverter.toCreateReplyResponseDTO(reply));
     }
 
-    @GetMapping("/replies")
+    @GetMapping("replies/articles/{articleId}")
     @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회화는 API")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies() {
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable Long articleId,
+                                                                           @RequestParam("page") Integer page,
+                                                                           @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
 
-        List<Reply> replies = replyQueryService.getReplies();
+        Page<Reply> replies = replyQueryService.getReplies(articleId, page, offset);
 
         return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewListDTO(replies));
     }
@@ -66,4 +69,16 @@ public class ReplyController {
         return CustomResponse.onSuccess(replyCommandService.deleteReply(id));
     }
 
+    @GetMapping("/articles/{articleId}/replies")
+    @Operation(summary = "댓글 offset 페이지네이션 API", description = "댓글 offset 페이지네이션")
+    public CustomResponse<ReplyResponseDTO.ReplyPageListDTO> getRepliesByArticleUsingOffset(
+            @PathVariable("articleId") Long articleId,
+            @RequestParam(defaultValue = "0") int page, // 현재 페이지
+            @RequestParam(defaultValue = "7") int size // 크기
+            ) {
+
+        Page<Reply> replies = replyQueryService.getRepliesByArticleId(articleId, page, size); // 댓글 얻고
+
+        return CustomResponse.onSuccess(ReplyConverter.toReplyPageListDTO(replies));
+    }
 }
