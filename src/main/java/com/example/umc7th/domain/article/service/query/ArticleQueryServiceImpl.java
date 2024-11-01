@@ -6,6 +6,7 @@ import com.example.umc7th.domain.article.exception.ArticleException;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -31,7 +32,11 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public List<Article> getArticles() {
-        return articleRepository.findAll();
+
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Article> article = articleRepository.findAllByOrderByCreatedAtDesc(pageable);
+
+        return article.getContent();
     }
 
     @Override
