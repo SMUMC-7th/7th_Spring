@@ -1,5 +1,9 @@
 package com.example.umc7th.domain.reply.service.query;
 
+import com.example.umc7th.domain.article.entity.Article;
+import com.example.umc7th.domain.article.exception.ArticleErrorCode;
+import com.example.umc7th.domain.article.exception.ArticleException;
+import com.example.umc7th.domain.article.repository.ArticleRepository;
 import com.example.umc7th.domain.reply.exception.ReplyErrorCode;
 import com.example.umc7th.domain.reply.exception.ReplyException;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
@@ -19,10 +23,19 @@ import java.util.List;
 public class ReplyQueryServiceImpl implements ReplyQueryService{
 
     private final ReplyRepository replyRepository;
+    private final ArticleRepository articleRepository;
 
-    @Override
+    /*@Override
     public List<Reply> getReplies() {
         return replyRepository.findAll();
+    }*/
+    @Override
+    public Page<Reply> getReplies(Long articleId, Integer page, Integer offset) {
+
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
+        Pageable pageable = PageRequest.of(page - 1, offset);
+
+        return replyRepository.findAllByArticleIsOrderByCreatedAtDesc(article, pageable);
     }
 
     @Override
@@ -39,6 +52,6 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
         // pageNumber와 pageSize 값을 기준으로 Pageable 객체 생성
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        return replyRepository.findAllByArticleIdOrderByCreatedAtDesc(articleId, pageable);
+        return replyRepository.findAllByArticleIsOrderByCreatedAtDesc(articleId, pageable);
     }
 }

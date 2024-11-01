@@ -2,7 +2,6 @@ package com.example.umc7th.domain.reply.dto;
 
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,6 +34,9 @@ public class ReplyResponseDTO {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ReplyPreviewListDTO {
         private List<ReplyPreviewDTO> replies;
+        private int size;
+        private int pageNo;
+        private int totalPage;
     }
 
     @Builder
@@ -55,8 +57,8 @@ public class ReplyResponseDTO {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ReplyPageListDTO {
         private List<ReplyPreviewDTO> replies;
-        private int rows;
-        private int pageNumber;
-        private Long count;
+        private int size;
+        private int pageNo;
+        private Long totalPage;
     }
 }

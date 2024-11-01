@@ -32,11 +32,13 @@ public class ReplyController {
         return CustomResponse.onSuccess(ReplyConverter.toCreateReplyResponseDTO(reply));
     }
 
-    @GetMapping("/replies")
+    @GetMapping("replies/articles/{articleId}")
     @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회화는 API")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies() {
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable Long articleId,
+                                                                           @RequestParam("page") Integer page,
+                                                                           @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
 
-        List<Reply> replies = replyQueryService.getReplies();
+        Page<Reply> replies = replyQueryService.getReplies(articleId, page, offset);
 
         return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewListDTO(replies));
     }
@@ -74,9 +76,6 @@ public class ReplyController {
             @RequestParam(defaultValue = "0") int page, // 현재 페이지
             @RequestParam(defaultValue = "7") int size // 크기
             ) {
-        log.info(String.valueOf(page));
-        log.info(String.valueOf(size));
-        System.out.println("hello");
 
         Page<Reply> replies = replyQueryService.getRepliesByArticleId(articleId, page, size); // 댓글 얻고
 
