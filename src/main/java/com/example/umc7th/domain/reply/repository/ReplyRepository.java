@@ -9,5 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
-    Page<Reply> findAllByArticleIdOrderByCreatedAtDesc(Long articleId, Pageable pageable);
+    Page<Reply> findAllByArticleIsOrderByCreatedAtDesc(Article article, Pageable pageable);
+
+
+    boolean existsByArticleIs(Article article);
 }

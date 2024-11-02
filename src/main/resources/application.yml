@@ -15,7 +15,7 @@ spring:
         format_sql: true
 
 
-#localhost8080/하면 swagger실행
+#localhost:8080/하면 swagger실행
 springdoc:
   swagger-ui:
     path: /

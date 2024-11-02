@@ -7,18 +7,33 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-// JpaRepository의 첫 번째는 해당 Repository가 사용할 클래스(엔티티)가 들어가야합니다.
-// 두 번째는 id의 자료형을 적어줍니다.
+    //첫 검색용
+    Slice<Article> findAllByOrderByIdDesc(Pageable pageable);
+    Slice<Article> findAllByOrderByLikeNumDescIdDesc(Pageable pageable);
 
     //id기준 정렬
     Slice<Article> findAllByIdLessThanOrderByIdDesc(@Param("cursor") Long cursor, Pageable pageable);
-    //날짜기준 정렬,
-    // 밀리 초 단위이기 때문에 그대로 정렬, 근데 이럴거면 이전 생성시간을 넘겨주는 건?
 
-    @Query("select a from Article a where a.createdAt < :cursor " +
-            "order by a.createdAt desc")
-    Slice<Article> findAllByCreatedAtLessThanOrderByCreatedAtDesc(@Param("cursor")Long cursor, Pageable pageable);
+    //올바른 방식의 좋아요기준 커서기반 페이지네이션
+    @Query(value = "SELECT a.* FROM article a " +
+            "JOIN (SELECT a2.id, CONCAT(LPAD(a2.like_num, 10, '0'), LPAD(a2.id, 10, '0')) as cursorValue FROM article a2) as cursorTable ON a.id = cursorTable.id " +
+            "WHERE cursorValue < (SELECT CONCAT(LPAD(a3.like_num, 10, '0'), LPAD(a3.id, 10, '0')) as cursorValue FROM article a3 WHERE a3.id = :articleId) " +
+            "ORDER BY cursorTable.cursorValue DESC",
+            nativeQuery = true)
+    Slice<Article> findAllByOrderByLikeWithCursor(@Param("articleId") Long cursor, Pageable pageable);
+
+    //게시글 검색
+    List<Article> findAllByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String title, String content);
+
+
+
+
+
+
+
 
 
     //좋아요수 기준 (jpa가 Pageable 주면 알아서 limit, offset 설정해 줌)

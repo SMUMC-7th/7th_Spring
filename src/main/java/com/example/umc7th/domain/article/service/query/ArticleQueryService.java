@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface ArticleQueryService {
     Article getArticle(Long id);
-    List<Article> getArticles();
-    public Slice<Article> getPagedArticles(Long cursor, int offset, String sort);
-    public Slice<Article> getPagedArticlesByTitle(String title, Long cursor, int offset);
+    public Slice<Article> getArticles(Long cursor, int offset, String sort);
+    public List<Article> getPagedArticlesByTitle(String title, String content);
 }
