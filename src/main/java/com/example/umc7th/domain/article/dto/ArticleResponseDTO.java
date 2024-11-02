@@ -2,6 +2,7 @@ package com.example.umc7th.domain.article.dto;
 
 import com.example.umc7th.domain.article.entity.Article;
 import lombok.*;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,6 +56,26 @@ public class ArticleResponseDTO {
         public static ArticlePreviewListDTO from(List<Article> articles) {
             return ArticlePreviewListDTO.builder()
                     .articles(articles.stream().map(ArticlePreviewDTO::from).toList())
+                    .build();
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    public static class ArticlePreviewSliceDTO {
+        private List<ArticleResponseDTO.ArticlePreviewDTO> articles;
+        private int numOfRows;
+        private int sliceNo;
+        private boolean hasNext;
+
+        public static ArticleResponseDTO.ArticlePreviewSliceDTO from(Slice<Article> articles) {
+            return ArticlePreviewSliceDTO.builder()
+                    .articles(articles.getContent().stream().map(ArticlePreviewDTO::from).toList())
+                    .numOfRows(articles.getSize())
+                    .sliceNo(articles.getNumber())
+                    .hasNext(articles.hasNext())
                     .build();
         }
     }
