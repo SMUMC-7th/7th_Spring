@@ -40,7 +40,14 @@ public class ReplyController {
                 ReplyResponseDTO.from(replyQueryService.getReplies(articleId)));
     }
 
+    @PostMapping("/{articleId}/is-replies")
+    @Operation(summary = "게시글에 답글이 있는지 여부", description = "해당 게시글 댓글이 있는지 여부를 조회한다. ")
+    public CustomResponse<?> isExistedReplies(@PathVariable("articleId") Long articleId) {
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, replyQueryService.isExistReplies(articleId));
+    }
+
     @PutMapping("/{replyId}/replies")
+    @Operation(summary = "게시글에 업데이트 API ", description = "게시글에 있는 답글을 수정합니다. ")
     public CustomResponse<?> updateReply(@PathVariable Long replyId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
         replyCommandService.updateReply(replyId, dto);
         return CustomResponse.onSuccess(GeneralSuccessCode.OK);
