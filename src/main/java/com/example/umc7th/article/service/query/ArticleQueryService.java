@@ -1,7 +1,8 @@
 package com.example.umc7th.article.service.query;
 
+import com.example.umc7th.article.dto.DetailArticleResponseDTO;
 import com.example.umc7th.article.entity.Article;
-import java.util.List;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,5 +10,5 @@ import org.springframework.stereotype.Service;
 public interface ArticleQueryService {
     Article getDetailArticle(Long id);
 
-    List<Article> getArticles(Long cursorId, String likeTitle);
+    Slice<DetailArticleResponseDTO> getArticles(Long cursorId, int size, String likeTitle, boolean isLikedSort);
 }
