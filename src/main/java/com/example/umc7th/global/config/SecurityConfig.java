@@ -4,7 +4,7 @@ import com.example.umc7th.domain.member.principal.PrincipalDetailsService;
 import com.example.umc7th.global.jwt.filter.JwtFilter;
 import com.example.umc7th.global.jwt.handler.JwtAccessDeniedHandler;
 import com.example.umc7th.global.jwt.handler.JwtAuthenticationEntryPoint;
-import io.jsonwebtoken.Jwt;
+import com.example.umc7th.global.jwt.util.JwtProvider;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JwtProvider jwtProvider;
     private final PrincipalDetailsService principalDetailsService;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -30,6 +31,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
+            "/login",
+            "/signup"
     };
 
     @Bean
@@ -52,7 +55,7 @@ public class SecurityConfig {
 
     @Bean
     public Filter jwtFilter() {
-        return new JwtFilter(principalDetailsService);
+        return new JwtFilter(jwtProvider, principalDetailsService);
     }
 
     @Bean
