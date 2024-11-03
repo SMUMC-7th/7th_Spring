@@ -25,4 +25,12 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
         }
         return replyRepository.findAllByArticleId(articleId);
     }
+
+    @Override
+    public boolean isExistReplies(Long articleId) {
+        if (!articleRepository.existsById(articleId)) {
+            throw new ArticleCustomException(ArticleErrorCode.ARTICLE_NOT_FOUND_404);
+        }
+        return replyRepository.existsByArticleId(articleId);
+    }
 }
