@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @Tag(name = "댓글 API")
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +27,7 @@ public class ReplyController {
         return CustomResponse.onSuccess(ReplyResponseDTO.CreateReplyResponseDTO.from(reply));
     }
 
-    @GetMapping("/articles/{articleId}")
+    @GetMapping("/articles/{articleId}/replies")
     @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회하는 API")
     public CustomResponse<ReplyResponseDTO.ReplyPreviewPageDTO> getReplies(@PathVariable Long articleId,
                                                                            @RequestParam("page") Integer page,
@@ -54,7 +53,7 @@ public class ReplyController {
     @DeleteMapping("/replies/{replyId}")
     @Operation(summary = "댓글 삭제 API", description = "댓글 삭제하는 API")
     public CustomResponse<Long> deleteReply(@PathVariable("replyId") Long replyId) {
-        Long id =replyCommandService.deleteReply(replyId);
+        Long id = replyCommandService.deleteReply(replyId);
         return CustomResponse.onSuccess(id);
     }
 
