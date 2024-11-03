@@ -1,6 +1,8 @@
 package com.example.umc7th.reply.service.command;
 
 import com.example.umc7th.article.entity.Article;
+import com.example.umc7th.article.error.ArticleCustomException;
+import com.example.umc7th.article.error.ArticleErrorCode;
 import com.example.umc7th.article.repository.ArticleRepository;
 import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc7th.global.apiPayload.exception.CustomException;
@@ -21,7 +23,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     @Override
     public Reply createReply(Long id, ReplyRequestDTO.CreateReplyDTO dto) {
         Article article = articleRepository.findById(id).orElseThrow(
-                () -> new CustomException(GeneralErrorCode.ARTICLE_NOT_FOUND_404)
+                () -> new ArticleCustomException(ArticleErrorCode.ARTICLE_NOT_FOUND_404)
         );
         Reply reply = Reply.builder()
                 .article(article)
