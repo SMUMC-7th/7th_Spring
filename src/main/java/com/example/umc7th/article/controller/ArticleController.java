@@ -1,7 +1,6 @@
 package com.example.umc7th.article.controller;
 
 import com.example.umc7th.article.dto.ArticleRequestDTO;
-import com.example.umc7th.article.dto.ArticleResponseDTO;
 import com.example.umc7th.article.dto.DetailArticleResponseDTO;
 import com.example.umc7th.article.service.command.ArticleCommandService;
 import com.example.umc7th.article.service.query.ArticleQueryService;
@@ -46,9 +45,17 @@ public class ArticleController {
     @GetMapping("/articles")
     @Operation(summary = "게시글 여러개 조회 API", description = "게시글 전체를 조회하는 API 입니다. ")
     public CustomResponse<?> getAllArticle(@RequestParam(required = false) Long cursorId,
-                                           @RequestParam(required = false) String likeTitle) {
+                                           @RequestParam(required = false, defaultValue = "10") int size,
+                                           @RequestParam(required = false) String likeTitle,
+                                           @RequestParam(required = false) boolean isLikedSort) {
         return CustomResponse.onSuccess(GeneralSuccessCode.OK,
-                ArticleResponseDTO.from(articleQueryService.getArticles(cursorId, likeTitle)));
+                articleQueryService.getArticles(cursorId, size, likeTitle, isLikedSort));
+    }
+
+    @PostMapping("/articles/{articleId}")
+    public CustomResponse<?> addLikeNumbers(@PathVariable Long articleId) {
+        articleCommandService.addLikeNum(articleId);
+        return CustomResponse.onSuccess(GeneralSuccessCode.CREATED);
     }
 
     @PutMapping("/articles/{articleId}")
