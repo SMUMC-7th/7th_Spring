@@ -10,10 +10,18 @@ import org.springframework.data.repository.query.Param;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    // 게시글 아이디(내림차순)을 기반으로 커서 페이지네이션
-    Slice<Article> findAllByIdLessThanOrderByIdDesc(Long id, Pageable pageable);
+    // 게시글 아이디(내림차순) 기반 커서 페이지네이션 (cursorId 가 0일 경우(처음 조회하는 경우))
+    @Query("SELECT a FROM Article a ORDER BY a.id DESC")
+    Slice<Article> findFirstPageByIdDesc(Pageable pageable);
 
-    // 좋아요수(내림차순)와 게시글 아이디(내림차순)을 조합한 값을 기반으로 커서 페이지네이션
+    // 게시글 아이디(내림차순) 기반 커서 페이지네이션
+    Slice<Article> findAllByIdLessThanOrderByIdDesc(Long cursorId, Pageable pageable);
+
+    // 좋아요수(내림차순) & 게시글 아이디(내림차순) 기반 커서 페이지네이션 (cursorId 가 0일 경우(처음 조회하는 경우))
+    @Query("SELECT a FROM Article a ORDER BY a.likeNum DESC, a.id DESC")
+    Slice<Article> findFirstPageByLikeNumDescIdDesc(Pageable pageable);
+
+    // 좋아요수(내림차순) & 게시글 아이디(내림차순) 기반 커서 페이지네이션
     @Query(value = """
             SELECT a.* FROM article a
             WHERE CONCAT(LPAD(a.like_num, 10, '0'), LPAD(a.id, 10, '0')) <

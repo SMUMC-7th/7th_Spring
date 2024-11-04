@@ -11,7 +11,6 @@ import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -96,7 +95,7 @@ public class ArticleController {
     @Operation(summary = "기준에 따라 정렬된 게시글 조회")
     public CustomResponse<ArticleResponseDTO.ArticleSliceResponse> getArticlesSorted(
             @RequestParam SortType sortType,
-            @RequestParam Long cursorId) {
+            @RequestParam(defaultValue = "0") Long cursorId) {
 
         Slice<Article> articles = articleQueryService.getArticlesBySort(sortType, cursorId);
 

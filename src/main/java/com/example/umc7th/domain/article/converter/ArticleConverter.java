@@ -3,10 +3,12 @@ package com.example.umc7th.domain.article.converter;
 import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
+@Slf4j
 public class ArticleConverter {
 
     public static Article toArticle(ArticleRequestDTO.CreateArticleDTO createArticleDTO) {
@@ -53,6 +55,10 @@ public class ArticleConverter {
     }
 
     public static ArticleResponseDTO.ArticleSliceResponse toArticleSliceResponseDTO(Slice<Article> articles) {
+
+        if (articles.getContent() == null) {
+            throw new IllegalArgumentException("페이징 목록이 비어있습니다.");
+        }
 
         List<ArticleResponseDTO.ArticleViewDTO> articleViewDTOs = articles.stream()
                 .map(ArticleConverter::toArticleViewDTO)

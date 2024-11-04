@@ -1,7 +1,5 @@
 package com.example.umc7th.domain.article.service.query;
 
-import com.example.umc7th.domain.article.converter.ArticleConverter;
-import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.entity.enums.SortType;
 import com.example.umc7th.domain.article.exception.ArticleErrorCode;
@@ -58,6 +56,12 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     public Slice<Article> getArticlesByIdDesc(Long cursorId) {
 
         Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+
+        // cursorId 가 0일경우 == 처음 조회하는 경우
+        if (cursorId == 0L) {
+            return articleRepository.findFirstPageByIdDesc(pageable);
+        }
+
         articleRepository.findById(cursorId).orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
 
         return articleRepository.findAllByIdLessThanOrderByIdDesc(cursorId, pageable);
@@ -67,6 +71,12 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     public Slice<Article> getArticlesByLikeNumDesc(Long cursorId) {
 
         Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+
+        // cursorId 가 0일경우 == 처음 조회하는 경우
+        if (cursorId == 0L) {
+            return articleRepository.findFirstPageByLikeNumDescIdDesc(pageable);
+        }
+
         Article article = articleRepository.findById(cursorId).orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
 
         return articleRepository.findAllByOrderByLikeNum(article.getLikeNum(), cursorId, pageable);
