@@ -33,7 +33,7 @@ public class MemberController {
     }
 
     @GetMapping
-    public CustomResponse<MemberResponseDto.MemberPreviewDto> login(@RequestParam Long id){
+    public CustomResponse<MemberResponseDto.MemberPreviewDto> getMember(@RequestParam Long id){
         MemberResponseDto.MemberPreviewDto result = memberQueryService.getMember(id);
         return CustomResponse.onSuccess(GeneralSuccessCode.SUCCESS_200, result);
     }
