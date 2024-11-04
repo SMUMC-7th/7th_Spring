@@ -27,9 +27,9 @@ public class JwtProvider {
     private long refreshExpiration;
 
     // @Value: yml에서 해당 값을 가져오기 (아래의 YML의 값을 가져올 수 있음)
-    public JwtProvider(@Value("${Jwt.secret}") String secret,
-                       @Value("${Jwt.token.access-expiration-time}") long accessExpiration,
-                       @Value("${Jwt.token.refresh-expiration-time}") long refreshExpiration) {
+    public JwtProvider(@Value("${jwt.secret}") String secret,
+                       @Value("${jwt.token.access-expiration-time}") long accessExpiration,
+                       @Value("${jwt.token.refresh-expiration-time}") long refreshExpiration) {
         this.secret = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)); // 가져온 문자열로 SecretKey 생성
         this.accessExpiration = accessExpiration;
         this.refreshExpiration = refreshExpiration;
