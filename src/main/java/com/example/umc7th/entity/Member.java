@@ -24,4 +24,9 @@ public class Member extends BaseEntity {
 
     @Column(name = "role")
     private String role;
+
+    public void update(String email, String password){
+        this.email = email;
+        this.password = password;
+    }
 }
