@@ -61,6 +61,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean
+    // JwtFilter를 Bean에 주입
+    public Filter jwtFilter() {
+        return new JwtFilter(jwtProvider, userDetailsService);
+    }
 
     @Bean
     public PasswordEncoder bCryptPasswordEncoder() {

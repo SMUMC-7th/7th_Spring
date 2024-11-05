@@ -77,4 +77,14 @@ public class JwtProvider {
         return getClaims(token).getBody().getSubject();
     }
 
+    // 헤더에서 AccessToken 추출
+    public String getAccessTokenFromHeader(HttpServletRequest request) {
+        String accessToken = request.getHeader("Authorization");
+
+        if (accessToken == null || !accessToken.startsWith("Bearer ")) {
+            return null;
+        }
+
+        return accessToken.split(" ")[1];
+    }
 }
