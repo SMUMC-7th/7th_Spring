@@ -10,10 +10,8 @@ import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -90,42 +88,7 @@ public class ArticleController {
             @RequestParam(required = false, defaultValue = "id") String sort
     ) {
         ArticleSearchCond sortCond = ArticleSearchCond.valueOf(sort.toUpperCase());
-        Slice<Article> articles;
-
-        switch (sortCond) {
-            case CREATED_AT:
-                articles = articleQueryService.getArticlesOrderByCreatedAt((cursor == null) ? LocalDateTime.now() : LocalDateTime.parse(cursor), size);
-                break;
-            case LIKE_NUM:
-                articles = articleQueryService.getArticlesOrderByLikeNum((cursor == null) ? "99999999999999999999" : cursor, size);
-                break;
-            default:
-                articles = articleQueryService.getArticlesOrderById((cursor == null) ? Long.MAX_VALUE : Long.parseLong(cursor), size);
-                break;
-        }
-
-        String nextCursor = getCursor(sortCond, articles);
-
-        return CustomResponse.onSuccess(ArticleConverter.toArticleCursorPreviewListDTO(articles, nextCursor));
+        return CustomResponse.onSuccess(articleQueryService.getArticlesOrderBy(sortCond, cursor, size));
     }
 
-    private String getCursor(ArticleSearchCond sortCond, Slice<Article> articles) {
-        String cursor;
-        List<Article> content = articles.getContent();
-
-        switch (sortCond) {
-            case CREATED_AT:
-                cursor = content.get(content.size() - 1).getCreatedAt().toString();
-                break;
-            case LIKE_NUM:
-                Article lastArticle = content.get(content.size() - 1);
-                cursor = String.format("%010d%010d", lastArticle.getLikeNum(), lastArticle.getId());
-                break;
-            default:
-                cursor = content.get(content.size() - 1).getId().toString();
-                break;
-        }
-
-        return cursor;
-    }
 }

@@ -1,5 +1,8 @@
 package com.example.umc7th.domain.article.service.query;
 
+import com.example.umc7th.domain.article.controller.ArticleSearchCond;
+import com.example.umc7th.domain.article.converter.ArticleConverter;
+import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.exception.ArticleErrorCode;
 import com.example.umc7th.domain.article.exception.ArticleException;
@@ -49,20 +52,49 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     }
 
     @Override
-    public Slice<Article> getArticlesOrderById(Long id, int size) {
+    public ArticleResponseDTO.ArticleCursorPreviewListDTO getArticlesOrderBy(ArticleSearchCond sortCond, String cursor, int size) {
         Pageable pageable = PageRequest.of(0, size);
-        return articleRepository.findAllByIdLessThanOrderByIdDesc(id, pageable);
+
+        Slice<Article> articles;
+        switch (sortCond) {
+            case CREATED_AT:
+                articles = articleRepository.findAllByCreatedAtLessThanOrderByCreatedAtDesc(
+                        (cursor == null) ? LocalDateTime.now() : LocalDateTime.parse(cursor),
+                        pageable);
+                break;
+            case LIKE_NUM:
+                articles = articleRepository.findByLikeNumCursor(
+                        (cursor == null) ? "99999999999999999999" : cursor,
+                        pageable);
+                break;
+            default:
+                articles = articleRepository.findAllByIdLessThanOrderByIdDesc(
+                        (cursor == null) ? Long.MAX_VALUE : Long.parseLong(cursor),
+                        pageable);
+        }
+
+        String nextCursor = getCursor(sortCond, articles);
+
+        return ArticleConverter.toArticleCursorPreviewListDTO(articles, nextCursor);
     }
 
-    @Override
-    public Slice<Article> getArticlesOrderByCreatedAt(LocalDateTime cursor, int size) {
-        Pageable pageable = PageRequest.of(0, size);
-        return articleRepository.findAllByCreatedAtLessThanOrderByCreatedAtDesc(cursor, pageable);
-    }
+    private String getCursor(ArticleSearchCond sortCond, Slice<Article> articles) {
+        String cursor;
+        List<Article> content = articles.getContent();
 
-    @Override
-    public Slice<Article> getArticlesOrderByLikeNum(String cursor, int size) {
-        Pageable pageable = PageRequest.of(0, size);
-        return articleRepository.findByLikeNumCursor(cursor, pageable);
+        switch (sortCond) {
+            case CREATED_AT:
+                cursor = content.get(content.size() - 1).getCreatedAt().toString();
+                break;
+            case LIKE_NUM:
+                Article lastArticle = content.get(content.size() - 1);
+                cursor = String.format("%010d%010d", lastArticle.getLikeNum(), lastArticle.getId());
+                break;
+            default:
+                cursor = content.get(content.size() - 1).getId().toString();
+                break;
+        }
+
+        return cursor;
     }
 }
