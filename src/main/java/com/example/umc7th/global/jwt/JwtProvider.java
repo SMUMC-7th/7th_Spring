@@ -34,7 +34,7 @@ public class JwtProvider {
         this.accessExpiration = accessExpiration;
         this.refreshExpiration = refreshExpiration;
     }
-
+    
     public String createAccessToken(Member member) {
         return createToken(member, this.accessExpiration);
     }
