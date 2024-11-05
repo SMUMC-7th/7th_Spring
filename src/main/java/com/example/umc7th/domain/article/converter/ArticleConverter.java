@@ -3,6 +3,7 @@ package com.example.umc7th.domain.article.converter;
 import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -45,5 +46,13 @@ public class ArticleConverter {
                 .articles(articles.stream().map(ArticleConverter::toArticlePreviewDTO).toList())
                 .build();
 
+    }
+
+    public static ArticleResponseDTO.ArticleCursorPreviewListDTO toArticleCursorPreviewListDTO(Slice<Article> articles, String cursor) {
+        return ArticleResponseDTO.ArticleCursorPreviewListDTO.builder()
+                .articles(articles.stream().map(ArticleConverter::toArticlePreviewDTO).toList())
+                .hasNext(articles.hasNext())
+                .cursor(cursor)
+                .build();
     }
 }

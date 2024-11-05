@@ -37,4 +37,15 @@ public class ReplyResponseDTO {
         private List<ReplyPreviewDTO> replies;
 
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class ReplyPagePreviewListDTO {
+        private List<ReplyPreviewDTO> replies;
+        private int numOfRows;
+        private int pageNo;
+        private long totalCount;
+    }
 }

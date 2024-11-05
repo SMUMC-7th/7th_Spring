@@ -36,9 +36,9 @@ public class ArticleController {
     }
 
     @GetMapping
-    @Operation(summary = "전체 게시글 조회 API")
-    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
-        List<Article> articles = articleQueryService.getArticles();
+    @Operation(summary = "키워드 기반 게시글 조회 API")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles(@RequestParam(required = false) String keyword) {
+        List<Article> articles = articleQueryService.getArticles(keyword);
         return CustomResponse.onSuccess(ArticleConverter.toArticlePreviewListDTO(articles));
     }
 
@@ -72,6 +72,23 @@ public class ArticleController {
     public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> patchArticle(@PathVariable("articleId") Long articleId) {
         Article article = articleCommandService.patchArticle(articleId);
         return CustomResponse.onSuccess(ArticleConverter.toArticlePreviewDTO(article));
+    }
+
+    @GetMapping("{articleId}/checkReplies")
+    @Operation(summary = "댓글 존재 여부 확인 API")
+    public CustomResponse<Boolean> checkReplies(@PathVariable("articleId") Long articleId) {
+        return CustomResponse.onSuccess(articleQueryService.hasComments(articleId));
+    }
+
+    @GetMapping("/page")
+    @Operation(summary = "Cursor 기반 게시글 조회 API")
+    public CustomResponse<ArticleResponseDTO.ArticleCursorPreviewListDTO> getArticlesPage(
+            @RequestParam(required = false) String cursor,
+            @RequestParam(required = false, defaultValue = "5") int size,
+            @RequestParam(required = false, defaultValue = "id") String sort
+    ) {
+        ArticleSearchCond sortCond = ArticleSearchCond.valueOf(sort.toUpperCase());
+        return CustomResponse.onSuccess(articleQueryService.getArticlesOrderBy(sortCond, cursor, size));
     }
 
 }
