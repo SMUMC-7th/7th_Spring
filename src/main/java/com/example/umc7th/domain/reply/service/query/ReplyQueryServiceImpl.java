@@ -26,7 +26,7 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     private final ReplyRepository replyRepository;
 
     @Override
-    public List<ReplyResponseDTO.ResponsePreviewDto> getRepliesByArticle(Long articleId){
+    public List<ReplyResponseDTO.ReplyPreviewDto> getRepliesByArticle(Long articleId){
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
 
@@ -36,10 +36,12 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     }
 
     @Override
-    public ReplyResponseDTO.ResponsePagePreviewDto getRepliesByArticleId(Long articleId, int pageNo, int pageSize){
-        Pageable pageable = PageRequest.of(pageNo,pageSize);
-        Page<Reply> replies = replyRepository.findAllByArticleIdOrderByCreatedAtDesc(articleId,pageable);
-        return ReplyConverter.from(replies);
+    public Page<Reply> getReplies(Long articleId, Integer page, Integer offset){
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
+
+        Pageable pageable = PageRequest.of(page-1,offset);
+        return replyRepository.findAllByArticleIdOrderByCreatedAtDesc(article, pageable);
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ReplyResponseDTO {
     @Builder
-    public record ResponsePreviewDto(
+    public record ReplyPreviewDto(
             Long id,
             Long articleId,
             String content,
@@ -18,8 +18,8 @@ public class ReplyResponseDTO {
     }
 
     @Builder
-    public record ResponsePagePreviewDto(
-            List<ResponsePreviewDto> replies,
+    public record ReplyPagePreviewDto(
+            List<ReplyPreviewDto> replies,
             int numOfRows,
             int pageNo,
             long totalCount

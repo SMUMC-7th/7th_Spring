@@ -11,5 +11,5 @@ public interface ArticleQueryService {
     List<ArticleResponseDTO.ArticlePreviewDTO> getArticleList();
     ArticleResponseDTO.ArticlePreviewDTO getArticle(Long articleId);
     boolean hasReplies(Long articleId);
-    Slice<Article> getArticlesByCursor(Long cursor, int size);
+    Slice<Article> getArticlesByCursor(String query, Long cursor, Integer offset);
 }

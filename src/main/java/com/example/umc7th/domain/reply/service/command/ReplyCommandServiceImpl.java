@@ -24,7 +24,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService{
     private final ArticleRepository articleRepository;
 
     @Override
-    public ReplyResponseDTO.ResponsePreviewDto createReply(ReplyRequestDTO.CreateReplyDTO requestDTO){
+    public ReplyResponseDTO.ReplyPreviewDto createReply(ReplyRequestDTO.CreateReplyDTO requestDTO){
         Article article = articleRepository.findById(requestDTO.articleId())
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
 
@@ -33,7 +33,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService{
     }
 
     @Override
-    public ReplyResponseDTO.ResponsePreviewDto updateReply(Long replyId,ReplyRequestDTO.UpdateReplyDTO requestDTO){
+    public ReplyResponseDTO.ReplyPreviewDto updateReply(Long replyId,ReplyRequestDTO.UpdateReplyDTO requestDTO){
         Reply reply = replyRepository.findById(replyId).orElseThrow(
                 () -> new ReplyException(ReplyErrorCode.NOT_FOUND));
         reply.update(requestDTO);

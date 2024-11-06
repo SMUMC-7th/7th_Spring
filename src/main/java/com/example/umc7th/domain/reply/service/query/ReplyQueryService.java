@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface ReplyQueryService {
-    List<ReplyResponseDTO.ResponsePreviewDto> getRepliesByArticle(Long articleId);
-    ReplyResponseDTO.ResponsePagePreviewDto getRepliesByArticleId(Long articleId, int pageNo, int pageSize);
+    List<ReplyResponseDTO.ReplyPreviewDto> getRepliesByArticle(Long articleId);
+    Page<Reply> getReplies(Long articleId, Integer page, Integer offset);
 }
 

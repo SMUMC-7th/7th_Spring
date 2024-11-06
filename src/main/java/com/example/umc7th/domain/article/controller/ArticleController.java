@@ -9,6 +9,8 @@ import com.example.umc7th.domain.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,11 +78,16 @@ public class ArticleController {
     //커서 기반 페이지네이션
     @GetMapping("/page")
     @Operation(method = "GET", summary = "커서 기반 페이지네이션 API", description = "게시글 커서 기반 페이지네이션 API")
+    @Parameters({
+            @Parameter(name = "cursor", description = "커서 값, 처음이면 0"),
+            @Parameter(name = "query", description = "쿼리 LIKE, ID")
+    })
     public CustomResponse<ArticleResponseDTO.ArticlePagePreviewDTO> getArticlesByCursor(
-            @RequestParam(value = "cursor",defaultValue = "9999999") Long cursor,
-            @RequestParam(value = "size", defaultValue = "3") int size
+            @RequestParam(value = "query", defaultValue = "LIKE") String query,
+            @RequestParam("cursor") Long cursor,
+            @RequestParam(value = "offset", defaultValue = "10") Integer offset
             ){
-        Slice<Article> articles = articleQueryService.getArticlesByCursor(cursor, size);
+        Slice<Article> articles = articleQueryService.getArticlesByCursor(query, cursor, offset);
         ArticleResponseDTO.ArticlePagePreviewDTO result = ArticleConverter.from(articles);
         return CustomResponse.onSuccess(result);
     }

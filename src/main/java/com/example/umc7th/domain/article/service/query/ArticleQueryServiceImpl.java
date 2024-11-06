@@ -3,6 +3,7 @@ package com.example.umc7th.domain.article.service.query;
 import com.example.umc7th.domain.article.converter.ArticleConverter;
 import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
+import com.example.umc7th.domain.article.enums.ArticleSearchQuery;
 import com.example.umc7th.domain.article.exception.ArticleErrorCode;
 import com.example.umc7th.domain.article.exception.ArticleException;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
@@ -41,14 +42,30 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
         return ArticleConverter.from(article);
     }
 
+    //댓글 있는 게시글 조회
     @Override
     public boolean hasReplies(Long articleId){
         return replyRepository.existsById(articleId);
     }
 
+    //커서 기반 페이지네이션 조회
     @Override
-    public Slice<Article> getArticlesByCursor(Long cursor, int size){
-        Pageable pageable = PageRequest.of(0, size);
-        return articleRepository.findAllByIdLessThanOrderByIdDesc(cursor,pageable);
+    public Slice<Article> getArticlesByCursor(String query, Long cursor, Integer offset){
+        Pageable pageable = PageRequest.of(0, offset);
+        if(query.equals(ArticleSearchQuery.ID.name())){
+            if(cursor.equals(0L)){
+                return articleRepository.findAllByOrderByIdDesc(pageable);
+            }
+            return articleRepository.findAllByIdLessThanOrderByIdDesc(cursor,pageable);
+        }
+        else if (query.equals(ArticleSearchQuery.LIKE.name())) {
+            if (cursor.equals(0L)){
+                return articleRepository.findAllByOrderByLikeNumDescIdDesc(pageable);
+            }
+            return articleRepository.findAllByOrderByLikeWithCursor(cursor,pageable);
+        }
+        else {
+            throw new ArticleException(ArticleErrorCode.UNSUPPORTED_QUERY);
+        }
     }
 }
