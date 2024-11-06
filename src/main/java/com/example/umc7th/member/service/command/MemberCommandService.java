@@ -5,5 +5,6 @@ import com.example.umc7th.member.dto.MemberResponseDTO;
 import com.example.umc7th.member.entity.Member;
 
 public interface MemberCommandService {
-    MemberResponseDTO.SignUpResponse signUp(MemberRequestDTO.SignUpDTO dto);
+    MemberResponseDTO.MemberTokenDTO login(MemberRequestDTO.MemberLoginDTO dto);
+    MemberResponseDTO.MemberTokenDTO signUp(MemberRequestDTO.MemberSignUpDTO dto);
 }

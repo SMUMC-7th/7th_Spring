@@ -18,8 +18,8 @@ public enum ArticleErrorCode implements BaseErrorCode {
     private final String message;
 
 
-    @Override
-    public <T> CustomResponse<T> getResponse() {
-        return null;
-    }
+//    @Override
+//    public <T> CustomResponse<T> getResponse() {
+//        return null;
+//    }
 }

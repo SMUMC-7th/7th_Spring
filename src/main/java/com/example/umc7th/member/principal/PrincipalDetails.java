@@ -1,4 +1,4 @@
-package com.example.umc7th.global.jwt;
+package com.example.umc7th.member.principal;
 
 import com.example.umc7th.member.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class PrincipalDetails implements UserDetails {
     //권한을 가져오는 메소드
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<String> roles = new ArrayList<>();
-//        roles.add(member.getRole());
+        roles.add(member.getRole());
         return roles.stream().map(SimpleGrantedAuthority::new).toList();
     }
 

@@ -6,21 +6,14 @@ import lombok.Getter;
 public class MemberRequestDTO {
 
     @Getter
-    public static class SignUpDTO {
-        private String email;
-        private String password;
-
-        public Member toEntity(String encodedPassword) {
-            return Member.builder()
-                    .email(this.email)
-                    .password(encodedPassword)
-                    .build();
-        }
+    public static class MemberLoginDTO {
+        String email;
+        String password;
     }
 
     @Getter
-    public static class LoginDTO {
-        private String email;
-        private String password;
+    public static class MemberSignUpDTO {
+        String email;
+        String password;
     }
 }
