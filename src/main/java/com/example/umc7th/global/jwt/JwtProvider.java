@@ -79,4 +79,8 @@ public class JwtProvider {
 
         }
     }
+
+    public String getEmail(String token) throws AuthException {
+        return getClaims(token).getBody().getSubject();
+    }
 }
