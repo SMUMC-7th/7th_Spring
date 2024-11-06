@@ -5,7 +5,9 @@ import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Slice;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,15 @@ public class ArticleConverter {
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .active(article.isActive())
+                .build();
+    }
+
+    public static ArticleResponseDTO.ArticlePagePreviewDTO from(Slice<Article> articles){
+        List<ArticleResponseDTO.ArticlePreviewDTO> articleList = fromList(articles.getContent());
+        return ArticleResponseDTO.ArticlePagePreviewDTO.builder()
+                .articleList(articleList)
+                .hasNext(articles.hasNext())
+                .cursor(articles.getContent().get(articles.getContent().size() - 1).getId())
                 .build();
     }
 

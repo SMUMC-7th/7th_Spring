@@ -9,7 +9,11 @@ import org.springframework.http.HttpStatus;
 public enum ArticleErrorCode implements BaseErrorCode {
     NOT_FOUND(HttpStatus.NOT_FOUND,
               "COMMON404",
-            "게시글을 찾을 수 없습니다.");
+            "게시글을 찾을 수 없습니다."),
+    UNSUPPORTED_QUERY(HttpStatus.BAD_REQUEST,
+            "ARTICLE401",
+            "지원하지 않는 쿼리입니다.")
+    ;
 
     private final HttpStatus status;
     private final String code;

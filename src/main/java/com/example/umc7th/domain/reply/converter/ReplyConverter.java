@@ -1,12 +1,12 @@
 package com.example.umc7th.domain.reply.converter;
 
 import com.example.umc7th.domain.article.entity.Article;
-import com.example.umc7th.domain.reply.controller.ReplyController;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +23,8 @@ public class ReplyConverter {
     }
 
     //Entity -> DTO
-    public static ReplyResponseDTO.ResponsePreviewDto from(Reply reply){
-        return ReplyResponseDTO.ResponsePreviewDto.builder()
+    public static ReplyResponseDTO.ReplyPreviewDto from(Reply reply){
+        return ReplyResponseDTO.ReplyPreviewDto.builder()
                 .id(reply.getId())
                 .articleId(reply.getArticle().getId())
                 .content(reply.getContent())
@@ -34,8 +34,19 @@ public class ReplyConverter {
                 .build();
     }
 
+    public static ReplyResponseDTO.ReplyPagePreviewDto from(Page<Reply> replyPage){
+        return ReplyResponseDTO.ReplyPagePreviewDto.builder()
+                .replies(replyPage.getContent().stream()
+                        .map(ReplyConverter::from)
+                        .collect(Collectors.toList()))
+                .numOfRows(replyPage.getSize())
+                .pageNo(replyPage.getNumber() + 1)
+                .totalCount(replyPage.getTotalElements())
+                .build();
+    }
+
     //Entity리스트 -> DTO리스트
-    public static List<ReplyResponseDTO.ResponsePreviewDto> fromList(List<Reply> replies){
+    public static List<ReplyResponseDTO.ReplyPreviewDto> fromList(List<Reply> replies){
         return replies.stream()
                 .map(ReplyConverter::from)
                 .collect(Collectors.toList());

@@ -1,19 +1,25 @@
 package com.example.umc7th.domain.article.controller;
 
+import com.example.umc7th.domain.article.converter.ArticleConverter;
 import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
+import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.service.command.ArticleCommandService;
 import com.example.umc7th.domain.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Slf4j
 @RestController
@@ -59,6 +65,31 @@ public class ArticleController {
             @RequestBody ArticleRequestDTO.UpdateArticleRequestDTO dto) {
         ArticleResponseDTO.ArticlePreviewDTO responseDto = articleCommandService.updateArticle(articleId, dto);
         return CustomResponse.onSuccess(responseDto);
+    }
+
+    //댓글 존재 게시글 조회
+    @GetMapping("/{articleId}/hasReplies")
+    @Operation(method = "GET", summary = "댓글 존재 여부 확인 API", description = "게시글에 댓글이 있는지 확인하는 API")
+    public CustomResponse<Boolean> hasReplies(@PathVariable("articleId") Long articleId){
+        boolean hasReplies = articleQueryService.hasReplies(articleId);
+        return CustomResponse.onSuccess(hasReplies);
+    }
+
+    //커서 기반 페이지네이션
+    @GetMapping("/page")
+    @Operation(method = "GET", summary = "커서 기반 페이지네이션 API", description = "게시글 커서 기반 페이지네이션 API")
+    @Parameters({
+            @Parameter(name = "cursor", description = "커서 값, 처음이면 0"),
+            @Parameter(name = "query", description = "쿼리 LIKE, ID")
+    })
+    public CustomResponse<ArticleResponseDTO.ArticlePagePreviewDTO> getArticlesByCursor(
+            @RequestParam(value = "query", defaultValue = "LIKE") String query,
+            @RequestParam("cursor") Long cursor,
+            @RequestParam(value = "offset", defaultValue = "10") Integer offset
+            ){
+        Slice<Article> articles = articleQueryService.getArticlesByCursor(query, cursor, offset);
+        ArticleResponseDTO.ArticlePagePreviewDTO result = ArticleConverter.from(articles);
+        return CustomResponse.onSuccess(result);
     }
 
     //좋아요 수정

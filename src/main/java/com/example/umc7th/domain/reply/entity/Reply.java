@@ -32,7 +32,7 @@ public class Reply extends BaseEntity {
 
     //댓글 수정
     public void update(ReplyRequestDTO.UpdateReplyDTO dto){
-        content = dto.content();
+        String content = dto.content();
     }
 
     //댓글 삭제

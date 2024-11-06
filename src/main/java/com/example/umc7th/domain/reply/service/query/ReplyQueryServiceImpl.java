@@ -10,6 +10,9 @@ import com.example.umc7th.domain.reply.entity.Reply;
 import com.example.umc7th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +26,22 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     private final ReplyRepository replyRepository;
 
     @Override
-    public List<ReplyResponseDTO.ResponsePreviewDto> getRepliesByArticle(Long articleId){
+    public List<ReplyResponseDTO.ReplyPreviewDto> getRepliesByArticle(Long articleId){
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
 
         List<Reply> replies = replyRepository.findByArticleAndActiveTrue(article);
         return ReplyConverter.fromList(replies);
 
+    }
+
+    @Override
+    public Page<Reply> getReplies(Long articleId, Integer page, Integer offset){
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleException(ArticleErrorCode.NOT_FOUND));
+
+        Pageable pageable = PageRequest.of(page-1,offset);
+        return replyRepository.findAllByArticleIdOrderByCreatedAtDesc(article, pageable);
     }
 
 }
