@@ -30,9 +30,7 @@ public class SecurityConfig {
 
     // 허용할 URL을 배열의 형태로 관리
     private final String[] allowUrl = {
-            "/",
             "/swagger-ui/**",
-            "/swagger-resources/**",
             "/v3/api-docs/**",
             "/member/signup",
             "/member/login",

@@ -18,14 +18,14 @@ public class MemberController {
     private final MemberCommandService memberCommandService;
     private final MemberQueryService memberQueryService;
 
-    @PostMapping("/member/signup")
+    @PostMapping("/members/signup")
     @Operation(summary = "회원 가입")
     public CustomResponse<MemberResponseDTO.CreateMemberResultDTO> createMember(@RequestBody MemberRequestDTO.CreateMemberDTO dto) {
 
         return CustomResponse.onSuccess(memberCommandService.createMember(dto));
     }
 
-    @PostMapping("/member/login")
+    @PostMapping("/members/login")
     @Operation(summary = "로그인")
     public CustomResponse<MemberResponseDTO.LoginResponseDTO> login(@RequestBody MemberRequestDTO.LoginRequestDTO dto) {
 
