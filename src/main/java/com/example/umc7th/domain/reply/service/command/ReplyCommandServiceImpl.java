@@ -49,5 +49,4 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
         replyRepository.deleteById(id);
         return null;
     }
-
 }

@@ -1,17 +1,20 @@
-package com.example.umc7th.domain.reply.exception;
+package com.example.umc7th.global.jwt;
 
 import com.example.umc7th.global.apiPayload.code.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-
-// reply 관련 에러 코드 enum
 @Getter
 @AllArgsConstructor
-public enum ReplyErrorCode implements BaseErrorCode {
+public enum JwtErrorCode implements BaseErrorCode {
 
-    NOT_FOUND(HttpStatus.NOT_FOUND, "REPLY404", "댓글을 찾지 못했습니다.");
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED,
+            "TOKEN401",
+            "토큰이 유효하지 않습니다."),
+    EMPTY_TOKEN(HttpStatus.UNAUTHORIZED,
+            "TOKEN400",
+            "헤더에 토큰이 비어 있습니다.");
 
     private final HttpStatus status;
     private final String code;

@@ -1,17 +1,16 @@
-package com.example.umc7th.domain.reply.exception;
+package com.example.umc7th.domain.member.exception;
 
 import com.example.umc7th.global.apiPayload.code.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-
-// reply 관련 에러 코드 enum
 @Getter
 @AllArgsConstructor
-public enum ReplyErrorCode implements BaseErrorCode {
-
-    NOT_FOUND(HttpStatus.NOT_FOUND, "REPLY404", "댓글을 찾지 못했습니다.");
+public enum MemberErrorCode implements BaseErrorCode {
+    NOT_FOUND(HttpStatus.NOT_FOUND,
+            "MEMBER404",
+            "회원을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;
