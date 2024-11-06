@@ -22,7 +22,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     // email로 PrincipalDetails(UserDetails) 객체를 가져오는 메소드, username은 email로 생각
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(username).orElseThrow(() ->
-                new MemberException(MemberErrorCode.NOT_FOUND));
+                new MemberException(MemberErrorCode.USER_NOT_FOUND));
         // MemberException과 MemberErrorCode도 한 번 작성해주세요.
         return new PrincipalDetails(member);
     }

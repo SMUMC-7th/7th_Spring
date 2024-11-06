@@ -30,41 +30,24 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
+            "/member/register",
+            "/member/login"
     };
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        Object AbstractHttpConfigurer;
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // 허용할 URL, 역할별로 나눌 URL, 인증을 요구하는 URL 설정
-                .authorizeHttpRequests(request -> request
-                        // allowUrl을 모두 허용
-                        .requestMatchers(allowUrl).permitAll()
-                        // 이외의 요청에 대해서는 인증이 필요하도록 설정
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/member/register", "/member/login").permitAll() // 회원가입, 로그인 URL 허용
                         .anyRequest().authenticated())
-                // jwtFilter를 UsernamePasswordAuthenticationFilter 앞에 오도록 설정
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
-
-                .formLogin().disable() // formLogin 비활성화
-                .httpBasic().disable() // httpBasic 비활성화
-                .csrf().disable() // csrf 비활성화
-
-                // formLogin 비활성화
-                //.formLogin(AbstractHttpConfigurer::disable)
-                // httpBasic 비활성화
-                //.httpBasic(HttpBasicConfigurer::disable)
-                // csrf 비활성화
-                //.csrf(AbstractHttpConfigurer::disable)
-
-                // 인증 인가에 대한 예외처리
+                .formLogin(formLogin -> formLogin.disable())  // formLogin 비활성화
+                .httpBasic(httpBasic -> httpBasic.disable())  // httpBasic 비활성화
+                .csrf(csrf -> csrf.disable()) // csrf 비활성화
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        // 인가에 대해 예외처리할 Handler 추가
-                        .accessDeniedHandler(jwtAccessDeniedHandler)
-                        // 인증에 대해 예외처리할 Handler 추가
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint))
-        ;
+                        .accessDeniedHandler(jwtAccessDeniedHandler) // 인가 실패 시 처리
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)); // 인증 실패 시 처리
 
-        // build()해서 SecurityFilterChain 형태로 반환
         return http.build();
     }
 
