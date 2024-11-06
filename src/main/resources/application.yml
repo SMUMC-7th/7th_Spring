@@ -12,5 +12,13 @@ spring:
         format_sql: true
 
 springdoc:
+  api-docs:
+    enabled: true
   swagger-ui:
     path: /
+
+jwt:
+  secret: ${JWT_SECRET}  # hmacShaKeyFor()은 최소 32바이트가 넘어야함 -> 몰라서 Bean 생성 오류
+  token:
+    access-expiration-time: 3600000 # Milliseconds for 1 hour
+    refresh-expiration-time: 2592000000 # Milliseconds for 30 days
