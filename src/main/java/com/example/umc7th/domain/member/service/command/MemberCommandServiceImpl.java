@@ -27,6 +27,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         Member member = Member.builder()
                 .email(dto.getEmail())
                 .password(encoder.encode(dto.getPassword()))
+                .role("ROLE_USER")
                 .build();
 
         return memberRepository.save(member);

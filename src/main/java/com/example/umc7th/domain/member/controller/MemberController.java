@@ -33,8 +33,7 @@ public class MemberController {
 
     @PostMapping("/login")
     @Operation(summary = "로그인 API")
-    public CustomResponse<MemberResponseDTO.MemberInfoDTO> signUp(@RequestBody MemberRequestDTO.LoginDTO dto) {
-        Member loginMember = memberQueryService.login(dto);
-        return CustomResponse.onSuccess(MemberConverter.toMemberInfoDTO(loginMember));
+    public CustomResponse<MemberResponseDTO.MemberTokenDTO> signUp(@RequestBody MemberRequestDTO.LoginDTO dto) {
+        return CustomResponse.onSuccess(memberQueryService.login(dto));
     }
 }

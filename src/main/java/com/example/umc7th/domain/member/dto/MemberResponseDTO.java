@@ -12,4 +12,13 @@ public class MemberResponseDTO {
         private String email;
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class MemberTokenDTO {
+        String accessToken;
+        String refreshToken;
+    }
+
 }

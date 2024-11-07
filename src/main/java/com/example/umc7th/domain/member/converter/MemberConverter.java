@@ -10,4 +10,11 @@ public class MemberConverter {
                 .email(member.getEmail())
                 .build();
     }
+
+    public static MemberResponseDTO.MemberTokenDTO toMemberTokenDTO(String accessToken, String refreshToken) {
+        return MemberResponseDTO.MemberTokenDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
 }
