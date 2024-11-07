@@ -1,4 +1,4 @@
-package com.example.umc7th.global.jwt;
+package com.example.umc7th.global.jwt.exception;
 
 import com.example.umc7th.global.apiPayload.code.BaseErrorCode;
 import lombok.AllArgsConstructor;

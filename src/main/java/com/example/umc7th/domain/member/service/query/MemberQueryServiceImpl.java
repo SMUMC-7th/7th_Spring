@@ -7,7 +7,7 @@ import com.example.umc7th.domain.member.entity.Member;
 import com.example.umc7th.domain.member.exception.MemberErrorCode;
 import com.example.umc7th.domain.member.repository.MemberRepository;
 import com.example.umc7th.global.apiPayload.exception.CustomException;
-import com.example.umc7th.global.jwt.JwtProvider;
+import com.example.umc7th.global.jwt.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

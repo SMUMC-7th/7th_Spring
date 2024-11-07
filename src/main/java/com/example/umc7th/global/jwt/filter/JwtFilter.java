@@ -1,5 +1,6 @@
-package com.example.umc7th.global.jwt;
+package com.example.umc7th.global.jwt.filter;
 
+import com.example.umc7th.global.jwt.util.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

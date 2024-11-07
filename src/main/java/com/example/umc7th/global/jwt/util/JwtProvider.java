@@ -1,6 +1,8 @@
-package com.example.umc7th.global.jwt;
+package com.example.umc7th.global.jwt.util;
 
 import com.example.umc7th.domain.member.entity.Member;
+import com.example.umc7th.global.jwt.exception.AuthException;
+import com.example.umc7th.global.jwt.exception.JwtErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;

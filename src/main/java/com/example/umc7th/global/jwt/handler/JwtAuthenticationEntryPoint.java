@@ -1,4 +1,4 @@
-package com.example.umc7th.global.jwt;
+package com.example.umc7th.global.jwt.handler;
 
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;

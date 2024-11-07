@@ -1,5 +1,9 @@
-package com.example.umc7th.global.jwt;
+package com.example.umc7th.global.config;
 
+import com.example.umc7th.global.jwt.filter.JwtFilter;
+import com.example.umc7th.global.jwt.handler.JwtAccessDeniedHandler;
+import com.example.umc7th.global.jwt.handler.JwtAuthenticationEntryPoint;
+import com.example.umc7th.global.jwt.util.JwtProvider;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
