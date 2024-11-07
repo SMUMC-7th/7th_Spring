@@ -45,7 +45,7 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public CustomResponse<String> updateMember(@RequestParam Long id){
+    public CustomResponse<String> deleteMember(@RequestParam Long id){
         memberCommandService.deleteMember(id);
         return CustomResponse.onSuccess(GeneralSuccessCode.NO_CONTENT_204, "맴버 삭제가 완료되었습니다.");
     }
