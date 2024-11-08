@@ -16,8 +16,8 @@ public enum ReplyErrorCode implements BaseErrorCode {
     private final String code;
     private final String message;
 
-    @Override
-    public <T> CustomResponse<T> getResponse() {
-        return null;
-    }
+//    @Override
+//    public <T> CustomResponse<T> getResponse() {
+//        return null;
+//    }
 }
