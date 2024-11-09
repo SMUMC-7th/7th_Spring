@@ -11,6 +11,8 @@ spring:
       hibernate:
         format_sql: true
 
-springdoc:
-  swagger-ui:
-    path: /
+Jwt:
+  secret: ${JWT_SECRET}
+  token:
+    access-expiration-time: 3600000 # Milliseconds for 1 hour
+    refresh-expiration-time: 2592000000 # Milliseconds for 30 days

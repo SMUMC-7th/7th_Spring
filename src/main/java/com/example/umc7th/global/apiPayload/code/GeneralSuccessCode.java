@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public enum GeneralSuccessCode implements BasSuccessCode{
+// enum 으로 여러 종류의 성공 코드와 상태를 정의
+public enum GeneralSuccessCode implements BaseSuccessCode {
 
 
     OK(HttpStatus.OK, "COMMON200", "성공했습니다."),

@@ -12,39 +12,32 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Arrays;
 
-@Slf4j // 롬복을 이용해 자동으로 로그 객체 생성
-@RestControllerAdvice // 모든 controller에서 발생하는 예외를 한 곳에서 처리하기 위한 advice class
-// 예외 처리 로직을 담당하는 클래스
+@Slf4j // 로그 기능을 사용할 수 있도록
+@RestControllerAdvice // 모든 controller에서 발생하는 예외를 처리하도록
 public class ExceptionAdvice {
 
-    @ExceptionHandler(GeneralException.class) // GeneralException이 발생했을 때 이 메소드가 호출되도록 설정
-    // GeneralException 처리하는 메소드
-    public ResponseEntity<CustomResponse<Object>> customException(GeneralException e){
+    // GeneralException이 발생했을 때 호출되는 메서드
+    @ExceptionHandler(GeneralException.class)
+    public ResponseEntity<CustomResponse<String>> generalException(GeneralException e) {
+        BaseErrorCode code = e.getCode(); // 예외에 담긴 에러 코드 가져옴
 
-        BaseErrorCode code = e.getCode(); // GeneralEsception에서 발생한 에러 코드 정보
+        log.error(Arrays.toString(e.getStackTrace())); // 예외 스택 트레이스를 로그에 출력하여 디버깅에 도움을 줌
 
-        // 예외 발생 시 stack trace를 로그로 출력해서 에러 발생 위치 추적
-        log.error(Arrays.toString(e.getStackTrace()));
-
-        // HTTP 상태 코드 400과 함께 오류 응답 반환
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                // CustomResponse 실패 응답 생성
-                CustomResponse.onFailure(code.getStatus(), code.getCode(), code.getMessage(), false,null)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( // HTTP 상태 코드를 400 (BAD_REQUEST)로 설정하여 응답을 반환
+                CustomResponse.onFailure(code.getStatus(), code.getCode(), code.getMessage(), false,null) // 실패 응답 생성하여 반환
         );
+//        return ResponseEntity.badRequest().body(code.getResponse());
     }
 
-    @ExceptionHandler(Exception.class) // 모든 Exception 발생 시 이 메소드 호출
-    // Exception 처리 메소드
-    public ResponseEntity<CustomResponse<Object>> exception(Exception e){
-        // 예외 발생 시 기본적으로 500 (서버 내부 오류)
-        BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR_500;
+    // 일반적인 예외가 발생했을 때 호출되는 메서드
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<CustomResponse<String>> exception(Exception e) {
+        BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR_500; // 기본 에러 코드를 500 (내부 서버 오류)로 설정
 
-        log.error(Arrays.toString(e.getStackTrace()));
+        log.error(Arrays.toString(e.getStackTrace())); // 예외 스택 트레이스를 로그에 출력하여 디버깅에 도움을 줌
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                CustomResponse.onFailure(code.getStatus(), code.getCode(), code.getMessage(), false,null)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body( // HTTP 상태 코드를 500 (INTERNAL_SERVER_ERROR)로 설정하여 응답을 반환
+                CustomResponse.onFailure(code.getStatus(), code.getCode(), code.getMessage(), false, null) // 실패 응답을 생성하여 반환함
         );
     }
-
-
 }

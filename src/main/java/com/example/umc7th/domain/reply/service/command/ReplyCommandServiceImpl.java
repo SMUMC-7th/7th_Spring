@@ -23,31 +23,32 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     private final ArticleRepository articleRepository;
     private final ReplyRepository replyRepository;
 
+    // 댓글 생성 메서드
     @Override
     public Reply createReply(ReplyRequestDTO.CreateReplyDTO dto) {
-        // 주어진 articleId로 게시글을 조회하고 없으면 예외 발생
+        // 댓글이 달릴 게시글이 존재하는지 확인
         Article article = articleRepository.findById(dto.getArticleId()).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND));
-        // 엔티티 생성 후 저장
         return replyRepository.save(ReplyConverter.toReply(dto, article));
     }
 
+    // 댓글 수정 메서드
     @Override
     public Reply updateReply(Long id, ReplyRequestDTO.UpdateReplyDTO dto) {
-        // 주어진 id로 댓글을 조회하고 없으면 예외 발생
+        // 수정할 댓글이 존재하는지 확인
         Reply reply = replyRepository.findById(id).orElseThrow(() ->
                 new ReplyException(ReplyErrorCode.NOT_FOUND));
-        // 댓글 내용 업데이트
-        reply.update(dto.getContent());
-        // 변경된 댓글 저장
-        return replyRepository.save(reply);
+        reply.update(dto.getContent()); // Dirty Checking
+        return reply;
     }
 
+    // 댓글 삭제 메서드
     @Override
-    public Reply deleteReply(Long id) {
-        // 댓글을 삭제하고 null 반환
-        replyRepository.deleteById(id);
-        return null;
+    public Long deleteReply(Long id) {
+        // 삭제할 댓글이 존재하는지 확인
+        Reply reply = replyRepository.findById(id).orElseThrow(() ->
+                new ReplyException(ReplyErrorCode.NOT_FOUND));
+        replyRepository.delete(reply);
+        return id;
     }
-
 }
