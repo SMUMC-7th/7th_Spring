@@ -1,5 +1,6 @@
 package com.example.umc7th.domain.reply.dto;
 
+import com.example.umc7th.domain.reply.entity.Reply;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -39,6 +40,5 @@ public class ReplyResponseDTO {
         private int size;
         private int pageNo;
         private int totalPage;
-
     }
 }

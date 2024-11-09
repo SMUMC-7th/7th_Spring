@@ -3,6 +3,7 @@ package com.example.umc7th.domain.article.controller;
 import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
+import com.example.umc7th.domain.article.repository.ArticleRepository;
 import com.example.umc7th.domain.article.service.command.ArticleCommandService;
 import com.example.umc7th.domain.article.service.query.ArticleQueryService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,7 @@ public class ArticleController {
     private final ArticleQueryService articleQueryService;
     // 게시글 생성, 수정, 삭제 관련 서비스
     private final ArticleCommandService articleCommandService;
+    private final ArticleRepository articleRepository;
 
     /** 게시물 생성 API */
     @PostMapping("/articles")
@@ -40,6 +43,7 @@ public class ArticleController {
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(article));
     }
 
+
     /** 게시물 전체 조회 API
      * query가 "LIKE"일 경우:
      *   좋아요 수를 기준으로 게시글을 정렬하여 조회
@@ -47,6 +51,7 @@ public class ArticleController {
      * query가 "ID"일 경우:
      *   게시글을 ID 순서로 조회합니다.
      * */
+
     @GetMapping("/articles")
     @Operation(summary = "게시글 전체 조회 API", description = "게시글 전체 조회하는 API") // Swagger 설명
     @Parameters({
@@ -61,6 +66,24 @@ public class ArticleController {
                                                                                 @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
         Slice<Article> articles = articleQueryService.getArticles(query, cursor, offset);
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
+    }*/
+
+    /**
+     * 커서 기반 게시글 조회 API
+     * @param lastCreatedAt (이전 게시글의 생성 날짜)
+     * @param pageable (페이지네이션 정보)
+     * @return 생성 날짜 기준으로 게시글을 조회한 후 성공 응답을 CustomResponse 형태로 반환
+     */
+    @GetMapping("/articles/cursor")
+    @Operation(summary = "커서 기반 게시글 조회 API", description = "생성 날짜 기준으로 게시글 조회하는 API")
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticlesByCursor(
+            @RequestParam(required = false) LocalDateTime lastCreatedAt,
+            Pageable pageable) {
+
+        List<Article> articles = articleQueryService.getArticlesByCreatedAtLessThan(lastCreatedAt, pageable);
+        int totalCount = (int) articleRepository.count(); // 전체 게시글 수 조회
+
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles, totalCount, pageable.getPageSize()));
     }
 
     /** 게시물 수정 API */
@@ -87,5 +110,7 @@ public class ArticleController {
         articleCommandService.deleteArticle(articleId);
         return CustomResponse.onSuccess(null);
     }
+
+
 
 }

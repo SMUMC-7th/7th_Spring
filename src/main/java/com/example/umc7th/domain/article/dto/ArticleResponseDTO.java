@@ -58,6 +58,7 @@ public class ArticleResponseDTO {
         }
     }
 
+
     /** 페이지네이션된 게시물 목록 조회 ResponseDTO*/
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -85,7 +86,9 @@ public class ArticleResponseDTO {
                     // -1 하는거는 리스트의 마지막 요소의 인덱스를 얻으려고 하는 것임
                     // 그 인덱스로 마지막 게시물 객체를 가져온 뒤 getId()로 해당 게시물의 ID 가져오는 것!
                     .cursor(articles.getContent().isEmpty() ? 0 : articles.getContent().get(articles.getContent().size() - 1).getId())
+
                     .build();
         }
     }
+
 }

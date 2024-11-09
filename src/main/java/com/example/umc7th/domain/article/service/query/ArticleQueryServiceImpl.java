@@ -12,6 +12,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,5 +56,11 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
         // 주어진 ID로 Article 엔티티를 조회하고, 없으면 ArticleException 예외 발생
         return articleRepository.findById(id).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND));
+    }
+
+    @Override
+    public List<Article> getArticlesByCreatedAtLessThan(LocalDateTime createdAt, Pageable pageable) {
+        // 생성 날짜 기준으로 게시글 조회
+        return articleRepository.findByCreatedAtLessThan(createdAt, pageable);
     }
 }

@@ -11,7 +11,6 @@ import java.util.List;
 
 // JpaRepository 상속, Article 엔티티와 ID 타입을 정의하여 기본적인 CRUD 메서드 사용 가능
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-
     // 특정 ID보다 작은 ID를 가진 게시글을 ID 역순으로 조회하여, 페이징된 결과로 반환
     Slice<Article> findAllByIdLessThanOrderByIdDesc(Long id, Pageable pageable);
 
@@ -31,4 +30,5 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     // 제목 또는 내용에 특정 키워드를 포함하는 게시글을 대소문자 구분 없이 조회
     List<Article> findAllByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String title, String content);
+
 }

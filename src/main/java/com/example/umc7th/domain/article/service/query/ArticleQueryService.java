@@ -3,6 +3,7 @@ package com.example.umc7th.domain.article.service.query;
 import com.example.umc7th.domain.article.entity.Article;
 import org.springframework.data.domain.Slice;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
