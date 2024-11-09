@@ -10,6 +10,8 @@ import com.example.umc7th.domain.reply.service.query.ReplyQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,13 +45,38 @@ public class ReplyController {
     /**
      * 댓글 전체 조회 api
      * @return 조회된 전체 댓글 정보를 customResponse로 반환
-     */
     @GetMapping
     @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회하는 API")
     public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies() {
         List<Reply> replies = replyQueryService.getReplies();
         return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewListDTO(replies));
+    }*/
+
+    /**
+     * 댓글 전체 조회 API (Offset 기반 페이지네이션)
+     * @param page 페이지 번호
+     * @param size 한 페이지당 댓글 수
+     * @return 조회된 페이지네이션 댓글 목록을 CustomResponse로 반환
+     */
+    @GetMapping
+    @Operation(summary = "댓글 전체 조회 API", description = "Offset 기반 페이지네이션을 통해 댓글 전체를 조회하는 API")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<Reply> replyPage = replyQueryService.getRepliesWithPagination(page, size);
+
+        // 응답 DTO 변환 및 페이지네이션 정보 설정
+        ReplyResponseDTO.ReplyPreviewListDTO response = ReplyConverter.toReplyPreviewListDTO(
+                replyPage.getContent(),
+                replyPage.getSize(),
+                replyPage.getNumber(),
+                (int) replyPage.getTotalElements()
+        );
+
+        return CustomResponse.onSuccess(response);
     }
+
 
     /**
      * 특정 댓글 조회 api

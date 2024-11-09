@@ -60,6 +60,7 @@ public class ArticleResponseDTO {
         }
     }
 
+    /*
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -72,7 +73,7 @@ public class ArticleResponseDTO {
          * 게시글 리스트를 ArticlePreviewDTO 리스트로 변환한 후 ArticlePreviewListDTO로 감싸는 메서드
          * @param articles (변환할 Article 엔티티 리스트)
          * @return ArticlePreviewListDTO 객체
-         */
+
             public static ArticlePreviewListDTO from(List<Article> articles) {
                 return ArticlePreviewListDTO.builder()
                         .articles(articles.stream()
@@ -80,5 +81,38 @@ public class ArticleResponseDTO {
                                 .toList())
                         .build();
             }
+    }*/
+
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    // 게시글 목록 조회할 때 사용
+    public static class ArticlePreviewListDTO {
+        private List<ArticleResponseDTO.ArticlePreviewDTO> articles;
+        private LocalDateTime lastCreatedAt; // 마지막 생성일
+        private int numOfRows; // 요청한 행 수
+        private int totalCount; // 전체 게시글 수
+
+        /**
+         * 게시글 리스트를 ArticlePreviewDTO 리스트로 변환한 후 ArticlePreviewListDTO로 감싸는 메서드
+         * @param articles (변환할 Article 엔티티 리스트)
+         * @param totalCount (전체 게시글 수)
+         * @param numOfRows (요청한 행 수)
+         * @return ArticlePreviewListDTO 객체
+         */
+        public static ArticlePreviewListDTO from(List<Article> articles, int totalCount, int numOfRows) {
+            LocalDateTime lastCreatedAt = articles.isEmpty() ? null : articles.get(articles.size() - 1).getCreatedAt();
+
+            return ArticlePreviewListDTO.builder()
+                    .articles(articles.stream()
+                            .map(article -> ArticleResponseDTO.ArticlePreviewDTO.from(Optional.of(article)).get())
+                            .toList())
+                    .lastCreatedAt(lastCreatedAt)
+                    .numOfRows(numOfRows)
+                    .totalCount(totalCount)
+                    .build();
+        }
     }
+
 }

@@ -5,9 +5,11 @@ import com.example.umc7th.domain.article.exception.ArticleErrorCode;
 import com.example.umc7th.domain.article.exception.ArticleException;
 import com.example.umc7th.domain.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +31,11 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
         // ID로 게시글 한개 조회하고 없을 경우 예외 발생
         return Optional.ofNullable(articleRepository.findById(id).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND)));
+    }
+
+    @Override
+    public List<Article> getArticlesByCreatedAtLessThan(LocalDateTime createdAt, Pageable pageable) {
+        // 생성 날짜 기준으로 게시글 조회
+        return articleRepository.findByCreatedAtLessThan(createdAt, pageable);
     }
 }

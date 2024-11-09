@@ -72,4 +72,21 @@ public class ReplyConverter {
     public static ReplyResponseDTO.DeleteReplyResponseDTO toDeleteReplyResponseDTO(Long replyId) {
         return new ReplyResponseDTO.DeleteReplyResponseDTO(replyId, "댓글 삭제가 성공적으로 완료되었습니다.");
     }
+
+    /**
+     * 댓글 리스트와 페이지 정보를 이용해 댓글 리스트 DTO로 변환
+     * @param replies 댓글 리스트
+     * @param numOfRows 한 페이지의 댓글 수
+     * @param pageNo 현재 페이지 번호
+     * @param totalCount 총 댓글 수
+     * @return 변환된 댓글 미리보기 리스트 DTO
+     */
+    public static ReplyResponseDTO.ReplyPreviewListDTO toReplyPreviewListDTO(List<Reply> replies, int numOfRows, int pageNo, int totalCount) {
+        return ReplyResponseDTO.ReplyPreviewListDTO.builder()
+                .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .numOfRows(numOfRows)
+                .pageNo(pageNo)
+                .totalCount(totalCount)
+                .build();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.umc7th.domain.reply.dto;
 
+import com.example.umc7th.domain.reply.entity.Reply;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -34,7 +35,10 @@ public class ReplyResponseDTO {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ReplyPreviewListDTO {
         private List<ReplyPreviewDTO> replies;
-
+        //DTO에 page 정보 추가
+        private int numOfRows;
+        private int pageNo;
+        private int totalCount;
     }
 
     @Getter
