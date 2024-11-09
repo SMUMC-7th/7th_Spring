@@ -8,33 +8,13 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum MemberErrorCode implements BaseErrorCode {
-    EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST,
-            "MEMBER001",
-            "이미 존재하는 이메일입니다."),
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND,
-            "MEMBER002",
-            "사용자를 찾을 수 없습니다."),
-    PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST,
-            "MEMBER003",
-            "비밀번호가 일치하지 않습니다.");
+
+    NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404", "사용자를 찾을 수 없습니다."),
+    ALREADY_EXIST(HttpStatus.BAD_REQUEST, "MEMBER400", "이미 존재하는 사용자입니다."),
+    INCORRECT_PASSWORD(HttpStatus.UNAUTHORIZED, "MEMBER401", "비밀번호가 틀립니다."),
+    ;
 
     private final HttpStatus status;
     private final String code;
     private final String message;
-
-    @Override
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    @Override
-    public String getCode() {
-        return code;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
 }

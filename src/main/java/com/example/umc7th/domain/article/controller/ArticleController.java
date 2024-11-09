@@ -5,96 +5,87 @@ import com.example.umc7th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.article.service.command.ArticleCommandService;
 import com.example.umc7th.domain.article.service.query.ArticleQueryService;
-import com.example.umc7th.domain.reply.service.command.ReplyCommandService;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "게시글 API")
+@Tag(name = "게시글 API") // Swagger에 표시될 API 그룹 이름
 public class ArticleController {
 
+    // 게시글 조회 관련 서비스
     private final ArticleQueryService articleQueryService;
+    // 게시글 생성, 수정, 삭제 관련 서비스
     private final ArticleCommandService articleCommandService;
 
-    /**
-     * 게시글 생성 API
-     * @param dto (게시글 생성 요청 정보를 담은 DTO)
-     * @return 게시글 생성 후 성공 응답을 CustomResponse 형태로 반환
-     */
+    /** 게시물 생성 API */
     @PostMapping("/articles")
-    @Operation(summary = "게시글 생성 API", description = "게시글 생성하는 API")
+    @Operation(summary = "게시글 생성 API", description = "게시글 생성하는 API") // Swagger 설명
     public CustomResponse<ArticleResponseDTO.CreateArticleResponseDTO> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
-        // 전달받은 DTO로 게시글 생성
         Article article = articleCommandService.createArticle(dto);
-        // 생성된 게시글 정보를 담은 DTO를 CustomResponse로 래핑하여 성공 응답 반환
         return CustomResponse.onSuccess(ArticleResponseDTO.CreateArticleResponseDTO.from(article));
     }
 
-
-    /**
-     * 특정 게시글 조회 API
-     *
-     * @param articleId (조회하려는 게시글의 Id)
-     * @return 게시글 조회 후 성공 응답을 CustomResponse 형태로 반환
-     */
+    /** 게시물 한개 조회 API */
     @GetMapping("/articles/{articleId}")
-    @Operation(summary = "게시글 조회 API", description = "게시글 하나 조회하는 API")
-    public CustomResponse<Optional<ArticleResponseDTO.ArticlePreviewDTO>> getArticle(@PathVariable("articleId") Long articleId) {
-        // PathVariable로 전달받은 게시글 ID를 이용해 해당 게시글 조회
-        Optional<Article> article = articleQueryService.getArticle(articleId);
-        // 조회된 게시글 정보를 담은 DTO를 CustomResponse로 래핑하여 성공 응답 반환
+    @Operation(summary = "게시글 조회 API", description = "게시글 하나 조회하는 API") // Swagger 설명
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> getArticle(@PathVariable("articleId") Long articleId) {
+        Article article = articleQueryService.getArticle(articleId);
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(article));
     }
 
-    /**
-     * 모든 게시글 조회 API
-     * @return 모든 게시글을 조회한 후 성공 응답을 CustomResponse 형태로 반환
-     */
+    /** 게시물 전체 조회 API
+     * query가 "LIKE"일 경우:
+     *   좋아요 수를 기준으로 게시글을 정렬하여 조회
+     *   좋아요 수가 같다면 게시물 ID를 기준으로 추가 정렬이 이루어집니다.
+     * query가 "ID"일 경우:
+     *   게시글을 ID 순서로 조회합니다.
+     * */
     @GetMapping("/articles")
-    @Operation(summary = "게시글 전체 조회 API", description = "게시글 전체 조회하는 API")
-    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
-        // 데이터베이스에서 모든 게시글 조회
-        List<Article> articles = articleQueryService.getArticles();
-        // 조회된 모든 게시글 정보를 담은 DTO 리스트를 CustomResponse로 래핑하여 성공 응답 반환
+    @Operation(summary = "게시글 전체 조회 API", description = "게시글 전체 조회하는 API") // Swagger 설명
+    @Parameters({
+            // 페이지네이션에 사용되는 커서 값
+            @Parameter(name = "cursor", description = "커서 값, 처음이면 0"), // 커서 값 parameter 설명
+            // LIKE <- 필터링된 조회를 포함한 전체 조회 API로 활용하기 위해
+            @Parameter(name = "query", description = "쿼리 LIKE, ID") // 쿼리 방식 parameter 설명
+    })
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles(@RequestParam(value = "query", defaultValue = "LIKE")String query,
+                                                                                @RequestParam("cursor") Long cursor,
+                                                                                //페이지네이션에서 한번에 몇 개의 게시글을 조회할지
+                                                                                @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
+        Slice<Article> articles = articleQueryService.getArticles(query, cursor, offset);
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
 
-    /**
-     * 게시글 수정 API (PUT - 전체 수정)
-     * @param articleId (수정할 게시글의 Id)
-     * @param dto (수정할 게시글 정보)
-     * @return 수정된 게시글 정보를 담은 DTO를 CustomResponse로 반환
-     */
+    /** 게시물 수정 API */
     @PutMapping("/articles/{articleId}")
-    @Operation(summary = "게시글 전체 수정 API", description = "게시글 전체 수정하는 API")
-    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> updateArticlePut(@PathVariable("articleId") Long articleId,
-                                                                                 @RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
-        // 게시글 수정
-        Article updatedArticle = articleCommandService.updateArticle(articleId, dto);
-        // 성공 응답 반환
-        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(Optional.of(updatedArticle)).get());
+    @Operation(summary = "게시글 수정 API", description = "게시글 수정하는 API") // Swagger 설명
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> updateArticle(@PathVariable("articleId") Long articleId,
+                                                                              @RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
+        Article article = articleCommandService.updateArticle(articleId, dto);
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(article));
     }
 
-    /**
-     * 게시글 삭제 API
-     *
-     * @param articleId (삭제할 게시글의 Id)
-     * @return 성공 응답을 CustomResponse 형태로 반환
-     */
+    /** 게시물 좋아요 수 증가 API */
+    @PatchMapping("/articles/{articleId}")
+    @Operation(summary = "좋아요 수 증가 API", description = "게시글 좋아요 수 증가 API") // Swagger 설명
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> increaseLike(@PathVariable("articleId") Long articleId) {
+        Article article = articleCommandService.increaseLike(articleId);
+        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewDTO.from(article));
+    }
+
+    /** 게시물 삭제 API */
     @DeleteMapping("/articles/{articleId}")
-    @Operation(summary = "게시글 삭제 API", description = "게시글 삭제하는 API")
-    public CustomResponse<String> deleteArticle(@PathVariable("articleId") Long articleId) {
-        // 게시글 삭제
+    @Operation(summary = "게시글 삭제 API", description = "게시글 삭제하는 API") // Swagger 설명
+    public CustomResponse<Void> deleteArticle(@PathVariable("articleId") Long articleId) {
         articleCommandService.deleteArticle(articleId);
-        // 성공 응답 반환
-        return CustomResponse.onSuccess("게시글 삭제가 성공적으로 완료되었습니다.");
+        return CustomResponse.onSuccess(null);
     }
 
 }

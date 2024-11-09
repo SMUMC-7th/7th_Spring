@@ -11,10 +11,6 @@ spring:
       hibernate:
         format_sql: true
 
-springdoc:
-  swagger-ui:
-    path: /
-
 Jwt:
   secret: ${JWT_SECRET}
   token:

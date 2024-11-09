@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/** 댓글 응답을 위한 DTO */
 public class ReplyResponseDTO {
 
     @Builder
@@ -32,15 +33,12 @@ public class ReplyResponseDTO {
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    // replies 목록과 페이지 정보를 포함
     public static class ReplyPreviewListDTO {
         private List<ReplyPreviewDTO> replies;
+        private int size;
+        private int pageNo;
+        private int totalPage;
 
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class DeleteReplyResponseDTO {
-        private Long id;
-        private String message;
     }
 }

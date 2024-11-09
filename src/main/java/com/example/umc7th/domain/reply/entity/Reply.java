@@ -24,10 +24,8 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "article_id")
     private Article article;
 
-    // dirty checking
-    // 엔티티 내부에 상태 변경 메서드를 두면 JPA가 변경을 자동으로 감지할 수 있음
+    // Dirty Checking
     public void update(String content) {
         this.content = content;
     }
-
 }

@@ -4,21 +4,12 @@ import com.example.umc7th.domain.article.entity.Article;
 import com.example.umc7th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc7th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
-
-/**
- * 댓글 관련 DTO와 엔티티 간의 변환을 담당하는 클래스
- * article처럼 dto내에서 변환해도 되고 이렇게 분리해도 된다.
- */
+/** Reply 엔티티와 DTO 간의 변환을 담당하여, 서비스 로직에서 DTO를 생성하고 반환할 수 있도록 도와줌 */
 public class ReplyConverter {
 
-    /**
-     * 생성된 댓글 DTO를 댓글 엔티티로 변환
-     * @param dto 댓글 생성 정보 DTO
-     * @param article 댓글이 속할 게시글 엔티티
-     * @return 변환된 댓글 엔티티
-     */
+    // CreateReplyDTO와 Article 객체를 받아 Reply 엔티티로 변환
     public static Reply toReply(ReplyRequestDTO.CreateReplyDTO dto, Article article) {
         return Reply.builder()
                 .content(dto.getContent())
@@ -26,11 +17,7 @@ public class ReplyConverter {
                 .build();
     }
 
-    /**
-     * 댓글 엔티티를 댓글 생성 응답 DTO로 변환
-     * @param reply 댓글 엔티티
-     * @return 변환된 댓글 생성 응답 DTO
-     */
+    // Reply 엔티티를 CreateReplyResponseDTO로 변환
     public static ReplyResponseDTO.CreateReplyResponseDTO toCreateReplyResponseDTO(Reply reply) {
         return ReplyResponseDTO.CreateReplyResponseDTO.builder()
                 .id(reply.getId())
@@ -38,11 +25,7 @@ public class ReplyConverter {
                 .build();
     }
 
-    /**
-     * 댓글 엔티티를 댓글 preview DTO로 변환
-     * @param reply 댓글 엔티티
-     * @return 변환된 댓글 preview DTO
-     */
+    // Reply 엔티티를 ReplyPreviewDTO로 변환
     public static ReplyResponseDTO.ReplyPreviewDTO toReplyPreviewDTO(Reply reply) {
         return ReplyResponseDTO.ReplyPreviewDTO.builder()
                 .id(reply.getId())
@@ -52,24 +35,13 @@ public class ReplyConverter {
                 .articleId(reply.getArticle().getId())
                 .build();
     }
-
-    /**
-     * 댓글 리스트를 댓글 preview 리스트 DTO로 변환
-     * @param replies 댓글 리스트
-     * @return 변환된 댓글 preview 리스트 DTO
-     */
-    public static ReplyResponseDTO.ReplyPreviewListDTO toReplyPreviewListDTO(List<Reply> replies) {
+    // Page 객체의 Reply 엔티티들을 ReplyPreviewDTO 리스트로 변환하고 페이지 정보 설정
+    public static ReplyResponseDTO.ReplyPreviewListDTO toReplyPreviewListDTO(Page<Reply> replies) {
         return ReplyResponseDTO.ReplyPreviewListDTO.builder()
-                .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .replies(replies.getContent().stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .pageNo(replies.getNumber() + 1)
+                .size(replies.getSize())
+                .totalPage(replies.getTotalPages())
                 .build();
-    }
-
-    /**
-     * 댓글 삭제 ID를 이용해 댓글 삭제 응답 DTO로 변환
-     * @param replyId 삭제된 댓글 ID
-     * @return 변환된 댓글 삭제 응답 DTO
-     */
-    public static ReplyResponseDTO.DeleteReplyResponseDTO toDeleteReplyResponseDTO(Long replyId) {
-        return new ReplyResponseDTO.DeleteReplyResponseDTO(replyId, "댓글 삭제가 성공적으로 완료되었습니다.");
     }
 }
