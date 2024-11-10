@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface ReplyQueryService {
     public Reply getReply(Long id);
-    public List<Reply> getReplies();
-    public Page<Reply> getRepliesByArticleId(Long articleId, Pageable pageable);
+    public Page<Reply> getReplies(Long articleId, Integer page, Integer offset);
 }

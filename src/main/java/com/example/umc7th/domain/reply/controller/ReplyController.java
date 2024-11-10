@@ -11,51 +11,49 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @Tag(name = "댓글 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/replies")
 public class ReplyController {
     private final ReplyQueryService replyQueryService;
     private final ReplyCommandService replyCommandService;
 
-    @PostMapping
+    @PostMapping("/replies")
     @Operation(summary = "댓글 생성 API", description = "댓글 생성하는 API")
     public CustomResponse<ReplyResponseDTO.CreateReplyResponseDTO> createReply(@RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
         Reply reply = replyCommandService.createReply(dto);
         return CustomResponse.onSuccess(ReplyResponseDTO.CreateReplyResponseDTO.from(reply));
     }
 
-    @GetMapping
+    @GetMapping("/articles/{articleId}/replies")
     @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회하는 API")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies() {
-        List<Reply> replies = replyQueryService.getReplies();
-        return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewListDTO.from(replies));
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewPageDTO> getReplies(@PathVariable Long articleId,
+                                                                           @RequestParam("page") Integer page,
+                                                                           @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
+        Page<Reply> replies = replyQueryService.getReplies(articleId, page, offset);
+        return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewPageDTO.from(replies));
     }
 
-    @GetMapping("/{replyId}")
+    @GetMapping("/replies/{replyId}")
     @Operation(summary = "댓글 조회 API", description = "댓글 하나 조회하는 API")
     public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> getReply(@PathVariable("replyId") Long replyId) {
         Reply reply = replyQueryService.getReply(replyId);
         return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewDTO.from(reply));
     }
 
-    @PutMapping("/{replyId")
+    @PutMapping("/replies/{replyId}")
     @Operation(summary = "댓글 수정 API", description = "댓글 수정하는 API")
     public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> updateReply(@PathVariable("replyId") Long replyId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
         Reply reply = replyCommandService.updateReply(replyId, dto);
         return CustomResponse.onSuccess(ReplyResponseDTO.ReplyPreviewDTO.from(reply));
     }
 
-    @DeleteMapping("/{replyId}")
+    @DeleteMapping("/replies/{replyId}")
     @Operation(summary = "댓글 삭제 API", description = "댓글 삭제하는 API")
     public CustomResponse<Long> deleteReply(@PathVariable("replyId") Long replyId) {
-        Long id =replyCommandService.deleteReply(replyId);
+        Long id = replyCommandService.deleteReply(replyId);
         return CustomResponse.onSuccess(id);
     }
 

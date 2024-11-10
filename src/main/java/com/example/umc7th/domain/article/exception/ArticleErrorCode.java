@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 public enum ArticleErrorCode implements BaseErrorCode {
 
     NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE404", "게시글을 찾지 못했습니다."),
-    WRONG_TYPE(HttpStatus.NOT_FOUND, "ARTICLESORT404", "잘못된 정렬 기준 입니다."),
+    WRONG_TYPE(HttpStatus.BAD_REQUEST, "ARTICLESORT401", "잘못된 정렬 기준 입니다."),
     ;
 
     private final HttpStatus status;

@@ -5,6 +5,8 @@ spring:
     url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+server:
+  port: 8084  # 서버 포트 설정
 
   jpa:
     hibernate:
@@ -15,7 +17,14 @@ spring:
         format_sql: true
 
 
-#localhost8080/하면 swagger실행
+#localhost:8080/하면 swagger실행
 springdoc:
   swagger-ui:
     path: /
+
+
+Jwt:
+  secret: ${JWT_SECRET}
+  token:
+    access-expiration-time: 3600000 # Milliseconds for 1 hour
+    refresh-expiration-time: 2592000000 # Milliseconds for 30 days
