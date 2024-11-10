@@ -1,5 +1,6 @@
 package com.example.umc7th.domain.member.entity;
 
+import com.example.umc7th.domain.member.enums.SocialType;
 import com.example.umc7th.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,4 +26,19 @@ public class Member extends BaseEntity {
 
     @Column(name = "role")
     private String role;
+
+    @Column(name = "profile_image")
+    private String profileImage;
+
+    @Column(name = "thumbnail_image")
+    private String thumbnailImage;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "provider")
+    private SocialType socialType;
+
+    public void update(String profileImage, String thumbnailImage) {
+        this.profileImage = profileImage;
+        this.thumbnailImage = thumbnailImage;
+    }
 }
