@@ -9,6 +9,7 @@ import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
@@ -35,7 +36,9 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/v3/api-docs/**",
             "/members/login",
-            "/members/register"
+            "/members/register",
+            "/oauth2/callback/kakao",
+            "/oauth2/authorization/kakao"
     };
 
     @Bean
@@ -53,6 +56,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 // httpBasic 비활성화
                 .httpBasic(HttpBasicConfigurer::disable)
+                // OAuth2 Login 설정을 default로 설정
+                .oauth2Login(Customizer.withDefaults())
                 // csrf 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
                 // 인증 인가에 대한 예외처리
@@ -77,4 +82,5 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
