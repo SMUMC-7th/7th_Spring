@@ -1,4 +1,4 @@
-package com.example.umc7th.global.jwt.userdetails;
+package com.example.umc7th.domain.member.principal;
 
 import com.example.umc7th.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;

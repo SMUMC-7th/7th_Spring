@@ -1,4 +1,4 @@
-package com.example.umc7th.global.jwt.exception;
+package com.example.umc7th.global.jwt.handler;
 
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
@@ -14,9 +14,6 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
-    // AccessDeniedHandler와 HttpStatus만 다르고 동일하기 때문에 설명은 생략하겠습니다.
-
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json; charset=UTF-8");

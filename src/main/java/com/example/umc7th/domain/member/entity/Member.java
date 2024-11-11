@@ -23,5 +23,5 @@ public class Member extends BaseEntity {
     private String password;
 
     @Column(name = "role")
-    private String role; //나중에 다시 수정
+    private String role;
 }
