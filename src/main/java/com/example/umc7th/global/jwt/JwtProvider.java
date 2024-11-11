@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 
+
 @Slf4j
 @Component
 public class JwtProvider {
@@ -65,10 +66,10 @@ public class JwtProvider {
 
     public Jws<Claims> getClaims(String token) {
         try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(secret)
-                    .build()
-                    .parseClaimsJws(token);
+            return Jwts.parser()
+                    .setSigningKey(secret) // 서명 키 설정
+                    .build()  // JwtParser 객체 생성
+                    .parseClaimsJws(token); // 토큰 파싱
         } catch (Exception e) {
             throw new AuthException(JwtErrorCode.INVALID_TOKEN);
         }

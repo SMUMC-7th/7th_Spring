@@ -1,12 +1,15 @@
+package com.example.umc7th.global.config;
+
 import com.example.umc7th.domain.member.principal.PrincipalDetailsService;
 import com.example.umc7th.global.jwt.JwtFilter;
 import com.example.umc7th.global.jwt.handler.JwtAccessDeniedHandler;
 import com.example.umc7th.global.jwt.handler.JwtAuthenticationEntryPoint;
-import com.example.umc7th.global.jwt.util.JwtProvider;
+import com.example.umc7th.global.jwt.JwtProvider;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
@@ -18,7 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final JwtProvider jwtProvider;
     private final PrincipalDetailsService principalDetailsService;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -42,6 +44,10 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
+
+                // OAuth2 Login 설정을 default로 설정
+                .oauth2Login(Customizer.withDefaults())
+
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .accessDeniedHandler(jwtAccessDeniedHandler)

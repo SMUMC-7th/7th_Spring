@@ -1,7 +1,13 @@
 package com.example.umc7th.domain.member.principal;
 
 import com.example.umc7th.domain.member.entity.Member;
+import com.example.umc7th.domain.member.exception.MemberErrorCode;
+import com.example.umc7th.domain.member.exception.MemberException;
+import com.example.umc7th.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service

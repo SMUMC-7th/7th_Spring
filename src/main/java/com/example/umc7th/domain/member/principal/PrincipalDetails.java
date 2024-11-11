@@ -2,7 +2,11 @@ package com.example.umc7th.domain.member.principal;
 
 import com.example.umc7th.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
 
 import java.util.ArrayList;
 import java.util.List;
