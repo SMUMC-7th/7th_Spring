@@ -3,12 +3,11 @@ package com.example.umc7th.global.apiPayload.exception.handler;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import com.example.umc7th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
-import com.example.umc7th.global.apiPayload.exception.GeneralException;
+import com.example.umc7th.global.apiPayload.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Arrays;
@@ -16,8 +15,8 @@ import java.util.Arrays;
 @Slf4j
 @RestControllerAdvice
 public class ExceptionAdvice {
-    @ExceptionHandler(GeneralException.class)
-    public ResponseEntity<CustomResponse<String>> customException(GeneralException e) {
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<CustomResponse<String>> customException(CustomException e) {
         BaseErrorCode code = e.getCode();
         log.error(Arrays.toString(e.getStackTrace()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(

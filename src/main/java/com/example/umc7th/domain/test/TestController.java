@@ -3,7 +3,7 @@ package com.example.umc7th.domain.test;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.umc7th.global.apiPayload.CustomResponse;
-import com.example.umc7th.global.apiPayload.exception.GeneralException;
+import com.example.umc7th.global.apiPayload.exception.CustomException;
 import com.example.umc7th.global.apiPayload.code.GeneralErrorCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +21,7 @@ public class TestController {
     @GetMapping("/test/failure")
     public CustomResponse<String> failure(@RequestParam int exception) {
         if (exception == 0) {
-            throw new GeneralException(GeneralErrorCode.BAD_REQUEST_400);
+            throw new CustomException(GeneralErrorCode.BAD_REQUEST_400);
         }
         else if (exception == 1) {
             int a = 1 / 0;

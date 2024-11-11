@@ -1,8 +1,9 @@
 package com.example.umc7th.domain.member.service.command;
 
-import com.example.umc7th.domain.member.dto.MemberDto;
-import com.example.umc7th.domain.member.entity.Member;
+import com.example.umc7th.domain.member.dto.MemberRequestDTO;
+import com.example.umc7th.domain.member.dto.MemberResponseDTO;
 
 public interface MemberCommandService {
-    Member signUp(MemberDto memberDto);
+    MemberResponseDTO.MemberTokenDTO login(MemberRequestDTO.MemberLoginDTO dto);
+    MemberResponseDTO.MemberTokenDTO signUp(MemberRequestDTO.MemberSignUpDTO dto);
 }
