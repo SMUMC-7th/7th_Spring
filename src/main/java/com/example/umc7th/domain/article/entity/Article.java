@@ -1,7 +1,6 @@
 package com.example.umc7th.domain.article.entity;
 
 import com.example.umc7th.Time;
-import com.example.umc7th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc7th.domain.reply.entity.Reply;
 import jakarta.persistence.*;
 import lombok.*;
