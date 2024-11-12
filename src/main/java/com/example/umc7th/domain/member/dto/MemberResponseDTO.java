@@ -32,4 +32,11 @@ public class MemberResponseDTO {
         private LocalDateTime updatedAt;
     }
 
+    @Getter
+    @Builder
+    public static class MemberTokenDTO {
+        private String accessToken;
+        private String refreshToken;
+    }
+
 }

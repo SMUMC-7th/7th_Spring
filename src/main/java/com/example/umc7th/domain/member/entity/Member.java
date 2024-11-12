@@ -23,8 +23,8 @@ public class Member extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-//    @Column(name = "role")
-//    private String role;
+    @Column(name = "role")
+    private String role;
 
     public void update(String email, String password) {
         this.email = email;
