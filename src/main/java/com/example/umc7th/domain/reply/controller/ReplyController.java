@@ -41,33 +41,7 @@ public class ReplyController {
         // 페이지와 오프셋을 기반으로 특정 게시글의 댓글 목록을 조회하여 응답 DTO로 변환
         Page<Reply> replies = replyQueryService.getReplies(articleId, page, offset);
         return CustomResponse.onSuccess(ReplyConverter.toReplyPreviewListDTO(replies));
-    }*/
-
-    /**
-     * 댓글 전체 조회 API (Offset 기반 페이지네이션)
-     * @param page 페이지 번호
-     * @param size 한 페이지당 댓글 수
-     * @return 조회된 페이지네이션 댓글 목록을 CustomResponse로 반환
-     */
-    @GetMapping
-    @Operation(summary = "댓글 전체 조회 API", description = "Offset 기반 페이지네이션을 통해 댓글 전체를 조회하는 API")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Page<Reply> replyPage = replyQueryService.getRepliesWithPagination(page, size);
-
-        // 응답 DTO 변환 및 페이지네이션 정보 설정
-        ReplyResponseDTO.ReplyPreviewListDTO response = ReplyConverter.toReplyPreviewListDTO(
-                replyPage.getContent(),
-                replyPage.getSize(),
-                replyPage.getNumber(),
-                (int) replyPage.getTotalElements()
-        );
-
-        return CustomResponse.onSuccess(response);
     }
-
 
     /** 댓글 하나 조회 API */
     @GetMapping("/{replyId}")

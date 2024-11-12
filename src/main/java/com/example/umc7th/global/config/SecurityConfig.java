@@ -8,6 +8,7 @@ import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
@@ -38,7 +39,8 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/v3/api-docs/**",
             "/login",
-            "/signup"
+            "/signup",
+            "/oauth2/callback/**"
     };
 
     @Bean // Spring Security의 필터 체인을 설정하는 빈으로 등록
@@ -56,6 +58,10 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 // 기본 HTTP Basic 인증을 비활성화
                 .httpBasic(HttpBasicConfigurer::disable)
+
+                // OAuth2 Login 설정을 default로 설정
+                .oauth2Login(Customizer.withDefaults())
+
                 // CSRF 보안을 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
 

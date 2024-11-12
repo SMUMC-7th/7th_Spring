@@ -9,5 +9,4 @@ import java.util.Optional;
 public interface ReplyQueryService {
     Page<Reply> getReplies(Long articleId, Integer page, Integer offset);
     Reply getReply(Long id);
-    Page<Reply> getRepliesWithPagination(int page, int size);
 }
