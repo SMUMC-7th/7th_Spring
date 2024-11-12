@@ -46,11 +46,4 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
         // 특정 게시글에 대한 댓글 목록을 페이지 단위로 조회
         return replyRepository.findAllByArticleIsOrderByCreatedAtDesc(article, pageable);
     }
-
-    @Override
-    public Page<Reply> getRepliesWithPagination(int page, int size) {
-        // 페이지 요청을 생성하고, 댓글을 페이지로 조회하여 반환
-        Pageable pageable = PageRequest.of(page, size);
-        return replyRepository.findAllByOrderByCreatedAtDesc(pageable);
-    }
 }
