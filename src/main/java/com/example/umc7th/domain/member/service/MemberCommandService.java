@@ -5,7 +5,7 @@ import com.example.umc7th.domain.member.dto.MemberResponseDTO;
 
 public interface MemberCommandService {
 
-    MemberResponseDTO.MemberPreviewDTO createMember(MemberRequestDTO.CreateMemberDTO dto);
+    MemberResponseDTO.MemberPreviewDTO createMember(MemberRequestDTO.MemberSignUpDTO dto);
 
-    MemberResponseDTO.LoginMemberResponseDTO login(MemberRequestDTO.LoginDTO dto);
+    MemberResponseDTO.LoginMemberResponseDTO login(MemberRequestDTO.MemberLoginDTO dto);
 }

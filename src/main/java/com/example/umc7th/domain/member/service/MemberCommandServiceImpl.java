@@ -23,14 +23,14 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
 
     @Override
-    public MemberResponseDTO.MemberPreviewDTO createMember(MemberRequestDTO.CreateMemberDTO dto) {
+    public MemberResponseDTO.MemberPreviewDTO createMember(MemberRequestDTO.MemberSignUpDTO dto) {
 
         Member savedMember = memberRepository.save(dto.toEntity(passwordEncoder));
         return MemberResponseDTO.MemberPreviewDTO.from(savedMember);
     }
 
     @Override
-    public MemberResponseDTO.LoginMemberResponseDTO login(MemberRequestDTO.LoginDTO dto) {
+    public MemberResponseDTO.LoginMemberResponseDTO login(MemberRequestDTO.MemberLoginDTO dto) {
 
         Member logedMember = memberRepository.findByEmail(dto.getEmail()).orElseThrow(
                 () -> new MemberException(MemberErrorCode.NOT_FOUND)

@@ -7,11 +7,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class MemberRequestDTO {
 
     @Getter
-    public static class CreateMemberDTO {
+    public static class MemberSignUpDTO {
 
         private String email;
         private String password;
-
 
         public Member toEntity(PasswordEncoder passwordEncoder) {
             return Member.builder()
@@ -22,13 +21,9 @@ public class MemberRequestDTO {
     }
 
     @Getter
-    public static class LoginDTO {
+    public static class MemberLoginDTO {
         private String email;
         private String password;
 
-        public LoginDTO(String email, String password) {
-            this.email = email;
-            this.password = password;
-        }
     }
 }
