@@ -25,9 +25,8 @@ public class MemberController {
         return CustomResponse.onSuccess(memberCommandService.signUp(dto));
     }
 
-    @GetMapping("/oauth2/callback/{provider}")
-    public CustomResponse<MemberResponseDTO.MemberTokenDTO> loginWithKakao(@PathVariable String provider,
-                                                                           @RequestParam("code") String code) {
-        return CustomResponse.onSuccess(oAuth2Service.login(provider, code));
+    @GetMapping("/oauth2/callback/kakao")
+    public CustomResponse<MemberResponseDTO.MemberTokenDTO> loginWithKakao(@RequestParam("code") String code) {
+        return CustomResponse.onSuccess(oAuth2Service.login("kakao", code));
     }
 }
