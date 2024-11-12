@@ -1,12 +1,19 @@
 package com.example.umc7th.article.entity;
 
 import com.example.umc7th.reply.entity.Reply;
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Where;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,4 +43,9 @@ public class Article extends BaseTimeEntity {
             this.content = content;
         }
     }
+
+    public void addLikeNumber() {
+        this.likeNum += 1;
+    }
+
 }

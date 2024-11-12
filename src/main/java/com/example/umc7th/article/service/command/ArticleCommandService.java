@@ -9,4 +9,6 @@ public interface ArticleCommandService {
     void updateArticle(Long articleId, ArticleRequestDTO.UpdateReplyDTO dto);
 
     void deleteArticle(Long articleId);
+
+    void addLikeNum(Long articleId);
 }

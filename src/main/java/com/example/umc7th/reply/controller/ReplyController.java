@@ -9,7 +9,13 @@ import com.example.umc7th.reply.service.query.ReplyQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,18 +27,27 @@ public class ReplyController {
     //Create, Post 요청 사용
     @PostMapping("/{articleId}/replies")
     @Operation(summary = "reply 생성 API", description = "새 답글을 생성하는 API이고, 생성된 reply의 id를 반환합니다.")
-    public CustomResponse<?> createReply(@PathVariable Long articleId, @RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
+    public CustomResponse<?> createReply(@PathVariable Long articleId,
+                                         @RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
         return CustomResponse.onSuccess(GeneralSuccessCode.OK, replyCommandService.createReply(articleId, dto).getId());
     }
 
     //여러개 조회
     @GetMapping("/{articleId}/replies")
-    @Operation(summary = "게시글에 댓글 생성 API ", description = "게시글에 있는 답글을 조회하는 API입니다. ")
+    @Operation(summary = "게시글에 댓글 조회 API ", description = "게시글에 있는 답글을 조회하는 API입니다. ")
     public CustomResponse<?> getAllReplies(@PathVariable("articleId") Long articleId) {
-        return CustomResponse.onSuccess(GeneralSuccessCode.OK, ReplyResponseDTO.from(replyQueryService.getReplies(articleId)));
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK,
+                ReplyResponseDTO.from(replyQueryService.getReplies(articleId)));
+    }
+
+    @PostMapping("/{articleId}/is-replies")
+    @Operation(summary = "게시글에 답글이 있는지 여부", description = "해당 게시글 댓글이 있는지 여부를 조회한다. ")
+    public CustomResponse<?> isExistedReplies(@PathVariable("articleId") Long articleId) {
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, replyQueryService.isExistReplies(articleId));
     }
 
     @PutMapping("/{replyId}/replies")
+    @Operation(summary = "게시글에 업데이트 API ", description = "게시글에 있는 답글을 수정합니다. ")
     public CustomResponse<?> updateReply(@PathVariable Long replyId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
         replyCommandService.updateReply(replyId, dto);
         return CustomResponse.onSuccess(GeneralSuccessCode.OK);

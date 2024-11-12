@@ -1,21 +1,12 @@
 package com.example.umc7th.article.dto;
 
 import com.example.umc7th.article.entity.Article;
-import lombok.Builder;
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Builder;
 
-@Data
 @Builder
-public class DetailArticleResponseDTO {
-    private Long id;
-    private String title;
-    private String content;
-    private int likeNum;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
+public record DetailArticleResponseDTO(Long id, String title, String content, int likeNum, LocalDateTime createdAt,
+                                       LocalDateTime updatedAt) {
     public static DetailArticleResponseDTO from(Article article) {
         return DetailArticleResponseDTO.builder()
                 .id(article.getId())
