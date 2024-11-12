@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class OAuth2ServiceImpl implements OAuth2Service{
+public class OAuth2ServiceImpl implements OAuth2Service {
 
     @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
     private String tokenURI;
@@ -37,75 +37,70 @@ public class OAuth2ServiceImpl implements OAuth2Service{
 
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
+    private final RestTemplate restTemplate;
 
     @Override
     public MemberResponseDTO.MemberTokenDTO login(String code) {
-        // 인가코드 토큰 가져오기
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
+        // 1. 인가 코드를 사용하여 엑세스 토큰을 요청
+        OAuth2DTO.OAuth2TokenDTO tokenDTO = requestAccessToken(code);
 
-        httpHeaders.add("Content-Type", "application/x-www-form-urlencoded");
+        // 2. 엑세스 토큰을 사용하여 카카오 사용자 정보를 가져옴
+        OAuth2DTO.KakaoProfile profile = requestKakaoProfile(tokenDTO.getAccess_token());
 
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("grant_type", "authorization_code");
-        map.add("client_id", clientId);
-        map.add("redirect_uri", redirectURI);
-        map.add("code", code);
-        HttpEntity<MultiValueMap> request = new HttpEntity<>(map, httpHeaders);
-
-        ResponseEntity<String> response1 = restTemplate.exchange(
-                tokenURI,
-                HttpMethod.POST,
-                request,
-                String.class);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        OAuth2DTO.OAuth2TokenDTO oAuth2TokenDTO = null;
-
-        try {
-            oAuth2TokenDTO = objectMapper.readValue(response1.getBody(), OAuth2DTO.OAuth2TokenDTO.class);
-        } catch (Exception e) {
-            throw new MemberException(MemberErrorCode.OAUTH_TOKEN_FAIL);
+        // 3. 사용자 이메일 확인 및 회원가입/로그인 처리
+        String email = profile.getKakao_account().getEmail();
+        if (email == null) {
+            throw new MemberException(MemberErrorCode.EMAIL_NOT_FOUND); // 이메일 없으면 예외 발생
         }
 
-        // 토큰으로 정보 가져오기
-        restTemplate = new RestTemplate();
-        httpHeaders = new HttpHeaders();
-
-        httpHeaders.add("Authorization", "Bearer " + oAuth2TokenDTO.getAccess_token());
-        httpHeaders.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-
-        HttpEntity<MultiValueMap> request1 = new HttpEntity<>(httpHeaders);
-
-        ResponseEntity<String> response2 = restTemplate.exchange(
-                userInfoURI,
-                HttpMethod.GET,
-                request1,
-                String.class
+        Member member = memberRepository.findByEmail(email).orElseGet(() ->
+            memberRepository.save(Member.builder()
+                .email(email)
+                .role("ROLE_USER")
+                .build())
         );
 
-        OAuth2DTO.KakaoProfile profile = null;
-        ObjectMapper om = new ObjectMapper();
-
-        try {
-            profile = om.readValue(response2.getBody(), OAuth2DTO.KakaoProfile.class);
-        } catch(Exception e) {
-            throw new MemberException(MemberErrorCode.OAUTH_USER_INFO_FAIL);
-        }
-
-        // 회원가입이 되었으면 사용자 로그인 안되어있으면 회원가입 후 로그인
-        String email = profile.getId().toString();
-
-        Member member = memberRepository.findByEmail(email).orElse(
-                memberRepository.save(Member.builder()
-                        .email(email)
-                        .role("ROLE_USER")
-                        .build())
-        );
-
+        // 4. JWT 토큰 발급
         return MemberResponseDTO.MemberTokenDTO.builder()
-                .accessToken(jwtProvider.createAccessToken(member))
-                .refreshToken(jwtProvider.createRefreshToken(member))
-                .build();
+            .accessToken(jwtProvider.createAccessToken(member))
+            .refreshToken(jwtProvider.createRefreshToken(member))
+            .build();
+    }
+
+    private OAuth2DTO.OAuth2TokenDTO requestAccessToken(String code) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("grant_type", "authorization_code");
+        body.add("client_id", clientId);
+        body.add("redirect_uri", redirectURI);
+        body.add("code", code);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(tokenURI, HttpMethod.POST, request, String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(response.getBody(), OAuth2DTO.OAuth2TokenDTO.class);
+        } catch (Exception e) {
+            throw new MemberException(MemberErrorCode.OAUTH_TOKEN_FAIL); // 토큰 요청 실패 시 예외 발생
+        }
+    }
+
+    private OAuth2DTO.KakaoProfile requestKakaoProfile(String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
+        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(userInfoURI, HttpMethod.GET, request, String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(response.getBody(), OAuth2DTO.KakaoProfile.class);
+        } catch (Exception e) {
+            throw new MemberException(MemberErrorCode.OAUTH_USER_INFO_FAIL); // 사용자 정보 요청 실패 시 예외 발생
+        }
     }
 }
