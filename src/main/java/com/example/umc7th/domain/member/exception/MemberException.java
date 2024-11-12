@@ -1,4 +1,4 @@
-package com.example.umc7th.member.exception;
+package com.example.umc7th.domain.member.exception;
 
 import com.example.umc7th.global.apiPayload.exception.CustomException;
 

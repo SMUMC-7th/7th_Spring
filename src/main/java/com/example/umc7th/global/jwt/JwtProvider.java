@@ -1,8 +1,8 @@
 package com.example.umc7th.global.jwt;
 
+import com.example.umc7th.domain.member.entity.Member;
 import com.example.umc7th.global.jwt.exception.AuthException;
 import com.example.umc7th.global.jwt.exception.JwtErrorCode;
-import com.example.umc7th.member.entity.Member;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
