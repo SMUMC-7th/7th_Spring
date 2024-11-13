@@ -13,6 +13,8 @@ public class AuthUser {
 
     private final String email;
 
+    private final String role;
+
     @JsonIgnore
     private final String password;
 

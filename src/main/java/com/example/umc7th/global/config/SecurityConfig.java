@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +32,9 @@ public class SecurityConfig {
             "/api/members/register", //회원가입은 인증이 필요하지 않음
             "/api/members/login",
             "/swagger-ui/**",
-            "v3/api-docs/**"
+            "v3/api-docs/**",
+            "/oauth2/callback/kakao",
+            "/oauth2/authorization/kakao"
     };
 
     @Bean
@@ -63,6 +66,10 @@ public class SecurityConfig {
         // http basic 인증 방식 비활성화
         http
                 .httpBasic(AbstractHttpConfigurer::disable);
+
+        // OAuth2 Login 설정을 default로 설정
+        http
+                .oauth2Login(Customizer.withDefaults());
 
         // 세션을 사용하지 않음. (세션 생성 정책을 Stateless 설정.)
         http

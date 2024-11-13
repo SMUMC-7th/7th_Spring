@@ -3,6 +3,7 @@ package com.example.umc7th.global.jwt.userDetails;
 import com.example.umc7th.domain.member.entity.Member;
 import com.example.umc7th.global.jwt.dto.AuthUser;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -11,14 +12,15 @@ import java.util.Collections;
 public class PrincipalDetails extends AuthUser implements UserDetails {
     //인증용 객체 생성자
     public PrincipalDetails(Member member) {
-        super(member.getId(), member.getEmail(), member.getPassword());
+        super(member.getId(), member.getEmail(), member.getRole(), member.getPassword());
     }
 
     // 권한을 반환하는 메서드, 현재는 빈 컬렉션을 반환 (권한이 필요하다면 여기에 추가 가능)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // 빈 collection 반환
+        return Collections.singletonList(new SimpleGrantedAuthority(getRole())); // getRole()은 AuthUser에서 가져옴
     }
+
 
     // 비밀번호 반환
     @Override

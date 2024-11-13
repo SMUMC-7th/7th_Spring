@@ -10,6 +10,7 @@ public class MemberResDto {
     public record MemberPreviewDto(
             Long id,
             String email,
+            String role,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
@@ -18,6 +19,13 @@ public class MemberResDto {
     @Builder
     public record LoginResponseDto(
             Long id,
+            String accessToken,
+            String refreshToken
+    ) {
+    }
+
+    @Builder
+    public record MemberTokenDto(
             String accessToken,
             String refreshToken
     ) {

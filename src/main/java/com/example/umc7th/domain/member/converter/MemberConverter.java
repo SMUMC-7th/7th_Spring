@@ -12,6 +12,7 @@ public class MemberConverter {
         return Member.builder()
                 .email(dto.email())
                 .password(newPassword)
+                .role("ROLE_USER")
                 .build();
     }
 
@@ -19,6 +20,7 @@ public class MemberConverter {
         return MemberResDto.MemberPreviewDto.builder()
                 .id(member.getId())
                 .email(member.getEmail())
+                .role(member.getRole())
                 .createdAt(member.getCreatedAt())
                 .updatedAt(member.getUpdatedAt())
                 .build();
