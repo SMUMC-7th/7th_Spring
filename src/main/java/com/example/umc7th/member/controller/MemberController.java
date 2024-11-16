@@ -17,7 +17,6 @@ public class MemberController {
 
     @PostMapping("/login")
     public CustomResponse<MemberResponseDTO.MemberTokenDTO> login(@RequestBody MemberRequestDTO.MemberLoginDTO dto) {
-//        System.out.println("**********************************");
         return CustomResponse.onSuccess(memberCommandService.login(dto));
     }
 

@@ -19,7 +19,7 @@ public class KakaoController {
     // 응답은 저희 서버에 로그인 다 한 뒤에 토큰을 제공할 예정이니 TokenDTO로 설정해줍니다.
     public CustomResponse<MemberResponseDTO.MemberTokenDTO> loginWithKakao(@RequestParam("code") String code) {
 
-        return CustomResponse.onSuccess(oAuth2Service.login(code));
+        return CustomResponse.onSuccess(oAuth2Service.login("kakao", code));
 
     }
 }
