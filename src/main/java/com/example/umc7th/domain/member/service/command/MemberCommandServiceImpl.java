@@ -23,13 +23,19 @@ public class MemberCommandServiceImpl implements MemberCommandService{
     private final JwtProvider jwtProvider;
 
     @Override
-    public MemberResDTO.MemberPreviewDTO signup(MemberReqDTO.SignupReqDTO dto){
-        if(memberRepository.existsByEmail(dto.email())){
-            throw new GeneralException(MemberErrorCode.ALREADY_EXIST);
+    public MemberResDTO.MemberTokenDTO signUp(MemberReqDTO.SignupReqDTO dto) {
+        if (memberRepository.existsByEmail(dto.email())) {
+            throw new MemberException(MemberErrorCode.ALREADY_EXIST);
         }
-
-        Member member = memberRepository.save(MemberConverter.toMember(dto, passwordEncoder));
-        return MemberConverter.toMemberDTO(member);
+        Member member = memberRepository.save(Member.builder()
+                .email(dto.email())
+                .password(passwordEncoder.encode(dto.password()))
+                .role("ROLE_USER")
+                .build());
+        return MemberResDTO.MemberTokenDTO.builder()
+                .accessToken(jwtProvider.createAccessToken(member))
+                .refreshToken(jwtProvider.createRefreshToken(member))
+                .build();
     }
 
     @Override
