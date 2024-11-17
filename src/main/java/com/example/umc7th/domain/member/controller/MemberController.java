@@ -21,10 +21,8 @@ public class MemberController {
 
     @PostMapping("/signup")
     @Operation(method = "POST", summary = "회원가입 API", description = "회원 가입 API입니다.")
-    public CustomResponse<MemberResDTO.MemberPreviewDTO> signup(
-            @RequestBody MemberReqDTO.SignupReqDTO dto
-            ){
-        MemberResDTO.MemberPreviewDTO result = memberCommandService.signup(dto);
+    CustomResponse<MemberResDTO.MemberTokenDTO> signup(@RequestBody MemberReqDTO.SignupReqDTO dto){
+        MemberResDTO.MemberTokenDTO result = memberCommandService.signUp(dto);
         return CustomResponse.onSuccess(HttpStatus.CREATED, result);
     }
 
