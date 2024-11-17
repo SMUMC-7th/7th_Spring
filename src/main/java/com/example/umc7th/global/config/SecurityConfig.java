@@ -3,6 +3,7 @@ package com.example.umc7th.global.config;
 import com.example.umc7th.domain.member.repository.MemberRepository;
 import com.example.umc7th.global.jwt.exception.JwtAccessDeniedHandler;
 import com.example.umc7th.global.jwt.exception.JwtAuthenticationEntryPoint;
+import com.example.umc7th.global.jwt.filter.JwtFilter;
 import com.example.umc7th.global.jwt.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,13 +17,14 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final AuthenticationConfiguration authenticationConfiguration;
+    private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -90,6 +92,10 @@ public class SecurityConfig {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
         );
 
+        http.addFilterBefore(
+                new JwtFilter(jwtProvider, memberRepository),
+                UsernamePasswordAuthenticationFilter.class
+        );
 
         return http.build();
     }
