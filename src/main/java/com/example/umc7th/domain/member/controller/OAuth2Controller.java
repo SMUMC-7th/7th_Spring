@@ -25,7 +25,7 @@ public class OAuth2Controller {
     // 응답은 저희 서버에 로그인 다 한 뒤에 토큰을 제공할 예정이니 TokenDTO로 설정해줍니다.
     public CustomResponse<MemberResDTO.MemberTokenDTO> loginWithKakao(@RequestParam("code") String code) {
         // 로직 구현 필요
-        MemberResDTO.MemberTokenDTO result = oAuth2Service.login(code);
+        MemberResDTO.MemberTokenDTO result = oAuth2Service.login("kakao",code);
 
         // 서비스 생성 이후
         return CustomResponse.onSuccess(HttpStatus.OK, result);

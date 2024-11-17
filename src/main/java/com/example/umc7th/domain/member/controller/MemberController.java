@@ -30,7 +30,7 @@ public class MemberController {
 
     @PostMapping("/login")
     @Operation(method = "POST", summary = "로그인 API", description = "로그인 API입니다.")
-    public CustomResponse<MemberResDTO.LoginResDTO> signUp(@RequestBody MemberReqDTO.LoginReqDTO dto) {
+    public CustomResponse<MemberResDTO.LoginResDTO> login(@RequestBody MemberReqDTO.LoginReqDTO dto) {
         MemberResDTO.LoginResDTO result = memberCommandService.login(dto);
         return CustomResponse.onSuccess(HttpStatus.OK, result);
     }
