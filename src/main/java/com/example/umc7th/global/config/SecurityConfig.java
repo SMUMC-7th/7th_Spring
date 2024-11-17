@@ -41,8 +41,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(allowUrl).permitAll()
-                        .anyRequest().authenticated()) //다른 요청들은 인증이 필요하도록 할 때 설정
-//                        .anyRequest().permitAll())
+//                        .anyRequest().authenticated()) //다른 요청들은 인증이 필요하도록 할 때 설정
+                        .anyRequest().permitAll())
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
