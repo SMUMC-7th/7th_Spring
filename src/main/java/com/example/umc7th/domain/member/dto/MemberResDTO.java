@@ -19,4 +19,9 @@ public class MemberResDTO {
             String accessToken,
             String refreshToken
     ){}
+
+    @Builder
+    public record MemberTokenDTO (
+        String accessToken,
+        String refreshToken){ }
 }

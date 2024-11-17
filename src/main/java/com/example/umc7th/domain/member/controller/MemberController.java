@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +30,7 @@ public class MemberController {
 
     @PostMapping("/login")
     @Operation(method = "POST", summary = "로그인 API", description = "로그인 API입니다.")
-    public CustomResponse<MemberResDTO.LoginResDTO> signUp(@RequestBody MemberReqDTO.LoginReqDTO dto) {
+    public CustomResponse<MemberResDTO.LoginResDTO> login(@RequestBody MemberReqDTO.LoginReqDTO dto) {
         MemberResDTO.LoginResDTO result = memberCommandService.login(dto);
         return CustomResponse.onSuccess(HttpStatus.OK, result);
     }
