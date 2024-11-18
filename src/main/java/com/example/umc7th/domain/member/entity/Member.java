@@ -23,6 +23,9 @@ public class Member extends Time {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "role")
+    private String role;
+
     public String getRole() {
         return "USER";
     }

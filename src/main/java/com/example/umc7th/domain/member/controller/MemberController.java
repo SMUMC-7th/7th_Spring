@@ -24,7 +24,7 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     @Operation(summary = "회원 가입", description = "이메일 & 비밀번호 받아 새 회원 가입")
-    public CustomResponse<?> createMember(@RequestBody MemberRequestDTO.CreateMemberDTO dto) {
+    public CustomResponse<?> createMember(@RequestBody MemberRequestDTO.MemberSignUpDTO dto) {
 
         MemberResponseDTO.MemberPreviewDTO createdMember = memberCommandService.createMember(dto);
 
@@ -33,7 +33,7 @@ public class MemberController {
 
     @PostMapping("/login")
     @Operation(summary = "회원 로그인", description = "이메일 & 비밀번호로 로그인 처리하고, access token & refresh token 반환")
-    public CustomResponse<?> login(@RequestBody MemberRequestDTO.LoginDTO dto) {
+    public CustomResponse<?> login(@RequestBody MemberRequestDTO.MemberLoginDTO dto) {
 
         MemberResponseDTO.LoginMemberResponseDTO loginMemberResponseDTO = memberCommandService.login(dto);
         return CustomResponse.onSuccess(loginMemberResponseDTO);

@@ -37,7 +37,7 @@ public class MemberResponseDTO {
         private String email;
         private String password;
 
-        public static Member from(MemberRequestDTO.CreateMemberDTO dto, PasswordEncoder passwordEncoder) {
+        public static Member from(MemberRequestDTO.MemberSignUpDTO dto, PasswordEncoder passwordEncoder) {
 
             return Member.builder()
                     .email(dto.getEmail())
@@ -64,5 +64,16 @@ public class MemberResponseDTO {
                     .refreshToken(refreshToken)
                     .build();
         }
+
+
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class MemberTokenDTO {
+        String accessToken;
+        String refreshToken;
     }
 }
