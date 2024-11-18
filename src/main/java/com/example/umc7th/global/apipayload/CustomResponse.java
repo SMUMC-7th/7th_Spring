@@ -32,6 +32,9 @@ public class CustomResponse<T> {
     private T result;
 
 
+    public static <T> CustomResponse<T> onSuccess(T result) {
+        return new CustomResponse(true, HttpStatus.OK, String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.getReasonPhrase(), result);
+    }
     public static <T> CustomResponse<T> onSuccess(BaseSuccessCode code, T result) {
         return new CustomResponse(true, HttpStatus.OK, code.getCode(), HttpStatus.OK.getReasonPhrase(), result);
     }
