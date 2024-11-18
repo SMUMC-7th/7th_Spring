@@ -23,7 +23,6 @@ public class PrincipalDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(username).orElseThrow(() ->
                 new MemberException(MemberErrorCode.NOT_FOUND));
-        // MemberException과 MemberErrorCode도 한 번 작성해주세요.
         return new PrincipalDetails(member);
     }
 }
