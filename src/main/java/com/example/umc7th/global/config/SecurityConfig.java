@@ -14,13 +14,16 @@ package com.example.umc7th.global.config;
 //import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 //import org.springframework.web.filter.Filter;
 
+import com.example.umc7th.domain.member.principal.PrincipalDetailsService;
 import com.example.umc7th.global.jwt.JwtAccessDeniedHandler;
 import com.example.umc7th.global.jwt.JwtAuthenticationEntryPoint;
 import com.example.umc7th.global.jwt.JwtFilter;
+import com.example.umc7th.global.jwt.JwtProvider;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
@@ -32,6 +35,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration // Configuration으로 설정
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtProvider jwtProvider;
+    private final PrincipalDetailsService principalDetailsService;
 
     // 인가에 실패한 경우 실행할 예외 처리 handler
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -61,6 +67,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 // httpBasic 비활성화
                 .httpBasic(HttpBasicConfigurer::disable)
+                // OAuth2 Login 설정을 default로 설정
+                .oauth2Login(Customizer.withDefaults())// ***OAuth2추가****
                 // csrf 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
                 // 인증 인가에 대한 예외처리
@@ -78,7 +86,7 @@ public class SecurityConfig {
     @Bean
     // JwtFilter를 Bean에 주입
     public Filter jwtFilter() {
-        return new JwtFilter();
+        return new JwtFilter(jwtProvider, principalDetailsService);
     }
 
     @Bean

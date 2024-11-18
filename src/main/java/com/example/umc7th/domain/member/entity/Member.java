@@ -1,4 +1,4 @@
-package com.example.umc7th.member.entity;
+package com.example.umc7th.domain.member.entity;
 
 import com.example.umc7th.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -25,6 +25,7 @@ public class Member extends BaseEntity {
 
     //    @Enumerated(EnumType.STRING)
 //    private Role role;
+    
     @Column(name = "role")
     private String role;
 
