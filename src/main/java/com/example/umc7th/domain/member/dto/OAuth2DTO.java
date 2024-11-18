@@ -1,4 +1,4 @@
-package com.example.umc7th.global.oauth.dto;
+package com.example.umc7th.domain.member.dto;
 
 import lombok.Getter;
 

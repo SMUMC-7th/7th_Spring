@@ -1,7 +1,7 @@
 package com.example.umc7th.global.config;
 
-//import com.example.umc7th.global.jwt.JwtAccessDeniedHandler;
-//import com.example.umc7th.global.jwt.JwtAuthenticationEntryPoint;
+//import com.example.umc7th.global.jwt.handler.JwtAccessDeniedHandler;
+//import com.example.umc7th.global.jwt.handler.JwtAuthenticationEntryPoint;
 //import com.example.umc7th.global.jwt.JwtFilter;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.context.annotation.Bean;
@@ -15,10 +15,10 @@ package com.example.umc7th.global.config;
 //import org.springframework.web.filter.Filter;
 
 import com.example.umc7th.domain.member.principal.PrincipalDetailsService;
-import com.example.umc7th.global.jwt.JwtAccessDeniedHandler;
-import com.example.umc7th.global.jwt.JwtAuthenticationEntryPoint;
 import com.example.umc7th.global.jwt.JwtFilter;
 import com.example.umc7th.global.jwt.JwtProvider;
+import com.example.umc7th.global.jwt.handler.JwtAccessDeniedHandler;
+import com.example.umc7th.global.jwt.handler.JwtAuthenticationEntryPoint;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -63,9 +63,9 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 // jwtFilter를 UsernamePasswordAuthenticationFilter 앞에 오도록 설정
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
-                // formLogin 비활성화
+                // formLogin 비활성화 (OAuth 사용할거라) (spring security는 기본적으로 로그인 html폼 제공)
                 .formLogin(AbstractHttpConfigurer::disable)
-                // httpBasic 비활성화
+                // httpBasic 비활성화 (OAuth 사용으로 대체)
                 .httpBasic(HttpBasicConfigurer::disable)
                 // OAuth2 Login 설정을 default로 설정
                 .oauth2Login(Customizer.withDefaults())// ***OAuth2추가****
@@ -89,6 +89,7 @@ public class SecurityConfig {
         return new JwtFilter(jwtProvider, principalDetailsService);
     }
 
+    //PasswordEncoder
     @Bean
     public PasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
