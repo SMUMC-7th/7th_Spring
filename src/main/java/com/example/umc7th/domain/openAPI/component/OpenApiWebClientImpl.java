@@ -1,5 +1,7 @@
 package com.example.umc7th.domain.openAPI.component;
 
+import com.example.umc7th.domain.openAPI.exception.OpenAPIErrorCode;
+import com.example.umc7th.domain.openAPI.exception.OpenAPIException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
@@ -20,7 +22,7 @@ public class OpenApiWebClientImpl implements OpenApiWebClient {
         } else if (language.equals("english")) {
             return getWebClient("https://apis.data.go.kr/B551011/EngService1");
         } else {
-            throw new OpenApiException(OpenApiErrorCode.UNSUPPORTED_LANGUAGE);
+            throw new OpenAPIException(OpenAPIErrorCode.UNSUPPORTED_LANGUAGE);
         }
     }
 
