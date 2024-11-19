@@ -7,11 +7,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * ??????
+ * ??????
+ * ?????
+ * ?????
+ * ??????
+ * ??????/
+ * ?????/
+ * ??????
+ * ?????
+ * ???
+ * ???
+ * ?
+ * ????
+ */
 @RestController
 public class TestController {
 
     @GetMapping("/test")
     public CustomResponse<String> test() {
+        /**
+         * conflict 해결 해주세요
+         */
         return CustomResponse.onSuccess("Hello World");
     }
 
@@ -21,7 +39,9 @@ public class TestController {
             throw new CustomException(GeneralErrorCode.BAD_REQUEST_400);
         }
         else if (exception == 1) {
+            // 이건 좀..
             int a = 1 / 0;
+            // 0을 나누는 건가?
         }
         return CustomResponse.onSuccess("에러 핸들러 동작하지 않음");
     }

@@ -35,7 +35,7 @@ public class ExceptionAdvice {
 
         log.error(Arrays.toString(e.getStackTrace()));
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 CustomResponse.onFailure(code.getStatus(), code.getCode(), code.getMessage(), false,null)
         );
     }
