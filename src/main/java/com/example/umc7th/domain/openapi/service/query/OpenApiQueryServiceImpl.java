@@ -5,14 +5,18 @@ import com.example.umc7th.global.openapi.OpenApiWebClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -28,8 +32,7 @@ public class OpenApiQueryServiceImpl implements OpenApiQueryService {
     @Override
     public OpenApiResponseDTO.SearchStayResponseListDTO searchStay(String arrange, int page, int offset) {
         WebClient webClient = openApiWebClient.getTourWebClient("korean");
-        Mono<OpenApiResponseDTO.SearchStayResponseListDTO> mono = webClient.get()
-                .uri(uri -> uri
+        return sendRequest(webClient, HttpMethod.GET, uri -> uri
                         .path("/searchStay1")
                         .queryParam("numOfRows", offset)
                         .queryParam("pageNo", page)
@@ -39,14 +42,10 @@ public class OpenApiQueryServiceImpl implements OpenApiQueryService {
                         .queryParam("arrange", arrange)
                         .queryParam("serviceKey", serviceKey)
                         .build())
-                .retrieve()
-                .bodyToMono(String.class)
                 .map(this::toSearchStayResponseListDTO)
                 .doOnError(e -> log.error("Open Api 에러 발생: " + e.getMessage()))
                 .doOnSuccess(s -> log.info("관광 정보를 가져오는데 성공했습니다."))
-                ;
-
-        return mono.block();
+                .block();
     }
 
     private OpenApiResponseDTO.SearchStayResponseListDTO toSearchStayResponseListDTO(String response) {
@@ -62,6 +61,13 @@ public class OpenApiQueryServiceImpl implements OpenApiQueryService {
             e.fillInStackTrace();
         }
         return OpenApiResponseDTO.SearchStayResponseListDTO.from(null);
+    }
+
+    private Mono<String> sendRequest(WebClient webClient, HttpMethod method, Function<UriBuilder, URI> uriFunction){
+        return webClient.method(method)
+                .uri(uriFunction)
+                .retrieve()
+                .bodyToMono(String.class);
     }
 
 }
