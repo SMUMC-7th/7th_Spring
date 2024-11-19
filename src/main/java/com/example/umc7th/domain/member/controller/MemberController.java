@@ -6,10 +6,15 @@ import com.example.umc7th.domain.member.service.command.MemberCommandService;
 import com.example.umc7th.domain.member.service.command.OAuth2Service;
 import com.example.umc7th.global.apiPayload.CustomResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+/**
+ * Member Controller 이다.
+ */
 @RequiredArgsConstructor
+@RestController
+@Validated
 public class MemberController {
 
     private final MemberCommandService memberCommandService;

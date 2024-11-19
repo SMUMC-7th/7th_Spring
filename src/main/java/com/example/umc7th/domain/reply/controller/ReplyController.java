@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 정모님이 만든 컨트롤러 입니다.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/replies")
