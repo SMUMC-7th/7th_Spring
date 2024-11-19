@@ -17,8 +17,7 @@ spring:
           kakao:
             authorization-grant-type: authorization_code
             client-id: ${API_KEY}
-            redirect-uri: http://localhost:8080/oauth2/callback/kakao
-#            redirect-uri: http://localhost:8080//login/oauth2/code/kakao
+            redirect-uri: ${REDIRECT_URI}
             client-authentication-method: client_secret_post
             scope:
               - profile_nickname
@@ -42,3 +41,7 @@ Jwt:
   token:
     access-expiration-time: 3600000 # Milliseconds for 1 hour
     refresh-expiration-time: 2592000000 # Milliseconds for 30 days
+
+openapi:
+  tour:
+    serviceKey: ${SERVICE_KEY}

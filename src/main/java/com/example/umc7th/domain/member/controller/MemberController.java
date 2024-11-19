@@ -5,7 +5,6 @@ import com.example.umc7th.domain.member.dto.MemberResponseDTO;
 import com.example.umc7th.domain.member.service.command.MemberCommandService;
 import com.example.umc7th.domain.member.service.command.OAuth2Service;
 import com.example.umc7th.global.apiPayload.CustomResponse;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +30,9 @@ public class MemberController {
         return CustomResponse.onSuccess(memberCommandService.signUp(dto));
     }
 
-    @GetMapping("/oauth2/callback/kakao")
-//    @Parameter(name = "code", hidden = true)
-    public CustomResponse<MemberResponseDTO.MemberTokenDTO> loginWithKakao(@RequestParam("code") String code) {
-        return CustomResponse.onSuccess(oAuth2Service.login("kakao", code));
-    }
+//    @GetMapping("/oauth2/callback/{provider}")
+//    public CustomResponse<MemberResponseDTO.MemberTokenDTO> loginWithKakao(@PathVariable String provider,
+//                                                                           @RequestParam("code") String code) {
+//        return CustomResponse.onSuccess(oAuth2Service.login(provider, code));
+//    }
 }

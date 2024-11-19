@@ -1,6 +1,9 @@
 package com.example.umc7th.domain.member.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class OAuth2DTO {
 
@@ -49,5 +52,16 @@ public class OAuth2DTO {
                 private Boolean is_default_image;
             }
         }
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class OAuth2LoginDTO {
+        private String email;
+        private String profileImage;
+        private String thumbnailImage;
+        private Long id;
     }
 }
