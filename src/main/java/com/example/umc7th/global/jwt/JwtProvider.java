@@ -66,7 +66,7 @@ public class JwtProvider {
 
     public Jws<Claims> getClaims(String token) {
         try {
-            return Jwts.parser()
+            return Jwts.parserBuilder()
                     .setSigningKey(secret) // 서명 키 설정
                     .build()  // JwtParser 객체 생성
                     .parseClaimsJws(token); // 토큰 파싱
