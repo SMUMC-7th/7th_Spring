@@ -20,6 +20,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class OAuth2ServiceImpl implements OAuth2Service{
@@ -52,18 +54,19 @@ public class OAuth2ServiceImpl implements OAuth2Service{
     private MemberResponseDTO.MemberTokenDTO loginWithKakao(String code) {
         String token = getAccessTokenFromKakao(code);
         OAuth2DTO.KakaoProfile profile = getProfileFromKakao(token);
-        String email = profile.getId().toString();
+        String email = profile.getKakao_account().getEmail();
         return loginOrSignup(SocialType.KAKAO, email);
     }
 
     private MemberResponseDTO.MemberTokenDTO loginOrSignup(SocialType socialType, String email) {
         // SocialType을 Member에 provider라는 필드로 추가해서 저장해도 좋음
-        Member member = memberRepository.findByEmail(email).orElse(
-                memberRepository.save(Member.builder()
-                        .email(email)
-                        .role("ROLE_USER")
-                        .build())
-        );
+        Member member;
+        Optional<Member> optional = memberRepository.findByEmail(email);
+        member = optional.orElseGet(() -> memberRepository.save(Member.builder()
+                .email(email)
+                .role("ROLE_USER")
+                .build()));
+
 
         return MemberResponseDTO.MemberTokenDTO.builder()
                 .accessToken(jwtProvider.createAccessToken(member))
