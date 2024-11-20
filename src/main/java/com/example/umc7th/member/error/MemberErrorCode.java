@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 public enum MemberErrorCode implements BaseErrorCode {
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "MEMBER409", "이메일이 이미 존재합니다."),
     INVALID_INPUT(HttpStatus.BAD_REQUEST, "MEMBER400", "유효하지 않은 입력값입니다."),
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER40402", "해당 회원이 존재하지 않습니다.");
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER40402", "해당 회원이 존재하지 않습니다."),
+    OAUTH_TOKEN_FAIL(HttpStatus.BAD_REQUEST, "MEMBER400", "토큰 발급에 실패했습니다."),
+    OAUTH_USER_INFO_FAIL(HttpStatus.NOT_FOUND, "MEMBER404", "사용자의 정보가 없습니다.");
     private final HttpStatus status;
     private final String code;
     private final String message;
