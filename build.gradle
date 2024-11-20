@@ -1,3 +1,9 @@
+buildscript {
+    ext {
+        queryDslVersion = "4.4.0"
+    }
+} //앞에 서술해야 함
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.3'
@@ -57,6 +63,7 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.1.0'
 
 }
+
 
 tasks.named('test') {
     useJUnitPlatform()
