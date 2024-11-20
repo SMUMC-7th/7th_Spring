@@ -1,5 +1,9 @@
 package com.example.umc7th.article.dto;
 
+
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Slice;
+
 import org.springframework.data.domain.Slice;
 
 public record ArticleResponseDTO(Slice<DetailArticleResponseDTO> articles) {
