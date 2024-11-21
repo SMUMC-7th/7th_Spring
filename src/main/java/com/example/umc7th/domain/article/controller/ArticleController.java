@@ -13,8 +13,12 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -66,24 +70,6 @@ public class ArticleController {
                                                                                 @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
         Slice<Article> articles = articleQueryService.getArticles(query, cursor, offset);
         return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
-    }*/
-
-    /**
-     * 커서 기반 게시글 조회 API
-     * @param lastCreatedAt (이전 게시글의 생성 날짜)
-     * @param pageable (페이지네이션 정보)
-     * @return 생성 날짜 기준으로 게시글을 조회한 후 성공 응답을 CustomResponse 형태로 반환
-     */
-    @GetMapping("/articles/cursor")
-    @Operation(summary = "커서 기반 게시글 조회 API", description = "생성 날짜 기준으로 게시글 조회하는 API")
-    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticlesByCursor(
-            @RequestParam(required = false) LocalDateTime lastCreatedAt,
-            Pageable pageable) {
-
-        List<Article> articles = articleQueryService.getArticlesByCreatedAtLessThan(lastCreatedAt, pageable);
-        int totalCount = (int) articleRepository.count(); // 전체 게시글 수 조회
-
-        return CustomResponse.onSuccess(ArticleResponseDTO.ArticlePreviewListDTO.from(articles, totalCount, pageable.getPageSize()));
     }
 
     /** 게시물 수정 API */

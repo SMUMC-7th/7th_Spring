@@ -58,9 +58,4 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
                 new ArticleException(ArticleErrorCode.NOT_FOUND));
     }
 
-    @Override
-    public List<Article> getArticlesByCreatedAtLessThan(LocalDateTime createdAt, Pageable pageable) {
-        // 생성 날짜 기준으로 게시글 조회
-        return articleRepository.findByCreatedAtLessThan(createdAt, pageable);
-    }
 }
